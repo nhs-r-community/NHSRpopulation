@@ -1,0 +1,15 @@
+Package: LSOApop
+Title: Lower layer Super Output Area population estimates for England
+Version: 0.0.1
+Authors@R: c(
+  person("Milan", "Wiedemann", email = "milan.wiedemann@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1991-282X")),
+  person("Zoe", "Turner", role = c("ctb"), comment = c(ORCID = "0000-0003-1033-9158")),
+  person("Chris", "Beeley", role = c("ctb"), comment = c(ORCID = "0000-0003-2344-9962"))
+  )
+Description: This package provides a dataset of lower layer super output area population estimates
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
