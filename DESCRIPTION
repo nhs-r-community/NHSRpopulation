@@ -1,12 +1,12 @@
 Package: LSOApop
-Title: Lower layer Super Output Area population estimates for England
+Title: Lower layer Super Output Area (LSOA) population estimates and Indecies of Multiple Deprivation (IMD) for England
+Date: 2021-07-08
 Version: 0.0.1
 Authors@R: c(
   person("Milan", "Wiedemann", email = "milan.wiedemann@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1991-282X")),
   person("Zoe", "Turner", role = c("aut"), comment = c(ORCID = "0000-0003-1033-9158")),
-  person("Chris", "Beeley", role = c("aut"), comment = c(ORCID = "0000-0003-2344-9962"))
-  )
-Description: This package provides a dataset of lower layer super output area population estimates
+  person("Chris", "Beeley", role = c("aut"), comment = c(ORCID = "0000-0003-2344-9962")))
+Description: This package provides Lower layer Super Output Area (LSOA) population estimates and their Indecies of Multiple Deprivation (IMD) for England
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
