@@ -1,6 +1,4 @@
-## code to prepare `DATASET` dataset goes here
-
-# usethis::use_data(DATASET, overwrite = TRUE)
+"https://www.ons.gov.uk/file?uri=%2fpeoplepopulationandcommunity%2fpopulationandmigration%2fpopulationestimates%2fdatasets%2flowersuperoutputareamidyearpopulationestimates%2fmid2019sape22dt2/sape22dt2mid2019lsoasyoaestimatesunformatted.zip"
 
 library(readxl)
 library(tidyverse)
@@ -58,7 +56,8 @@ df_m_long <- df_m_wide %>%
   relocate(lsoa_code, year, age, gender, n)
 
 lsoa <- df_f_long %>%
-  add_row(df_m_long)
+  add_row(df_m_long) %>%
+  arrange(lsoa_code, year, age, gender)
 
 usethis::use_data(lsoa, overwrite = TRUE)
 
