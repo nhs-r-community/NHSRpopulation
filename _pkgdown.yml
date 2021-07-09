@@ -1,0 +1,7 @@
+destination: docs
+
+reference:
+- title: "Datasets"
+  contents:
+  - imd
+  - lsoa

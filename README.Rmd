@@ -27,7 +27,7 @@ Because we store quite a lot in this package it currently relatively large (~7mb
 
 ## Installation
 
-You can install the current version of `LSOApop` from [GitHub](https://github.com/) with:
+You can install the current version of `LSOApop` from [GitHub](https://github.com/nhs-r-community/LSOApop) with:
 
 ``` r
 # install.packages("devtools")

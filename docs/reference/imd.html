@@ -89,7 +89,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/nhs-r-community/LSOApop/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -104,7 +109,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>English Indices of Multiple Deprivation (IMD) for the year 2019</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/nhs-r-community/LSOApop/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>imd.Rd</code></div>
     </div>
 
@@ -117,9 +122,14 @@
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 32,844 rows and 4 variables:</p><dl>
+    <p>A data frame with 32,844 rows and 9 variables:</p><dl>
+<dt>lsoa_year</dt><dd><p>Numeric, the year of the UK Census that the LSOA are linked to</p></dd>
 <dt>lsoa_code</dt><dd><p>Character, Lower layer Super Output Area (LSOA) code</p></dd>
-<dt>year</dt><dd><p>Numeric, year of IMD score</p></dd>
+<dt>lsoa_name</dt><dd><p>Character, Lower layer Super Output Area (LSOA) name</p></dd>
+<dt>la_year</dt><dd><p>Numeric, Local Authority (LA) year</p></dd>
+<dt>la_code</dt><dd><p>Character, Local Authority (LA) code</p></dd>
+<dt>la_name</dt><dd><p>Character, Local Authority (LA) name</p></dd>
+<dt>imd_year</dt><dd><p>Numeric, year of IMD score</p></dd>
 <dt>imd_score</dt><dd><p>Numeric, Indices of Multiple Deprivation (IMD), for more information see <a href='https://www.gov.uk/government/collections/english-indices-of-deprivation'>https://www.gov.uk/government/collections/english-indices-of-deprivation</a></p></dd>
 <dt>imd_decile</dt><dd><p>Ranked version of the <code>imd_score</code> with 1 representing tbe 'least deprived' and 10 representing the 'least deprived' areas.</p></dd>
 

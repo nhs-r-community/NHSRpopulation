@@ -7,12 +7,12 @@
 \format{
 A data frame with 32,844 rows and 9 variables:
 \describe{
-\item{lsoa_year}{Character, Lower layer Super Output Area (LSOA) code}
+\item{lsoa_year}{Numeric, the year of the UK Census that the LSOA are linked to}
 \item{lsoa_code}{Character, Lower layer Super Output Area (LSOA) code}
-\item{lsoa_name}{Character, Lower layer Super Output Area (LSOA) code}
-\item{la_year}{Character, Lower layer Super Output Area (LSOA) code}
-\item{la_code}{Character, Lower layer Super Output Area (LSOA) code}
-\item{la_name}{Character, Lower layer Super Output Area (LSOA) code}
+\item{lsoa_name}{Character, Lower layer Super Output Area (LSOA) name}
+\item{la_year}{Numeric, Local Authority (LA) year}
+\item{la_code}{Character, Local Authority (LA) code}
+\item{la_name}{Character, Local Authority (LA) name}
 \item{imd_year}{Numeric, year of IMD score}
 \item{imd_score}{Numeric, Indices of Multiple Deprivation (IMD), for more information see \url{https://www.gov.uk/government/collections/english-indices-of-deprivation}}
 \item{imd_decile}{Ranked version of the \code{imd_score} with 1 representing tbe 'least deprived' and 10 representing the 'least deprived' areas.}
@@ -27,4 +27,4 @@ imd
 \description{
 A dataset containing English Indices of Multiple Deprivation (IMD) for the year 2019
 }
-\keyword{datasets}
+\keyword{dataset}

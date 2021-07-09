@@ -28,4 +28,4 @@ lsoa
 \description{
 A dataset containing Lower layer Super Output Area (LSOA) population estimates for England
 }
-\keyword{datasets}
+\keyword{dataset}
