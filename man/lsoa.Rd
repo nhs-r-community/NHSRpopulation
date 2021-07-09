@@ -5,12 +5,17 @@
 \alias{lsoa}
 \title{Lower layer Super Output Area (LSOA) population estimates for England}
 \format{
-A data frame with 6325046 rows and 5 variables:
+A data frame with 6325046 rows and 10 variables:
 \describe{
+\item{lsoa_year}{Numeric, the year of the UK Census that the LSOA are linked to}
 \item{lsoa_code}{Character, Lower layer Super Output Area (LSOA) code}
-\item{year}{Numeric, year of estimate}
+\item{lsoa_name}{Character, Lower layer Super Output Area (LSOA) name}
+\item{la_year}{Numeric, Local Authority (LA) year}
+\item{la_code}{Character, Local Authority (LA) code}
+\item{la_name}{Character, Local Authority (LA) name}
 \item{age}{Numeric, age groups from 0 to 90+, not that the age category 90 includes estimates for the ages of 90+}
 \item{gender}{Character, gender (f = female; m = male)}
+\item{est_year}{Numeric, year of ONS estimate}
 \item{n}{Number of the estimated population}
 }
 }

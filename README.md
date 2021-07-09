@@ -16,7 +16,9 @@ age (0 to 90+) and gender (female/male). A transparent description of
 the data processing and information about the original sources are
 available in this GitHub, see `"data-raw/imd.R` and `"data-raw/lsoa.R`.
 The current version of the package only includes LSOA population
-estimates and IMD scores from the year 2019.
+estimates and IMD scores for the year 2019 for England. Because we store
+quite a lot in this package it currently relatively large (\~7mb)
+compared to other packages.
 
 ## Installation
 
@@ -43,13 +45,20 @@ The LSOA population estimates are available in the dataset `lsoa`:
 # Show the first 6 rows of the dataset
 # For further information about this dataset see the help file: help(lsoa)
 head(lsoa)
-#>   lsoa_code year age gender  n
-#> 1 E01011949 2019   0      f 12
-#> 2 E01011949 2019   1      f 11
-#> 3 E01011949 2019   2      f  5
-#> 4 E01011949 2019   3      f 13
-#> 5 E01011949 2019   4      f 13
-#> 6 E01011949 2019   5      f 11
+#>   lsoa_year lsoa_code           lsoa_name la_year   la_code        la_name age
+#> 1      2019 E01000001 City of London 001A    2019 E09000001 City of London   0
+#> 2      2019 E01000001 City of London 001A    2019 E09000001 City of London   1
+#> 3      2019 E01000001 City of London 001A    2019 E09000001 City of London   2
+#> 4      2019 E01000001 City of London 001A    2019 E09000001 City of London   3
+#> 5      2019 E01000001 City of London 001A    2019 E09000001 City of London   4
+#> 6      2019 E01000001 City of London 001A    2019 E09000001 City of London   5
+#>   gender est_year  n
+#> 1      f     2019  2
+#> 2      f     2019  9
+#> 3      f     2019  4
+#> 4      f     2019 12
+#> 5      f     2019 11
+#> 6      f     2019  5
 ```
 
 ### Indecies of Multiple Deprivation (IMD)
@@ -61,13 +70,20 @@ dataset `imd`:
 # Show the first 6 rows of the dataset
 # For further information about this dataset see the help file: help(imd)
 head(imd)
-#>   lsoa_code year imd_score imd_decile
-#> 1 E01000001 2019     6.208          9
-#> 2 E01000002 2019     5.143         10
-#> 3 E01000003 2019    19.402          5
-#> 4 E01000005 2019    28.652          3
-#> 5 E01000006 2019    19.837          5
-#> 6 E01000007 2019    31.576          3
+#>   lsoa_year lsoa_code                 lsoa_name la_year   la_code
+#> 1      2011 E01000001       City of London 001A    2019 E09000001
+#> 2      2011 E01000002       City of London 001B    2019 E09000001
+#> 3      2011 E01000003       City of London 001C    2019 E09000001
+#> 4      2011 E01000005       City of London 001E    2019 E09000001
+#> 5      2011 E01000006 Barking and Dagenham 016A    2019 E09000002
+#> 6      2011 E01000007 Barking and Dagenham 015A    2019 E09000002
+#>                la_name imd_year imd_score imd_decile
+#> 1       City of London     2019     6.208          9
+#> 2       City of London     2019     5.143         10
+#> 3       City of London     2019    19.402          5
+#> 4       City of London     2019    28.652          3
+#> 5 Barking and Dagenham     2019    19.837          5
+#> 6 Barking and Dagenham     2019    31.576          3
 ```
 
 ## Sources of Data

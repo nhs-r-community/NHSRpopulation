@@ -22,7 +22,8 @@ knitr::opts_chunk$set(
 The goal of `LSOApop` is to make population estimates for **Lower layer Super Output Areas (LSOA)** and their **Indecies of Multiple Deprivation (IMD)** easily available in R.
 Population estimates are broken down by age (0 to 90+) and gender (female/male).
 A transparent description of the data processing and information about the original sources are available in this GitHub, see `"data-raw/imd.R` and `"data-raw/lsoa.R`.
-The current version of the package only includes LSOA population estimates and IMD scores from the year 2019. 
+The current version of the package only includes LSOA population estimates and IMD scores for the year 2019 for England. 
+Because we store quite a lot in this package it currently relatively large (~7mb) compared to other packages.
 
 ## Installation
 
