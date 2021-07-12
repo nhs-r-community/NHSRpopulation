@@ -45,7 +45,7 @@ imd %>%
 
 In some cases using these deciles may be ideal and it may be useful to recalculate IMD deciles within Local Authorities.
 
-## Calculating IMD deciles within Local Authorities
+## Calculate IMD deciles within Local Authorities
 
 To recalculate local IMD deciles the data needs to be grouped by Local Authority (`group_by(la_code)`).
 Next, calculate deciles using the function `dplyr::ntile()` by specifying `n = 10`.
@@ -58,7 +58,7 @@ imd_by_la <- imd %>%
 
 ## Compare England and Local IMD deciles for Notts 
 
-To illustrate what has happened in the lines above, the next code chunk prepares the new dataset for plotting.
+To illustrate the differences between the two IMD deciles, the next code chunk prepares a new dataset for plotting.
 First we filter the dataset for the Local Authority "Nottingham" using `filter(la_code == "E06000018")` and create a long dataset that can be used for plotting.
 
 ```{r}
@@ -86,7 +86,15 @@ imd_by_la_plot %>%
   labs(x = "IMD decile", 
        y = "Count", 
        fill = NULL) +
-  ggtitle("Distribution of decile rankings for LSOAs in Notthingham based on:")
+  ggtitle("Distribution of decile rankings for LSOAs in Notts based on:")
 ```
 
+
+# TODO
+
+- [ ] Add references
+- [ ] Describe more IMD details
+- [ ] Show second example
+- [ ] Visualise distribution of raw scores
+- [ ] Discuss the methodological advantages and disadvantages
 
