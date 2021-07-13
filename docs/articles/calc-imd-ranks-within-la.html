@@ -106,7 +106,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"IMD decile"</span>, y <span class="op">=</span> <span class="st">"Count"</span>, fill <span class="op">=</span> <span class="st">"IMD decile"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"IMD deciles for LSOAs in\nNotts scores for ENG"</span><span class="op">)</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"ENG IMD deciles for\nLSOAs in Notts"</span><span class="op">)</span>
 
 <span class="co"># Plot raw scores ----</span>
 <span class="va">imd_notts_jitter</span> <span class="op">&lt;-</span> <span class="va">imd</span> <span class="op">%&gt;%</span>   
@@ -119,14 +119,14 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>,
         axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
         axis.ticks.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"IMD scores for LSOAs in Notts"</span><span class="op">)</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Raw IMD scores for LSOAs in Notts"</span><span class="op">)</span>
  
 <span class="co"># Combine plots ----</span>
 <span class="va">imd_notts_bar</span> <span class="op">+</span> <span class="va">imd_notts_jitter</span> <span class="op">+</span> 
   <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="st">'A'</span><span class="op">)</span></code></pre></div>
 <p><img src="calc-imd-ranks-within-la_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
-<p>The figure above illustrates that the the distribution of IMD deciles calculated based on the whole country (see Panel A) does not reflect the variation of the raw IMD scores within the Nottingham (see Panel B). In some cases using the deciles calculated based on IMD scores for the entire country may not be ideal and it could be useful to recalculate IMD deciles within Local Authorities. The <span class="citation"><a href="#ref-MinistryofHousingCommunitiesLocalGovernment2019" role="doc-biblioref">Ministry of Housing, Communities &amp; Local Government</a> (<a href="#ref-MinistryofHousingCommunitiesLocalGovernment2019" role="doc-biblioref">2019</a>)</span> has made some guidance on how to analyse IMD scores and frequently asked questions available.</p>
+<p>The figure above illustrates that the the distribution of IMD deciles calculated based on the whole country (see Panel A) don’t reflect the variation of the raw IMD scores within the Nottingham (see Panel B). As mentioned above, comparing these side by side is a bit tricky because the two metrics (raw scores vs decile ranks) are scored in opposite directions. In some cases using the deciles calculated based on IMD scores for the entire country may not be ideal and it could be useful to recalculate IMD deciles within Local Authorities. The <span class="citation"><a href="#ref-MinistryofHousingCommunitiesLocalGovernment2019" role="doc-biblioref">Ministry of Housing, Communities &amp; Local Government</a> (<a href="#ref-MinistryofHousingCommunitiesLocalGovernment2019" role="doc-biblioref">2019</a>)</span> has made some guidance on how to analyse IMD scores and frequently asked questions available.</p>
 <div id="calculate-imd-deciles-within-local-authorities" class="section level2">
 <h2 class="hasAnchor">
 <a href="#calculate-imd-deciles-within-local-authorities" class="anchor"></a>Calculate IMD deciles within Local Authorities</h2>

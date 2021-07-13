@@ -43,7 +43,7 @@ imd_notts_bar <- imd %>%
   geom_bar() +
   scale_fill_viridis_d() +
   labs(x = "IMD decile", y = "Count", fill = "IMD decile") +
-  ggtitle("IMD deciles for LSOAs in\nNotts scores for ENG")
+  ggtitle("ENG IMD deciles for\nLSOAs in Notts")
 
 # Plot raw scores ----
 imd_notts_jitter <- imd %>%   
@@ -56,7 +56,7 @@ imd_notts_jitter <- imd %>%
   theme(legend.position = "none",
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank()) +
-  ggtitle("IMD scores for LSOAs in Notts")
+  ggtitle("Raw IMD scores for LSOAs in Notts")
  
 # Combine plots ----
 imd_notts_bar + imd_notts_jitter + 
@@ -64,7 +64,8 @@ imd_notts_bar + imd_notts_jitter +
   plot_annotation(tag_levels = 'A')
 ```
 
-The figure above illustrates that the the distribution of IMD deciles calculated based on the whole country (see Panel A) does not reflect the variation of the raw IMD scores within the Nottingham (see Panel B).
+The figure above illustrates that the the distribution of IMD deciles calculated based on the whole country (see Panel A) don't reflect the variation of the raw IMD scores within the Nottingham (see Panel B).
+As mentioned above, comparing these side by side is a bit tricky because the two metrics (raw scores vs decile ranks) are scored in opposite directions.
 In some cases using the deciles calculated based on IMD scores for the entire country may not be ideal and it could be useful to recalculate IMD deciles within Local Authorities.
 The @MinistryofHousingCommunitiesLocalGovernment2019 has made some guidance on how to analyse IMD scores and frequently asked questions available.
 
