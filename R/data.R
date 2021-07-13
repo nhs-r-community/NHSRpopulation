@@ -34,7 +34,7 @@
 #'   \item{la_name}{Character, Local Authority (LA) name}
 #'   \item{imd_year}{Numeric, year of IMD score}
 #'   \item{imd_score}{Numeric, Indices of Multiple Deprivation (IMD), for more information see \url{https://www.gov.uk/government/collections/english-indices-of-deprivation}}
-#'   \item{imd_decile}{Ranked version of the `imd_score` with 1 representing tbe 'least deprived' and 10 representing the 'least deprived' areas.}
+#'   \item{imd_decile}{Ranked version of the `imd_score` with 1 representing tbe 'most deprived' and 10 representing the 'least deprived' areas.}
 #' }
 #' @keywords dataset
 #' @source \url{https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019}

@@ -1,6 +1,8 @@
 ---
 title: "Calculate IMD deciles within local authorities"
 output: rmarkdown::html_vignette
+bibliography: "references.bib"
+link-citations: TRUE
 vignette: >
   %\VignetteIndexEntry{calc-imd-ranks-within-la}
   %\VignetteEngine{knitr::rmarkdown}
@@ -20,39 +22,61 @@ library(LSOApop)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(patchwork)
+
 ```
 
-We use the Local Authority "Nottingham" (la_code = "E06000018") for this example.
-The distribution of the IMD deciles in this area is relatively unequal compared to the rest of England.
-Soetimes a ranked version of the `imd_score` is calculated to present IMDs  be ranked, with 1 representing tbe 'least deprived' and 10 representing the 'least deprived' areas.
+Indices of Multiple Deprivation (IMD) describe the deprivation of Lower layer Super Output Areas (LSOAs) with scores ranging from `r min(imd$imd_score)` to `r max(imd$imd_score)` for the year 2019.
+Lower IMD scores indicate 'less deprivation' areas while higher IMD scores indicate 'more deprivation'.
+These scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country.
+For the decile scores, lower deciles are representing 'more deprived' areas while higher deciles represent 'less deprived' areas.
+This can be confusing because IMD scores and IMD deciles are scored in opposite directions.
 
-```{r fig.width=5, fig.height=5}
-# Create object for plot title
-plottitle <- "Distribution of decile rankings for LSOAs in\nNotts based on IMD scores for ENG"
+The distribution of the IMD deciles calculated on data from the entire country can be relatively unequal within some Local Authorities (LAs).
+This example illustrates this for the local authority "Nottingham" (la_code = "E06000018").
 
-# Create plot
-imd %>%   
+```{r fig.width=7, fig.height=5}
+# Plot deciles ----
+imd_notts_bar <- imd %>%   
   filter(la_code == "E06000018") %>% 
-  ggplot(aes(factor(imd_decile), 
-             fill = factor(imd_decile))) +
+  ggplot(aes(factor(imd_decile), fill = factor(imd_decile))) +
   geom_bar() +
   scale_fill_viridis_d() +
-  labs(x = "IMD decile", 
-       y = "Count", 
-       fill = NULL) +
-  ggtitle(plottitle)
+  labs(x = "IMD decile", y = "Count", fill = "IMD decile") +
+  ggtitle("IMD deciles for LSOAs in\nNotts scores for ENG")
+
+# Plot raw scores ----
+imd_notts_jitter <- imd %>%   
+  filter(la_code == "E06000018") %>% 
+  ggplot(aes(x = imd_score, y = la_name)) +
+  geom_jitter(aes(colour = factor(imd_decile)),
+              alpha = 1, height = .3, size = 3) +
+  labs(x = "IMD score", y = NULL, colour = NULL) +
+  scale_colour_viridis_d() +
+  theme(legend.position = "none",
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  ggtitle("IMD scores for LSOAs in Notts")
+ 
+# Combine plots ----
+imd_notts_bar + imd_notts_jitter + 
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = 'A')
 ```
 
-In some cases using these deciles may be ideal and it may be useful to recalculate IMD deciles within Local Authorities.
+The figure above illustrates that the the distribution of IMD deciles calculated based on the whole country (see Panel A) does not reflect the variation of the raw IMD scores within the Nottingham (see Panel B).
+In some cases using the deciles calculated based on IMD scores for the entire country may not be ideal and it could be useful to recalculate IMD deciles within Local Authorities.
+The @MinistryofHousingCommunitiesLocalGovernment2019 has made some guidance on how to analyse IMD scores and frequently asked questions available.
 
 ## Calculate IMD deciles within Local Authorities
 
-To recalculate local IMD deciles the data needs to be grouped by Local Authority (`group_by(la_code)`).
-Next, calculate deciles using the function `dplyr::ntile()` by specifying `n = 10`.
+To recalculate IMD deciles for Local Authorities the data needs to be grouped by Local Authority and year of the IMD score ('`group_by(la_code, imd_year)`').
+Next, calculate deciles using the function '`dplyr::ntile()`' by specifying '`n = 10`'.
 
 ```{r}
+# Calculate IMD decile ranks (n = 10) for local authorities ----
 imd_by_la <- imd %>% 
-  group_by(la_code) %>% 
+  group_by(la_code, imd_year) %>% 
   mutate(imd_decile_la = ntile(-imd_score, n = 10))
 ```
 
@@ -62,6 +86,7 @@ To illustrate the differences between the two IMD deciles, the next code chunk p
 First we filter the dataset for the Local Authority "Nottingham" using `filter(la_code == "E06000018")` and create a long dataset that can be used for plotting.
 
 ```{r}
+# Pivot data from wide to long format ----
 imd_by_la_plot <- imd_by_la %>% 
   filter(la_code == "E06000018") %>% 
   select(lsoa_code, la_code, la_name, 
@@ -77,6 +102,7 @@ imd_by_la_plot <- imd_by_la %>%
 As expected, this plot shows a very unequal distribution of IMD deciles when these were calculated based on the whole country and an even distribution when only the Local Authority Nottingham was used to calculate the IMD deciles.
 
 ```{r fig.width=7, fig.height=5}
+# Plot ENG and NOTTS deciles ----
 imd_by_la_plot %>%   
   ggplot(aes(factor(value), 
              fill = factor(value))) +
@@ -90,11 +116,15 @@ imd_by_la_plot %>%
 ```
 
 
-# TODO
+## Additional resources
 
-- [ ] Add references
-- [ ] Describe more IMD details
-- [ ] Show second example
-- [ ] Visualise distribution of raw scores
+A blog post by @Turner2021IMD also discusses how to calculate local IMD scores illustrating examples in SQL and R.
+
+## TODOs 
+
+- [ ] Add more IMD references and website links
+- [ ] Describe and discuss more IMD details
+- [ ] Show second example?
 - [ ] Discuss the methodological advantages and disadvantages
 
+## References
