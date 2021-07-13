@@ -96,7 +96,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></code></pre></div>
-<p>Indices of Multiple Deprivation (IMD) describe the deprivation of Lower layer Super Output Areas (LSOAs) with scores ranging from 0.541 to 92.735 for the year 2019. Lower IMD scores indicate ‘less deprivation’ areas while higher IMD scores indicate ‘more deprivation.’ These scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country. For the decile scores, lower deciles are representing ‘more deprived’ areas while higher deciles represent ‘less deprived’ areas. This can be confusing because IMD scores and IMD deciles are scored in opposite directions.</p>
+<p><a href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019">Indices of Multiple Deprivation (IMD)</a> describe the deprivation of <a href="https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas">Lower layer Super Output Areas (LSOAs)</a> with scores ranging from 0.541 to 92.735 for the year 2019. Lower IMD scores indicate ‘less deprivation’ areas while higher IMD scores indicate ‘more deprivation.’ These scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country. For the decile scores, lower deciles are representing ‘more deprived’ areas while higher deciles represent ‘less deprived’ areas. This can be confusing because IMD scores and IMD deciles are scored in opposite directions.</p>
 <p>The distribution of the IMD deciles calculated on data from the entire country can be relatively unequal within some Local Authorities (LAs). This example illustrates this for the local authority “Nottingham” (la_code = “E06000018”).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot deciles ----</span>
@@ -113,7 +113,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">la_code</span> <span class="op">==</span> <span class="st">"E06000018"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">imd_score</span>, y <span class="op">=</span> <span class="va">la_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">imd_decile</span><span class="op">)</span><span class="op">)</span>,
-              alpha <span class="op">=</span> <span class="fl">1</span>, height <span class="op">=</span> <span class="fl">.3</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+              alpha <span class="op">=</span> <span class="fl">1</span>, height <span class="op">=</span> <span class="fl">.3</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"IMD score"</span>, y <span class="op">=</span> <span class="cn">NULL</span>, colour <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_colour_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>,
@@ -130,7 +130,7 @@
 <div id="calculate-imd-deciles-within-local-authorities" class="section level2">
 <h2 class="hasAnchor">
 <a href="#calculate-imd-deciles-within-local-authorities" class="anchor"></a>Calculate IMD deciles within Local Authorities</h2>
-<p>To recalculate IMD deciles for Local Authorities the data needs to be grouped by Local Authority and year of the IMD score (‘<code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by(la_code, imd_year)</a></code>’). Next, calculate deciles using the function ‘<code><a href="https://dplyr.tidyverse.org/reference/ranking.html">dplyr::ntile()</a></code>’ by specifying ‘<code>n = 10</code>.’</p>
+<p>To recalculate IMD deciles for Local Authorities the data needs to be grouped by Local Authority and year of the IMD score (‘<code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by(la_code, imd_year)</a></code>’). Next, calculate deciles using the function ‘<code><a href="https://dplyr.tidyverse.org/reference/ranking.html">dplyr::ntile()</a></code>’ by specifying ‘<code>n = 10</code>.’ To calculate quintiles (5 groups) the argument would need to be changed to <code>n = 5</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate IMD decile ranks (n = 10) for local authorities ----</span>
 <span class="va">imd_by_la</span> <span class="op">&lt;-</span> <span class="va">imd</span> <span class="op">%&gt;%</span> 
@@ -173,24 +173,6 @@
 <h2 class="hasAnchor">
 <a href="#additional-resources" class="anchor"></a>Additional resources</h2>
 <p>A blog post by <span class="citation"><a href="#ref-Turner2021IMD" role="doc-biblioref">Turner</a> (<a href="#ref-Turner2021IMD" role="doc-biblioref">2021</a>)</span> also discusses how to calculate local IMD scores illustrating examples in SQL and R.</p>
-</div>
-<div id="todos" class="section level2">
-<h2 class="hasAnchor">
-<a href="#todos" class="anchor"></a>TODOs</h2>
-<ul class="task-list">
-<li>
-<input type="checkbox" disabled>
-Add more IMD references and website links</li>
-<li>
-<input type="checkbox" disabled>
-Describe and discuss more IMD details</li>
-<li>
-<input type="checkbox" disabled>
-Show second example?</li>
-<li>
-<input type="checkbox" disabled>
-Discuss the methodological advantages and disadvantages</li>
-</ul>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">

@@ -26,7 +26,7 @@ library(patchwork)
 
 ```
 
-Indices of Multiple Deprivation (IMD) describe the deprivation of Lower layer Super Output Areas (LSOAs) with scores ranging from `r min(imd$imd_score)` to `r max(imd$imd_score)` for the year 2019.
+[Indices of Multiple Deprivation (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) describe the deprivation of [Lower layer Super Output Areas (LSOAs)](https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas) with scores ranging from `r min(imd$imd_score)` to `r max(imd$imd_score)` for the year 2019.
 Lower IMD scores indicate 'less deprivation' areas while higher IMD scores indicate 'more deprivation'.
 These scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country.
 For the decile scores, lower deciles are representing 'more deprived' areas while higher deciles represent 'less deprived' areas.
@@ -50,7 +50,7 @@ imd_notts_jitter <- imd %>%
   filter(la_code == "E06000018") %>% 
   ggplot(aes(x = imd_score, y = la_name)) +
   geom_jitter(aes(colour = factor(imd_decile)),
-              alpha = 1, height = .3, size = 3) +
+              alpha = 1, height = .3, size = 2) +
   labs(x = "IMD score", y = NULL, colour = NULL) +
   scale_colour_viridis_d() +
   theme(legend.position = "none",
@@ -72,6 +72,7 @@ The @MinistryofHousingCommunitiesLocalGovernment2019 has made some guidance on h
 
 To recalculate IMD deciles for Local Authorities the data needs to be grouped by Local Authority and year of the IMD score ('`group_by(la_code, imd_year)`').
 Next, calculate deciles using the function '`dplyr::ntile()`' by specifying '`n = 10`'.
+To calculate quintiles (5 groups) the argument would need to be changed to `n = 5`.
 
 ```{r}
 # Calculate IMD decile ranks (n = 10) for local authorities ----
@@ -119,12 +120,5 @@ imd_by_la_plot %>%
 ## Additional resources
 
 A blog post by @Turner2021IMD also discusses how to calculate local IMD scores illustrating examples in SQL and R.
-
-## TODOs 
-
-- [ ] Add more IMD references and website links
-- [ ] Describe and discuss more IMD details
-- [ ] Show second example?
-- [ ] Discuss the methodological advantages and disadvantages
 
 ## References
