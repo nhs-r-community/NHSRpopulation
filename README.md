@@ -44,7 +44,7 @@ library(LSOApop)
 #> 
 #> ── This is LSOApop 0.0.2 ───────────────────────────────────────────────────────
 #> ℹ Please report any issues or ideas at:
-#> ℹ https://github.com/milanwiedemann/lcsm/issues
+#> ℹ https://github.com/nhs-r-community/LSOApop/issues
 ```
 
 ### Lower layer Super Output Areas (LSOA)
