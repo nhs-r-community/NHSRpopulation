@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# LSOApop
+# LSOApop <a href='https://nhsrcommunity.com/'><img src='man/figures/logo.png' align="right" height="80" /></a>
 
 <!-- badges: start -->
 
@@ -12,18 +12,24 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 The goal of `LSOApop` is to make population estimates for **Lower layer
 Super Output Areas (LSOA)** and their **Indecies of Multiple Deprivation
 (IMD)** easily available in R. Population estimates are broken down by
-age (0 to 90+) and gender (female/male). A transparent description of
-the data processing and information about the original sources are
-available in this GitHub, see `"data-raw/imd.R` and `"data-raw/lsoa.R`.
-The current version of the package only includes LSOA population
+age (0 to 90+) and gender (female/male). Information about the original
+sources of the data and a transparent description of all transformation
+of the data that is made available in this package can be found in this
+repository, see `"data-raw/imd.R` and `"data-raw/lsoa.R`. Main changes
+to the original data structures include (1) the transformation from wide
+to long data, (2) the addition of further information that was only
+available in variable names, and (3) renaming variables in a consistent
+way.
+
+The current version of this package only includes LSOA population
 estimates and IMD scores for the year 2019 for England. Because we store
-quite a lot in this package it currently relatively large (\~7mb)
+quite a lot in this package it currently relatively large (\~9mb)
 compared to other packages.
 
 ## Installation
 
 You can install the current version of `LSOApop` from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/nhs-r-community/LSOApop) with:
 
 ``` r
 # install.packages("devtools")
@@ -35,6 +41,10 @@ devtools::install_github("nhs-r-community/LSOApop")
 ``` r
 # Load the package
 library(LSOApop)
+#> 
+#> ── This is LSOApop 0.0.2 ───────────────────────────────────────────────────────
+#> ℹ Please report any issues or ideas at:
+#> ℹ https://github.com/milanwiedemann/lcsm/issues
 ```
 
 ### Lower layer Super Output Areas (LSOA)
