@@ -1,10 +1,10 @@
 ---
-title: "Calculate IMD deciles within local authorities"
+title: "How to calculate 'local' IMD ranks"
 output: rmarkdown::html_vignette
 bibliography: "references.bib"
 link-citations: TRUE
 vignette: >
-  %\VignetteIndexEntry{calc-imd-ranks-within-la}
+  %\VignetteIndexEntry{calc-local-imd-ranks}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -42,9 +42,8 @@ la_code_notts_county <- c("E06000018", "E07000170",  "E07000171", "E07000172",
 la_code_nott_city_notts_county <- c(la_code_nott_city, la_code_notts_county)
 ```
 
-
 Lower IMD scores indicate 'less deprivation' areas while higher IMD scores indicate 'more deprivation'.
-Figure 1 shows the raw scores for each of the different LAs with colour codings for the IMD decilde rankes that were calculated using data from all LAs in England.
+Figure 1 shows the raw scores for each of the different LAs with colour codings for the IMD decile ranks that were calculated using data from all LAs in England.
 
 ```{r fig.width=7, fig.height=5}
 imd %>%   
@@ -163,11 +162,11 @@ imd_by_la %>%
 
 ## Compare distributions of IMD deciles 
 
-Comparing the changes in IMD decile ranks can be seen when comparing the bar plots shown above (e.g., Fig 2.2 vs. Fig 3.2) but but they can be hard to spot.
-The density plot below (see Figure 4) illustrates the changes in the distribution of IMD decilies between the two methods.
+The changes in IMD decile ranks can be seen when comparing the bar plots shown above (e.g., Fig 2.2 vs. Fig 3.2) -- but they can be hard to spot.
+Changes in the distribution of IMD deciles (see density plots in Figure 4) illustrate the effect of recalculating 'local' IMD scores a bit clearer.
 The plot on the left with the title '**ENG IMD**' shows the distribution of IMD deciles when all IMD scores in England were used to calculate the decile ranks.
 The plot on the right (**Local IMD**) shows the distribution of IMD deciles when only the IMD scores of the selected LAs were used.
-The effect of recalculating local IMD scores can be seen in changes of the density distribution (e.g., narrow shape vs flat shape, changes of the peak on the x axis) for the individual IMD deciles.
+The effect of recalculating local IMD scores can be seen in changes in the shape of the density distribution (e.g., narrow shape vs flat shape, changes of the peak on the x axis) for the individual IMD deciles.
 
 
 ```{r fig.width=7, fig.height=3.5}
