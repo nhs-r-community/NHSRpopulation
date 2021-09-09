@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of `LSOApop` is to make population estimates for **Lower layer Super Output Areas (LSOA)** and their **Indecies of Multiple Deprivation (IMD)** easily available in R.
+The goal of `LSOApop` is to make population estimates for **Lower layer Super Output Areas (LSOA)** and their **Indices of Multiple Deprivation (IMD)** easily available in R.
 Population estimates are broken down by age (0 to 90+) and gender (female/male).
 Information about the original sources of the data and a transparent description of all transformation of the data that is made available in this package can be found in this repository, see `"data-raw/imd.R` and `"data-raw/lsoa.R`.
 Main changes to the original data structures include (1) the transformation from wide to long data, (2) the addition of further information that was only available in variable names, and (3) renaming variables in a consistent way.
@@ -32,8 +32,8 @@ Because we store quite a lot in this package it currently relatively large (~9mb
 You can install the current version of `LSOApop` from [GitHub](https://github.com/nhs-r-community/LSOApop) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("nhs-r-community/LSOApop")
+# install.packages("remotes")
+remotes::install_github("nhs-r-community/LSOApop")
 ```
 
 ## Example
@@ -52,7 +52,8 @@ The LSOA population estimates are available in the dataset `lsoa`:
 # For further information about this dataset see the help file: help(lsoa)
 head(lsoa)
 ```
-### Indecies of Multiple Deprivation (IMD)
+
+### Indicies of Multiple Deprivation (IMD)
 
 The IMD scores (raw scores and ranked deciles) and available in the dataset `imd`:
 
@@ -72,3 +73,7 @@ The original source of the data provided in this R package is available [here](h
   
 Please note that the `LSOApop` project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). 
 By contributing to this project, you agree to abide by its terms.
+
+## Special note of thanks
+
+This package was originally created by [Milan Wiedemann](https://github.com/milanwiedemann).
