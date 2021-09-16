@@ -52,6 +52,7 @@ The LSOA population estimates are available in the dataset `lsoa`:
 # For further information about this dataset see the help file: help(lsoa)
 head(lsoa)
 ```
+
 ### Indices of Multiple Deprivation (IMD)
 
 The IMD scores (raw scores and ranked deciles) and available in the dataset `imd`:
@@ -72,3 +73,7 @@ The original source of the data provided in this R package is available [here](h
   
 Please note that the `LSOApop` project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). 
 By contributing to this project, you agree to abide by its terms.
+
+## Special note of thanks
+
+This package was originally created by [Milan Wiedemann](https://github.com/milanwiedemann).
