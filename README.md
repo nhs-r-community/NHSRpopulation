@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# LSOApop <a href='https://nhsrcommunity.com/'><img src='man/figures/logo.png' align="right" height="80" /></a>
+# LSOApop <a href='https://nhsrcommunity.com/'><img src='man/figures/logo.png' align="right" height="60" /></a>
 
 <!-- badges: start -->
 
@@ -71,7 +71,7 @@ head(lsoa)
 #> 6      f     2019  5
 ```
 
-### Indicies of Multiple Deprivation (IMD)
+### Indices of Multiple Deprivation (IMD)
 
 The IMD scores (raw scores and ranked deciles) and available in the
 dataset `imd`:
