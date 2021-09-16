@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# LSOApop <a href='https://nhsrcommunity.com/'><img src='man/figures/logo.png' align="right" height="80" /></a>
+# LSOApop <a href='https://nhsrcommunity.com/'><img src='man/figures/logo.png' align="right" height="60" /></a>
 
 <!-- badges: start -->
 
@@ -10,7 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The goal of `LSOApop` is to make population estimates for **Lower layer
-Super Output Areas (LSOA)** and their **Indecies of Multiple Deprivation
+Super Output Areas (LSOA)** and their **Indices of Multiple Deprivation
 (IMD)** easily available in R. Population estimates are broken down by
 age (0 to 90+) and gender (female/male). Information about the original
 sources of the data and a transparent description of all transformation
@@ -32,8 +32,8 @@ You can install the current version of `LSOApop` from
 [GitHub](https://github.com/nhs-r-community/LSOApop) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("nhs-r-community/LSOApop")
+# install.packages("remotes")
+remotes::install_github("nhs-r-community/LSOApop")
 ```
 
 ## Example
@@ -42,9 +42,9 @@ devtools::install_github("nhs-r-community/LSOApop")
 # Load the package
 library(LSOApop)
 #> 
-#> ── This is LSOApop 0.0.2 ───────────────────────────────────────────────────────
-#> ℹ Please report any issues or ideas at:
-#> ℹ https://github.com/nhs-r-community/LSOApop/issues
+#> -- This is LSOApop 0.0.2 -------------------------------------------------------
+#> i Please report any issues or ideas at:
+#> i https://github.com/nhs-r-community/LSOApop/issues
 ```
 
 ### Lower layer Super Output Areas (LSOA)
@@ -71,7 +71,7 @@ head(lsoa)
 #> 6      f     2019  5
 ```
 
-### Indecies of Multiple Deprivation (IMD)
+### Indices of Multiple Deprivation (IMD)
 
 The IMD scores (raw scores and ranked deciles) and available in the
 dataset `imd`:

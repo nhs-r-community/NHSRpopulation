@@ -26,19 +26,20 @@ library(patchwork)
 ```
 
 [Indices of Multiple Deprivation (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) describe the deprivation of [Lower layer Super Output Areas (LSOAs)](https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas) with scores ranging from `r min(imd$imd_score)` to `r max(imd$imd_score)` for the year 2019.
-In this example we are looking at the IMD scores and decile ranks for Local Authorities (LAs) in Nottingham City and Nottinghamshire County.
-First, we define the corresponding Local Authority Codes to make it easier to work with only these regions.
+
+In this example we are looking at the IMD scores and decile ranks for Local Authorities (LAs) in Nottingham City and Nottinghamshire County. First, we define the corresponding Local Authority Codes to make it easier to work with only these regions.
 
 ```{r define-las}
-# In Nottinghamshire the LA City and the LAs County work together
-# Define code for Nott City LA
+# Nottingham City Local Authority and Nottinghamshire County Council LA areas often have their data combined, particularly for the Provider Trusts like Nottinghamshire Healthcare NHS Foundation Trust.
+
+# Define code for Nottingham City LA
 la_code_nott_city <- c("E06000018")
 
-# Define codes for Notts County LAs
+# Define codes for Nottinghamshire County Council LA districts (further details can be found here https://cdu-data-science-team.github.io/team-blog/posts/2021-05-14-index-of-multiple-deprivation/#imd-in-sql)
 la_code_notts_county <- c("E06000018", "E07000170",  "E07000171", "E07000172", 
                           "E07000173",  "E07000174", "E07000175", "E07000176")
 
-# Combine all LAs into one object
+# Combine all districts into one object
 la_code_nott_city_notts_county <- c(la_code_nott_city, la_code_notts_county)
 ```
 
@@ -47,15 +48,16 @@ Figure 1 shows the raw scores for each of the different LAs with colour codings 
 
 ```{r fig.width=7, fig.height=5}
 imd %>%   
-  mutate(imd_decile = factor(imd_decile,
+  mutate(imd_decile_factor = factor(imd_decile,
                              levels = 1:10,
                              labels = c("1 - Most deprived", 2:9, "10 - Least deprived"))) %>% 
   filter(la_code %in% la_code_nott_city_notts_county) %>% 
-  ggplot(aes(x = imd_score, y = la_name, fill = factor(imd_decile))) +
+  ggplot(aes(x = imd_score, y = la_name, fill = imd_decile_factor)) +
   geom_jitter(shape = 21, height = .2, alpha = 0.8, size = 2) +
-  scale_fill_viridis_d(direction = 1) +
+  scale_fill_viridis_d(direction = -1) +
   labs(x = "IMD score", fill = "ENG IMD decile", size = "ENG IMD decile", y = NULL) +
-  ggtitle("Fig. 1. IMD scores for LSOAs in Nott City and Notts County")
+  ggtitle("Fig. 1. IMD scores for LSOAs in Nott City and Notts County") +
+  scale_x_reverse() 
 ```
 
 <!-- The distribution of the IMD deciles calculated on data from the entire country can be unequal within some Local Authorities (LAs) or groups of LAs. -->
@@ -63,15 +65,13 @@ imd %>%
 
 ## IMD ranks
 
-As mentioned above, these raw IMD scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country.
-For the decile scores, lower deciles are representing 'more deprived' areas while higher deciles represent 'less deprived' areas.
-This can be confusing because IMD scores and IMD deciles are scored in opposite directions.
+As mentioned above, these raw IMD scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country. For the decile scores, lower deciles are representing 'more deprived' areas while higher deciles represent 'less deprived'. This can be confusing because IMD scores and IMD deciles are scored in opposite directions.
 
 ### England IMD deciles
 
-Figure 2.1 below illustrates that the distribution of IMD deciles calculated based on the whole country (England) can be relatively unequal when comparing individual LAs (e.g., Nottingham (City) versus Rushcliffe).
-In some cases using the deciles calculated based on IMD scores for the entire country may miss important regional differences and it could be useful to recalculate IMD deciles within Local Authorities.
-The @MinistryofHousingCommunitiesLocalGovernment2019 has given some guidance on how to calculate and analyse IMD scores, however there are no clear examples or guidance when and how to calculate local IMD ranks.
+Figure 2.1 below illustrates that the distribution of IMD deciles calculated based on the whole country (England) can be relatively unequal when comparing individual LAs (e.g., Nottingham (City) versus Rushcliffe). In some cases using the deciles calculated based on IMD scores for the entire country may miss important regional differences and it could be useful to recalculate IMD deciles within Local Authorities. 
+
+Whilst the @MinistryofHousingCommunitiesLocalGovernment2019 has given some guidance on how to calculate and analyse IMD scores, there are no clear examples or guidance when and how to calculate local IMD ranks.
 
 ```{r fig.width=7, fig.height=5}
 # Plot deciles ----
@@ -106,10 +106,14 @@ imd %>%
 
 ### Calculate 'local' IMD deciles within Local Authorities
 
-The following example illustrates how local IMD ranks can be calculated within a selected group of LAs (see first code chunk where a list of LA codes is defined: `la_code_nott_city_notts_county`)
-To recalculate IMD deciles for Local Authorities the data needs to be grouped by a defined group of Local Authorities (see code below, the variable `la_group` gets calculated for this example) and year of the IMD score ('`group_by(la_code, imd_year)`').
-Next, calculate deciles using the function '`dplyr::ntile()`' by specifying '`n = 10`'.
-To calculate quintiles (5 groups) the argument would need to be changed to `n = 5`.
+The following example illustrates how local IMD ranks can be calculated within a selected group of LAs (see first code chunk where a list of LA codes is defined: `la_code_nott_city_notts_county`). 
+
+* To recalculate IMD deciles for Local Authorities the data needs to be grouped by a defined group of Local Authorities (see code below, the variable `la_group` gets calculated for this example) and year of the IMD score ('`group_by(la_code, imd_year)`').
+
+* Next, calculate deciles using the function '`dplyr::ntile()`' by specifying '`n = 10`'.
+
+* To calculate quintiles (5 groups) the argument would need to be changed to `n = 5`.
+
 To take into account that IMD scores and IMD ranks are scored in the opposite direction, we need to add a minus before the IMD score: `ntile(-imd_score, n = 10)`.
 
 ```{r}
@@ -163,9 +167,13 @@ imd_by_la %>%
 ## Compare distributions of IMD deciles 
 
 The changes in IMD decile ranks can be seen when comparing the bar plots shown above (e.g., Fig 2.2 vs. Fig 3.2) -- but they can be hard to spot.
+
 Changes in the distribution of IMD deciles (see density plots in Figure 4) illustrate the effect of recalculating 'local' IMD scores a bit clearer.
-The plot on the left with the title '**ENG IMD**' shows the distribution of IMD deciles when all IMD scores in England were used to calculate the decile ranks.
-The plot on the right (**Local IMD**) shows the distribution of IMD deciles when only the IMD scores of the selected LAs were used.
+
+* The plot on the left with the title '**ENG IMD**' shows the distribution of IMD deciles when all IMD scores in England were used to calculate the decile ranks.
+
+* The plot on the right (**Local IMD**) shows the distribution of IMD deciles when only the IMD scores of the selected LAs were used.
+
 The effect of recalculating local IMD scores can be seen in changes in the shape of the density distribution (e.g., narrow shape vs flat shape, changes of the peak on the x axis) for the individual IMD deciles.
 
 
@@ -190,6 +198,6 @@ imd_by_la %>%
 
 ## Additional resources
 
-A blog post by @Turner2021IMD also discusses how to calculate local IMD scores illustrating examples in SQL and R.
+A blog post by [Nottinghamshire Healthcare NHS Foundation Trust's CDU Data Science Team](https://cdu-data-science-team.github.io/team-blog/posts/2021-05-14-index-of-multiple-deprivation/#imd-in-sql) also discusses how to calculate local IMD scores illustrating examples in SQL and R.
 
 ## References
