@@ -87,19 +87,19 @@
   <div class="contents col-md-9">
 <div id="lsoapop-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#lsoapop-" class="anchor"></a>LSOApop <a href="https://nhsrcommunity.com/"><img src="reference/figures/logo.png" align="right" height="80"></a>
+<a href="#lsoapop-" class="anchor"></a>LSOApop <a href="https://nhsrcommunity.com/"><img src="reference/figures/logo.png" align="right" height="60"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>LSOApop</code> is to make population estimates for <strong>Lower layer Super Output Areas (LSOA)</strong> and their <strong>Indecies of Multiple Deprivation (IMD)</strong> easily available in R. Population estimates are broken down by age (0 to 90+) and gender (female/male). Information about the original sources of the data and a transparent description of all transformation of the data that is made available in this package can be found in this repository, see <code>"data-raw/imd.R</code> and <code>"data-raw/lsoa.R</code>. Main changes to the original data structures include (1) the transformation from wide to long data, (2) the addition of further information that was only available in variable names, and (3) renaming variables in a consistent way.</p>
+<p>The goal of <code>LSOApop</code> is to make population estimates for <strong>Lower layer Super Output Areas (LSOA)</strong> and their <strong>Indices of Multiple Deprivation (IMD)</strong> easily available in R. Population estimates are broken down by age (0 to 90+) and gender (female/male). Information about the original sources of the data and a transparent description of all transformation of the data that is made available in this package can be found in this repository, see <code>"data-raw/imd.R</code> and <code>"data-raw/lsoa.R</code>. Main changes to the original data structures include (1) the transformation from wide to long data, (2) the addition of further information that was only available in variable names, and (3) renaming variables in a consistent way.</p>
 <p>The current version of this package only includes LSOA population estimates and IMD scores for the year 2019 for England. Because we store quite a lot in this package it currently relatively large (~9mb) compared to other packages.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the current version of <code>LSOApop</code> from <a href="https://github.com/nhs-r-community/LSOApop">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"nhs-r-community/LSOApop"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"nhs-r-community/LSOApop"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
@@ -108,9 +108,9 @@
 <code class="sourceCode R"><span class="co"># Load the package</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://nhs-r-community.github.io/LSOApop/">LSOApop</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── This is LSOApop 0.0.2 ───────────────────────────────────────────────────────</span>
-<span class="co">#&gt; ℹ Please report any issues or ideas at:</span>
-<span class="co">#&gt; ℹ https://github.com/nhs-r-community/LSOApop/issues</span></code></pre></div>
+<span class="co">#&gt; -- This is LSOApop 0.0.2 -------------------------------------------------------</span>
+<span class="co">#&gt; i Please report any issues or ideas at:</span>
+<span class="co">#&gt; i https://github.com/nhs-r-community/LSOApop/issues</span></code></pre></div>
 <div id="lower-layer-super-output-areas-lsoa" class="section level3">
 <h3 class="hasAnchor">
 <a href="#lower-layer-super-output-areas-lsoa" class="anchor"></a>Lower layer Super Output Areas (LSOA)</h3>
@@ -134,9 +134,9 @@
 <span class="co">#&gt; 5      f     2019 11</span>
 <span class="co">#&gt; 6      f     2019  5</span></code></pre></div>
 </div>
-<div id="indecies-of-multiple-deprivation-imd" class="section level3">
+<div id="indices-of-multiple-deprivation-imd" class="section level3">
 <h3 class="hasAnchor">
-<a href="#indecies-of-multiple-deprivation-imd" class="anchor"></a>Indecies of Multiple Deprivation (IMD)</h3>
+<a href="#indices-of-multiple-deprivation-imd" class="anchor"></a>Indices of Multiple Deprivation (IMD)</h3>
 <p>The IMD scores (raw scores and ranked deciles) and available in the dataset <code>imd</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Show the first 6 rows of the dataset</span>
@@ -168,6 +168,11 @@
 <a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
 <p>Please note that the <code>LSOApop</code> project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
+<div id="special-note-of-thanks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#special-note-of-thanks" class="anchor"></a>Special note of thanks</h2>
+<p>This package was originally created by <a href="https://github.com/milanwiedemann">Milan Wiedemann</a>.</p>
+</div>
 </div>
   </div>
 
@@ -197,8 +202,8 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Milan Wiedemann <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-1991-282X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Zoe Turner <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-1033-9158" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Zoë Turner <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-1033-9158" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Milan Wiedemann <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-1991-282X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Chris Beeley <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-2344-9962" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
@@ -214,7 +219,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Milan Wiedemann, Zoe Turner, Chris Beeley.</p>
+  <p>Developed by Zoë Turner, Milan Wiedemann, Chris Beeley.</p>
 </div>
 
 <div class="pkgdown">

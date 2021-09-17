@@ -16,13 +16,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, message=F, warning=F}
+```{r setup, message=FALSE, warning=FALSE}
 # Load R packages ----
 library(LSOApop)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(patchwork)
+
 ```
 
 [Indices of Multiple Deprivation (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) describe the deprivation of [Lower layer Super Output Areas (LSOAs)](https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas) with scores ranging from `r min(imd$imd_score)` to `r max(imd$imd_score)` for the year 2019.
@@ -200,4 +201,9 @@ imd_by_la %>%
 
 A blog post by @Turner2021IMD also discusses how to calculate local IMD scores illustrating examples in SQL and R.
 
+## Notes for anyone contributing to the html and vignettes 
+
+The pages built here https://nhs-r-community.github.io/LSOApop/ have been done using the package [{pkgdown}](https://pkgdown.r-lib.org/). In order to rebuild the pages after any changes use `pkgdown::build_site()` in the console. There will be a number of changes to the supporting files in the folder `docs/` which all then need to be committed.
+
 ## References
+<!-- References are compiled automatically from text in the main areas preceded by the @ sign like @Turner2021IMD. This note is hidden from the published sites. -->

@@ -83,7 +83,7 @@
 
       
 
-      </header><script src="calc-imd-ranks-within-la_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="calc-imd-ranks-within-la_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>How to calculate ‘local’ IMD ranks</h1>
@@ -103,41 +103,45 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></code></pre></div>
-<p><a href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019">Indices of Multiple Deprivation (IMD)</a> describe the deprivation of <a href="https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas">Lower layer Super Output Areas (LSOAs)</a> with scores ranging from 0.541 to 92.735 for the year 2019. In this example we are looking at the IMD scores and decile ranks for Local Authorities (LAs) in Nottingham City and Nottinghamshire County. First, we define the corresponding Local Authority Codes to make it easier to work with only these regions.</p>
+<p><a href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019">Indices of Multiple Deprivation (IMD)</a> describe the deprivation of <a href="https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas">Lower layer Super Output Areas (LSOAs)</a> with scores ranging from 0.541 to 92.735 for the year 2019.</p>
+<p>In this example we are looking at the IMD scores and decile ranks for Local Authorities (LAs) in Nottingham City and Nottinghamshire County. First, we define the corresponding Local Authority Codes to make it easier to work with only these regions.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># In Nottinghamshire the LA City and the LAs County work together</span>
-<span class="co"># Define code for Nott City LA</span>
+<code class="sourceCode R"><span class="co"># Nottingham City Local Authority and Nottinghamshire County Council LA areas often have their data combined, particularly for the Provider Trusts like Nottinghamshire Healthcare NHS Foundation Trust.</span>
+
+<span class="co"># Define code for Nottingham City LA</span>
 <span class="va">la_code_nott_city</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"E06000018"</span><span class="op">)</span>
 
-<span class="co"># Define codes for Notts County LAs</span>
+<span class="co"># Define codes for Nottinghamshire County Council LA districts (further details can be found here https://cdu-data-science-team.github.io/team-blog/posts/2021-05-14-index-of-multiple-deprivation/#imd-in-sql)</span>
 <span class="va">la_code_notts_county</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"E06000018"</span>, <span class="st">"E07000170"</span>,  <span class="st">"E07000171"</span>, <span class="st">"E07000172"</span>, 
                           <span class="st">"E07000173"</span>,  <span class="st">"E07000174"</span>, <span class="st">"E07000175"</span>, <span class="st">"E07000176"</span><span class="op">)</span>
 
-<span class="co"># Combine all LAs into one object</span>
+<span class="co"># Combine all districts into one object</span>
 <span class="va">la_code_nott_city_notts_county</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">la_code_nott_city</span>, <span class="va">la_code_notts_county</span><span class="op">)</span></code></pre></div>
 <p>Lower IMD scores indicate ‘less deprivation’ areas while higher IMD scores indicate ‘more deprivation.’ Figure 1 shows the raw scores for each of the different LAs with colour codings for the IMD decile ranks that were calculated using data from all LAs in England.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">imd</span> <span class="op">%&gt;%</span>   
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>imd_decile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">imd_decile</span>,
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>imd_decile_factor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">imd_decile</span>,
                              levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,
                              labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1 - Most deprived"</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">9</span>, <span class="st">"10 - Least deprived"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">la_code</span> <span class="op">%in%</span> <span class="va">la_code_nott_city_notts_county</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">imd_score</span>, y <span class="op">=</span> <span class="va">la_name</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">imd_decile</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">imd_score</span>, y <span class="op">=</span> <span class="va">la_name</span>, fill <span class="op">=</span> <span class="va">imd_decile_factor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">21</span>, height <span class="op">=</span> <span class="fl">.2</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"IMD score"</span>, fill <span class="op">=</span> <span class="st">"ENG IMD decile"</span>, size <span class="op">=</span> <span class="st">"ENG IMD decile"</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Fig. 1. IMD scores for LSOAs in Nott City and Notts County"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Fig. 1. IMD scores for LSOAs in Nott City and Notts County"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_reverse</a></span><span class="op">(</span><span class="op">)</span> </code></pre></div>
 <p><img src="calc-imd-ranks-within-la_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <!-- The distribution of the IMD deciles calculated on data from the entire country can be unequal within some Local Authorities (LAs) or groups of LAs. -->
 <!-- This example illustrates this for the LA Nottingham 'City' and the LAs in Nottinghamshire 'County'. -->
 <div id="imd-ranks" class="section level2">
 <h2 class="hasAnchor">
 <a href="#imd-ranks" class="anchor"></a>IMD ranks</h2>
-<p>As mentioned above, these raw IMD scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country. For the decile scores, lower deciles are representing ‘more deprived’ areas while higher deciles represent ‘less deprived’ areas. This can be confusing because IMD scores and IMD deciles are scored in opposite directions.</p>
+<p>As mentioned above, these raw IMD scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country. For the decile scores, lower deciles are representing ‘more deprived’ areas while higher deciles represent ‘less deprived.’ This can be confusing because IMD scores and IMD deciles are scored in opposite directions.</p>
 <div id="england-imd-deciles" class="section level3">
 <h3 class="hasAnchor">
 <a href="#england-imd-deciles" class="anchor"></a>England IMD deciles</h3>
-<p>Figure 2.1 below illustrates that the distribution of IMD deciles calculated based on the whole country (England) can be relatively unequal when comparing individual LAs (e.g., Nottingham (City) versus Rushcliffe). In some cases using the deciles calculated based on IMD scores for the entire country may miss important regional differences and it could be useful to recalculate IMD deciles within Local Authorities. The <span class="citation"><a href="#ref-MinistryofHousingCommunitiesLocalGovernment2019" role="doc-biblioref">Ministry of Housing, Communities &amp; Local Government</a> (<a href="#ref-MinistryofHousingCommunitiesLocalGovernment2019" role="doc-biblioref">2019</a>)</span> has given some guidance on how to calculate and analyse IMD scores, however there are no clear examples or guidance when and how to calculate local IMD ranks.</p>
+<p>Figure 2.1 below illustrates that the distribution of IMD deciles calculated based on the whole country (England) can be relatively unequal when comparing individual LAs (e.g., Nottingham (City) versus Rushcliffe). In some cases using the deciles calculated based on IMD scores for the entire country may miss important regional differences and it could be useful to recalculate IMD deciles within Local Authorities.</p>
+<p>Whilst the <span class="citation"><a href="#ref-MinistryofHousingCommunitiesLocalGovernment2019" role="doc-biblioref">Ministry of Housing, Communities &amp; Local Government</a> (<a href="#ref-MinistryofHousingCommunitiesLocalGovernment2019" role="doc-biblioref">2019</a>)</span> has given some guidance on how to calculate and analyse IMD scores, there are no clear examples or guidance when and how to calculate local IMD ranks.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot deciles ----</span>
 <span class="va">imd</span> <span class="op">%&gt;%</span>   
@@ -170,7 +174,13 @@
 <div id="calculate-local-imd-deciles-within-local-authorities" class="section level3">
 <h3 class="hasAnchor">
 <a href="#calculate-local-imd-deciles-within-local-authorities" class="anchor"></a>Calculate ‘local’ IMD deciles within Local Authorities</h3>
-<p>The following example illustrates how local IMD ranks can be calculated within a selected group of LAs (see first code chunk where a list of LA codes is defined: <code>la_code_nott_city_notts_county</code>) To recalculate IMD deciles for Local Authorities the data needs to be grouped by a defined group of Local Authorities (see code below, the variable <code>la_group</code> gets calculated for this example) and year of the IMD score (‘<code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by(la_code, imd_year)</a></code>’). Next, calculate deciles using the function ‘<code><a href="https://dplyr.tidyverse.org/reference/ranking.html">dplyr::ntile()</a></code>’ by specifying ‘<code>n = 10</code>.’ To calculate quintiles (5 groups) the argument would need to be changed to <code>n = 5</code>. To take into account that IMD scores and IMD ranks are scored in the opposite direction, we need to add a minus before the IMD score: <code><a href="https://dplyr.tidyverse.org/reference/ranking.html">ntile(-imd_score, n = 10)</a></code>.</p>
+<p>The following example illustrates how local IMD ranks can be calculated within a selected group of LAs (see first code chunk where a list of LA codes is defined: <code>la_code_nott_city_notts_county</code>).</p>
+<ul>
+<li><p>To recalculate IMD deciles for Local Authorities the data needs to be grouped by a defined group of Local Authorities (see code below, the variable <code>la_group</code> gets calculated for this example) and year of the IMD score (‘<code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by(la_code, imd_year)</a></code>’).</p></li>
+<li><p>Next, calculate deciles using the function ‘<code><a href="https://dplyr.tidyverse.org/reference/ranking.html">dplyr::ntile()</a></code>’ by specifying ‘<code>n = 10</code>.’</p></li>
+<li><p>To calculate quintiles (5 groups) the argument would need to be changed to <code>n = 5</code>.</p></li>
+</ul>
+<p>To take into account that IMD scores and IMD ranks are scored in the opposite direction, we need to add a minus before the IMD score: <code><a href="https://dplyr.tidyverse.org/reference/ranking.html">ntile(-imd_score, n = 10)</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate IMD decile ranks (n = 10) for local authorities ----</span>
 <span class="va">imd_by_la</span> <span class="op">&lt;-</span> <span class="va">imd</span> <span class="op">%&gt;%</span> 
@@ -218,7 +228,13 @@
 <div id="compare-distributions-of-imd-deciles" class="section level2">
 <h2 class="hasAnchor">
 <a href="#compare-distributions-of-imd-deciles" class="anchor"></a>Compare distributions of IMD deciles</h2>
-<p>The changes in IMD decile ranks can be seen when comparing the bar plots shown above (e.g., Fig 2.2 vs. Fig 3.2) – but they can be hard to spot. Changes in the distribution of IMD deciles (see density plots in Figure 4) illustrate the effect of recalculating ‘local’ IMD scores a bit clearer. The plot on the left with the title ‘<strong>ENG IMD</strong>’ shows the distribution of IMD deciles when all IMD scores in England were used to calculate the decile ranks. The plot on the right (<strong>Local IMD</strong>) shows the distribution of IMD deciles when only the IMD scores of the selected LAs were used. The effect of recalculating local IMD scores can be seen in changes in the shape of the density distribution (e.g., narrow shape vs flat shape, changes of the peak on the x axis) for the individual IMD deciles.</p>
+<p>The changes in IMD decile ranks can be seen when comparing the bar plots shown above (e.g., Fig 2.2 vs. Fig 3.2) – but they can be hard to spot.</p>
+<p>Changes in the distribution of IMD deciles (see density plots in Figure 4) illustrate the effect of recalculating ‘local’ IMD scores a bit clearer.</p>
+<ul>
+<li><p>The plot on the left with the title ‘<strong>ENG IMD</strong>’ shows the distribution of IMD deciles when all IMD scores in England were used to calculate the decile ranks.</p></li>
+<li><p>The plot on the right (<strong>Local IMD</strong>) shows the distribution of IMD deciles when only the IMD scores of the selected LAs were used.</p></li>
+</ul>
+<p>The effect of recalculating local IMD scores can be seen in changes in the shape of the density distribution (e.g., narrow shape vs flat shape, changes of the peak on the x axis) for the individual IMD deciles.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">imd_by_la</span> <span class="op">%&gt;%</span>   
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">imd_decile</span>, <span class="va">imd_decile_la</span><span class="op">)</span>, 
@@ -242,9 +258,15 @@
 <a href="#additional-resources" class="anchor"></a>Additional resources</h2>
 <p>A blog post by <span class="citation"><a href="#ref-Turner2021IMD" role="doc-biblioref">Turner</a> (<a href="#ref-Turner2021IMD" role="doc-biblioref">2021</a>)</span> also discusses how to calculate local IMD scores illustrating examples in SQL and R.</p>
 </div>
-<div id="references" class="section level2 unnumbered">
+<div id="notes-for-anyone-contributing-to-the-html-and-vignettes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#notes-for-anyone-contributing-to-the-html-and-vignettes" class="anchor"></a>Notes for anyone contributing to the html and vignettes</h2>
+<p>The pages built here <a href="https://nhs-r-community.github.io/LSOApop/" class="uri">https://nhs-r-community.github.io/LSOApop/</a> have been done using the package <a href="https://pkgdown.r-lib.org/">{pkgdown}</a>. In order to rebuild the pages after any changes use <code><a href="https://pkgdown.r-lib.org/reference/build_site.html">pkgdown::build_site()</a></code> in the console. There will be a number of changes to the supporting files in the folder <code>docs/</code> which all then need to be committed.</p>
+</div>
+<div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
+<!-- References are compiled automatically from text in the main areas preceded by the @ sign like @Turner2021IMD -->
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-MinistryofHousingCommunitiesLocalGovernment2019" class="csl-entry">
 Ministry of Housing, Communities &amp; Local Government. 2019. <span>“The English Indices of Deprivation 2019 - Frequently Asked Questions (FAQs).”</span> <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/853811/IoD2019_FAQ_v4.pdf">https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/853811/IoD2019_FAQ_v4.pdf</a>.
@@ -267,7 +289,7 @@ Turner, Zoë. 2021. <span>“CDU Data Science Team Blog: Index of Multiple Depri
 
 
       <footer><div class="copyright">
-  <p>Developed by Milan Wiedemann, Zoe Turner, Chris Beeley.</p>
+  <p>Developed by Zoë Turner, Milan Wiedemann, Chris Beeley.</p>
 </div>
 
 <div class="pkgdown">
