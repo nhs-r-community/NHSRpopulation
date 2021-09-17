@@ -198,6 +198,6 @@ imd_by_la %>%
 
 ## Additional resources
 
-A blog post by [Nottinghamshire Healthcare NHS Foundation Trust's CDU Data Science Team](https://cdu-data-science-team.github.io/team-blog/posts/2021-05-14-index-of-multiple-deprivation/#imd-in-sql) also discusses how to calculate local IMD scores illustrating examples in SQL and R.
+A blog post by @Turner2021IMD also discusses how to calculate local IMD scores illustrating examples in SQL and R.
 
 ## References
