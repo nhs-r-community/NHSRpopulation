@@ -1,5 +1,5 @@
 Package: NHSRpopulation
-Title: Lower layer Super Output Area (LSOA) population estimates and Indecies of Multiple Deprivation (IMD) for England
+Title: Lower layer Super Output Area (LSOA) population estimates and Indices of Multiple Deprivation (IMD) for England
 Date: 2021-07-08
 Version: 0.0.2
 Authors@R: c(
@@ -8,12 +8,12 @@ Authors@R: c(
   person("Chris", "Beeley", role = c("aut"), comment = c(ORCID = "0000-0003-2344-9962")))
 Description: This package provides Lower layer Super Output Area (LSOA) population estimates and their Indecies of Multiple Deprivation (IMD) for England
 License: MIT + file LICENSE
-URL: https://nhs-r-community.github.io/LSOApop/
-BugReports: https://github.com/nhs-r-community/LSOApop/issues
+URL: https://nhs-r-community.github.io/NHSRpopulation/
+BugReports: https://github.com/nhs-r-community/NHSRpopulation/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Imports: 
     dplyr,
     magrittr,

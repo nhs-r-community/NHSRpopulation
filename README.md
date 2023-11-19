@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# LSOApop <a href='https://nhsrcommunity.com/'><img src='man/figures/logo.png' align="right" height="60" /></a>
+# NHSRpopulation <a href='https://nhsrcommunity.com/'><img src='man/figures/logo.png' align="right" height="60" /></a>
 
 <!-- badges: start -->
 
@@ -9,42 +9,42 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of `LSOApop` is to make population estimates for **Lower layer
-Super Output Areas (LSOA)** and their **Indices of Multiple Deprivation
-(IMD)** easily available in R. Population estimates are broken down by
-age (0 to 90+) and gender (female/male). Information about the original
-sources of the data and a transparent description of all transformation
-of the data that is made available in this package can be found in this
-repository, see `"data-raw/imd.R` and `"data-raw/lsoa.R`. Main changes
-to the original data structures include (1) the transformation from wide
-to long data, (2) the addition of further information that was only
-available in variable names, and (3) renaming variables in a consistent
-way.
+The goal of `NHSRpopulation` is to make population estimates for **Lower
+layer Super Output Areas (LSOA)** and their **Indices of Multiple
+Deprivation (IMD)** easily available in R. Population estimates are
+broken down by age (0 to 90+) and gender (female/male). Information
+about the original sources of the data and a transparent description of
+all transformation of the data that is made available in this package
+can be found in this repository, see `"data-raw/imd.R` and
+`"data-raw/lsoa.R`. Main changes to the original data structures include
+(1) the transformation from wide to long data, (2) the addition of
+further information that was only available in variable names, and (3)
+renaming variables in a consistent way.
 
 The current version of this package only includes LSOA population
 estimates and IMD scores for the year 2019 for England. Because we store
-quite a lot in this package it currently relatively large (\~9mb)
+quite a lot in this package it currently relatively large (~9mb)
 compared to other packages.
 
 ## Installation
 
-You can install the current version of `LSOApop` from
-[GitHub](https://github.com/nhs-r-community/LSOApop) with:
+You can install the current version of `NHSRpopulation` from
+[GitHub](https://github.com/nhs-r-community/NHSRpopulation) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("nhs-r-community/LSOApop")
+remotes::install_github("nhs-r-community/NHSRpopulation")
 ```
 
 ## Example
 
 ``` r
 # Load the package
-library(LSOApop)
+library(NHSRpopulation)
 #> 
-#> -- This is LSOApop 0.0.2 -------------------------------------------------------
-#> i Please report any issues or ideas at:
-#> i https://github.com/nhs-r-community/LSOApop/issues
+#> ── This is NHSRpopulation 0.0.2 ────────────────────────────────────────────────
+#> ℹ Please report any issues or ideas at:
+#> ℹ https://github.com/nhs-r-community/NHSRpopulation/issues
 ```
 
 ### Lower layer Super Output Areas (LSOA)
@@ -105,8 +105,8 @@ v3.0](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
 
 ## Code of Conduct
 
-Please note that the `LSOApop` project is released with a [Contributor
-Code of
+Please note that the `NHSRpopulation` project is released with a
+[Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
