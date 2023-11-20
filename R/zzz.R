@@ -6,5 +6,5 @@
 
   cli::cli_h1(paste0("This is ", pkgname, " ", version))
   cli::cli_alert_info(paste0("Please report any issues or ideas at:"))
-  cli::cli_alert_info("https://github.com/nhs-r-community/LSOApop/issues")
+  cli::cli_alert_info("https://github.com/nhs-r-community/NHSRpopulation/issues")
 }

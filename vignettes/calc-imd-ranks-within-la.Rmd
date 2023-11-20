@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, message=FALSE, warning=FALSE}
 # Load R packages ----
-library(LSOApop)
+library(NHSRpopulation)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
@@ -203,7 +203,7 @@ A blog post by @Turner2021IMD also discusses how to calculate local IMD scores i
 
 ## Notes for anyone contributing to the html and vignettes 
 
-The pages built here https://nhs-r-community.github.io/LSOApop/ have been done using the package [{pkgdown}](https://pkgdown.r-lib.org/). In order to rebuild the pages after any changes use `pkgdown::build_site()` in the console. There will be a number of changes to the supporting files in the folder `docs/` which all then need to be committed.
+The pages built here https://nhs-r-community.github.io/NHSRpopulation/ have been done using the package [{pkgdown}](https://pkgdown.r-lib.org/). In order to rebuild the pages after any changes use `pkgdown::build_site()` in the console. There will be a number of changes to the supporting files in the folder `docs/` which all then need to be committed.
 
 ## References
 <!-- References are compiled automatically from text in the main areas preceded by the @ sign like @Turner2021IMD. This note is hidden from the published sites. -->
