@@ -1,7 +1,4 @@
-destination: docs
+url: https://nhs-r-community.github.io/NHSRpopulation/
+template:
+  bootstrap: 5
 
-reference:
-- title: "Datasets"
-  contents:
-  - imd
-  - lsoa
