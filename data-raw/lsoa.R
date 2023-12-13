@@ -6,7 +6,7 @@ library(janitor)
 
 # URL to zipped data
 # url_lsoa <- "https://www.ons.gov.uk/file?uri=%2fpeoplepopulationandcommunity%2fpopulationandmigration%2fpopulationestimates%2fdatasets%2flowersuperoutputareamidyearpopulationestimates%2fmid2019sape22dt2/sape22dt2mid2019lsoasyoaestimatesunformatted.zip"
-# dont know how to unzip without saving file, so just downloading it and adding it to the folder, alltho this is really large and annoying
+# don't know how to unzip without saving file, so just downloading it and adding it to the folder, although this is really large and annoying
 
 # LSOA 2019 scores ----
 ## Estimates for male
@@ -58,7 +58,8 @@ df_f_long <- df_f_wide %>%
     est_year = 2019,
     gender = "f"
   ) %>%
-  relocate(lsoa_year, lsoa_code, lsoa_name, la_year, la_code, la_name, age, gender, est_year, n)
+  relocate(lsoa_year, lsoa_code, lsoa_name, la_year,
+           la_code, la_name, age, gender, est_year, n)
 
 df_m_long <- df_m_wide %>%
   pivot_longer(
@@ -81,7 +82,8 @@ df_m_long <- df_m_wide %>%
     est_year = 2019,
     gender = "m"
   ) %>%
-  relocate(lsoa_year, lsoa_code, lsoa_name, la_year, la_code, la_name, age, gender, est_year, n)
+  relocate(lsoa_year, lsoa_code, lsoa_name, la_year,
+           la_code, la_name, age, gender, est_year, n)
 
 # Join data and arrange by code
 lsoa <- df_f_long %>%
