@@ -23,65 +23,96 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(patchwork)
-
 ```
 
 [Indices of Multiple Deprivation (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) describe the deprivation of [Lower layer Super Output Areas (LSOAs)](https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas) with scores ranging from `r min(imd$imd_score)` to `r max(imd$imd_score)` for the year 2019.
 
-In this example we are looking at the IMD scores and decile ranks for Local Authorities (LAs) in Nottingham City and Nottinghamshire County. 
-First, we define the corresponding Local Authority Codes to make it easier to work with only these regions.
+In this example we are looking at the IMD scores and decile ranks for Local 
+Authorities (LAs) in Nottingham City and Nottinghamshire County. 
+First, we define the corresponding Local Authority Codes to make it easier to 
+work with only these regions.
 
 ```{r define-las}
-# Nottingham City Local Authority and Nottinghamshire County Council LA areas often have their data combined, particularly for the Provider Trusts like Nottinghamshire Healthcare NHS Foundation Trust.
+# Nottingham City Local Authority and Nottinghamshire County Council LA areas
+# often have their data combined, particularly for the Provider
+# Trusts like Nottinghamshire Healthcare NHS Foundation Trust.
 
 # Define code for Nottingham City LA
 la_code_nott_city <- c("E06000018")
 
-# Define codes for Nottinghamshire County Council LA districts (further details can be found here https://cdu-data-science-team.github.io/team-blog/posts/2021-05-14-index-of-multiple-deprivation/#imd-in-sql)
-la_code_notts_county <- c("E06000018", "E07000170",  "E07000171", "E07000172", 
-                          "E07000173",  "E07000174", "E07000175", "E07000176")
+# Define codes for Nottinghamshire County Council LA districts (further details
+# can be found here
+# https://cdu-data-science-team.github.io/team-blog/posts/2021-05-14-index-of-multiple-deprivation/#imd-in-sql)
+la_code_notts_county <- c(
+  "E06000018", "E07000170", "E07000171", "E07000172",
+  "E07000173", "E07000174", "E07000175", "E07000176"
+)
 
 # Combine all districts into one object
 la_code_nott_city_notts_county <- c(la_code_nott_city, la_code_notts_county)
 ```
 
-Lower IMD scores indicate 'less deprivation' areas while higher IMD scores indicate 'more deprivation'.
-Figure 1 shows the raw scores for each of the different LAs with colour codings for the IMD decile ranks that were calculated using data from all LAs in England.
+Lower IMD scores indicate 'less deprivation' areas while higher IMD scores 
+indicate 'more deprivation'.
+Figure 1 shows the raw scores for each of the different LAs with colour codings 
+for the IMD decile ranks that were calculated using data from all LAs in 
+England.
 
 ```{r fig.width=7, fig.height=5}
-imd %>%   
+imd %>%
   mutate(imd_decile_factor = factor(imd_decile,
-                             levels = 1:10,
-                             labels = c("1 - Most deprived", 2:9, "10 - Least deprived"))) %>% 
-  filter(la_code %in% la_code_nott_city_notts_county) %>% 
+    levels = 1:10,
+    labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
+  )) %>%
+  filter(la_code %in% la_code_nott_city_notts_county) %>%
   ggplot(aes(x = imd_score, y = la_name, fill = imd_decile_factor)) +
   geom_jitter(shape = 21, height = .2, alpha = 0.8, size = 2) +
   scale_fill_viridis_d(direction = -1) +
-  labs(x = "IMD score", fill = "ENG IMD decile", size = "ENG IMD decile", y = NULL) +
+  labs(
+    x = "IMD score",
+    fill = "ENG IMD decile",
+    size = "ENG IMD decile",
+    y = NULL
+  ) +
   ggtitle("Fig. 1. IMD scores for LSOAs in Nott City and Notts County") +
-  scale_x_reverse() 
+  scale_x_reverse()
 ```
 
-<!-- The distribution of the IMD deciles calculated on data from the entire country can be unequal within some Local Authorities (LAs) or groups of LAs. -->
-<!-- This example illustrates this for the LA Nottingham 'City' and the LAs in Nottinghamshire 'County'. -->
+<!-- The distribution of the IMD deciles calculated on data from the entire 
+country can be unequal within some Local Authorities (LAs) or groups of LAs. -->
+<!-- This example illustrates this for the LA Nottingham 'City' and the LAs in 
+Nottinghamshire 'County'. -->
 
 ## IMD ranks
 
-As mentioned above, these raw IMD scores can be grouped based on their rank, usually 10 groups (deciles) are calculated based on the IMD scores of the entire country. For the decile scores, lower deciles are representing 'more deprived' areas while higher deciles represent 'less deprived'. This can be confusing because IMD scores and IMD deciles are scored in opposite directions.
+As mentioned above, these raw IMD scores can be grouped based on their rank, 
+usually 10 groups (deciles) are calculated based on the IMD scores of the entire 
+country. 
+For the decile scores, lower deciles are representing 'more deprived' areas 
+while higher deciles represent 'less deprived'. This can be confusing because 
+IMD scores and IMD deciles are scored in opposite directions.
 
 ### England IMD deciles
 
-Figure 2.1 below illustrates that the distribution of IMD deciles calculated based on the whole country (England) can be relatively unequal when comparing individual LAs (e.g., Nottingham (City) versus Rushcliffe). In some cases using the deciles calculated based on IMD scores for the entire country may miss important regional differences and it could be useful to recalculate IMD deciles within Local Authorities. 
+Figure 2.1 below illustrates that the distribution of IMD deciles calculated 
+based on the whole country (England) can be relatively unequal when comparing 
+individual LAs (e.g., Nottingham (City) versus Rushcliffe). 
+In some cases using the deciles calculated based on IMD scores for the entire 
+country may miss important regional differences and it could be useful to 
+recalculate IMD deciles within Local Authorities. 
 
-Whilst the @MinistryofHousingCommunitiesLocalGovernment2019 has given some guidance on how to calculate and analyse IMD scores, there are no clear examples or guidance when and how to calculate local IMD ranks.
+Whilst the @MinistryofHousingCommunitiesLocalGovernment2019 has given some 
+guidance on how to calculate and analyse IMD scores, there are no clear examples 
+or guidance when and how to calculate local IMD ranks.
 
 ```{r fig.width=7, fig.height=5}
 # Plot deciles ----
-imd %>%   
+imd %>%
   mutate(imd_decile = factor(imd_decile,
-                             levels = 1:10,
-                             labels = c("1 - Most deprived", 2:9, "10 - Least deprived"))) %>% 
-  filter(la_code %in% la_code_nott_city_notts_county) %>% 
+    levels = 1:10,
+    labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
+  )) %>%
+  filter(la_code %in% la_code_nott_city_notts_county) %>%
   ggplot(aes(factor(imd_decile), fill = factor(imd_decile))) +
   geom_bar() +
   scale_fill_viridis_d() +
@@ -92,11 +123,12 @@ imd %>%
 
 
 ```{r fig.width=7, fig.height=7}
-imd %>%   
+imd %>%
   mutate(imd_decile = factor(imd_decile,
-                             levels = 1:10,
-                             labels = c("1 - Most deprived", 2:9, "10 - Least deprived"))) %>% 
-  filter(la_code %in% la_code_nott_city_notts_county) %>% 
+    levels = 1:10,
+    labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
+  )) %>%
+  filter(la_code %in% la_code_nott_city_notts_county) %>%
   ggplot(aes(factor(imd_decile), fill = factor(imd_decile))) +
   geom_bar() +
   scale_fill_viridis_d() +
@@ -108,36 +140,49 @@ imd %>%
 
 ### Calculate 'local' IMD deciles within Local Authorities
 
-The following example illustrates how local IMD ranks can be calculated within a selected group of LAs (see first code chunk where a list of LA codes is defined: `la_code_nott_city_notts_county`). 
+The following example illustrates how local IMD ranks can be calculated within 
+a selected group of LAs (see first code chunk where a list of LA codes is 
+defined: `la_code_nott_city_notts_county`). 
 
-* To recalculate IMD deciles for Local Authorities the data needs to be grouped by a defined group of Local Authorities (see code below, the variable `la_group` gets calculated for this example) and year of the IMD score ('`group_by(la_code, imd_year)`').
+* To recalculate IMD deciles for Local Authorities the data needs to be grouped 
+by a defined group of Local Authorities (see code below, the variable `la_group` 
+gets calculated for this example) and year of the IMD score 
+('`group_by(la_code, imd_year)`').
 
-* Next, calculate deciles using the function '`dplyr::ntile()`' by specifying '`n = 10`'.
+* Next, calculate deciles using the function '`dplyr::ntile()`' by specifying 
+'`n = 10`'.
 
-* To calculate quintiles (5 groups) the argument would need to be changed to `n = 5`.
+* To calculate quintiles (5 groups) the argument would need to be changed to 
+`n = 5`.
 
-To take into account that IMD scores and IMD ranks are scored in the opposite direction, we need to add a minus before the IMD score: `ntile(-imd_score, n = 10)`.
+To take into account that IMD scores and IMD ranks are scored in the opposite 
+direction, we need to add a minus before the IMD score: 
+`ntile(-imd_score, n = 10)`.
 
 ```{r}
 # Calculate IMD decile ranks (n = 10) for local authorities ----
-imd_by_la <- imd %>% 
-  mutate(la_groups = case_when(la_code %in% la_code_nott_city_notts_county  ~ "notts_city_county")) %>%
-  filter(la_groups == "notts_city_county") %>% 
-  group_by(la_groups, imd_year) %>% 
+imd_by_la <- imd %>%
+  mutate(la_groups = case_when(
+    la_code %in% la_code_nott_city_notts_county ~ "notts_city_county"
+  )) %>%
+  filter(la_groups == "notts_city_county") %>%
+  group_by(la_groups, imd_year) %>%
   mutate(imd_decile_la = ntile(-imd_score, n = 10))
 ```
 
 ### Local IMD deciles for Nott City and Notts County
 
-As expected, Figure 3.1 shows an equal distribution of recalculated 'local' IMD deciles for the LAs Nottingham City and Nottinghamshire County.
+As expected, Figure 3.1 shows an equal distribution of recalculated 'local' IMD 
+deciles for the LAs Nottingham City and Nottinghamshire County.
 
 ```{r fig.width=7, fig.height=5}
 # Plot ENG and NOTTS deciles ----
-imd_by_la %>%   
+imd_by_la %>%
   mutate(imd_decile_la = factor(imd_decile_la,
-                             levels = 1:10,
-                             labels = c("1 - Most deprived", 2:9, "10 - Least deprived"))) %>% 
-  filter(la_code %in% la_code_nott_city_notts_county) %>% 
+    levels = 1:10,
+    labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
+  )) %>%
+  filter(la_code %in% la_code_nott_city_notts_county) %>%
   ggplot(aes(factor(imd_decile_la), fill = factor(imd_decile_la))) +
   geom_bar() +
   scale_fill_viridis_d() +
@@ -146,17 +191,22 @@ imd_by_la %>%
   ggtitle("Fig. 3.1. Combined 'local' IMD deciles for LSOAs in Nott City and Notts County")
 ```
 
-Figure 3.2 shows the recalculated 'local' IMD ranks for each individual selected LA.
-There are sill differences in the distributions of 'local' IMD ranks across the different LAs.
-However, these rankings were recalculated using only the IMD scores of the LAs that were of interest and may therefore be a better presentation of the variation across these LAs.
+Figure 3.2 shows the recalculated 'local' IMD ranks for each individual 
+selected LA.
+There are sill differences in the distributions of 'local' IMD ranks across the 
+different LAs.
+However, these rankings were recalculated using only the IMD scores of the LAs 
+that were of interest and may therefore be a better presentation of the 
+variation across these LAs.
 
 ```{r fig.width=7, fig.height=7}
 # Plot ENG and NOTTS deciles ----
-imd_by_la %>%   
+imd_by_la %>%
   mutate(imd_decile_la = factor(imd_decile_la,
-                             levels = 1:10,
-                             labels = c("1 - Most deprived", 2:9, "10 - Least deprived"))) %>% 
-  filter(la_code %in% la_code_nott_city_notts_county) %>% 
+    levels = 1:10,
+    labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
+  )) %>%
+  filter(la_code %in% la_code_nott_city_notts_county) %>%
   ggplot(aes(factor(imd_decile_la), fill = factor(imd_decile_la))) +
   geom_bar() +
   scale_fill_viridis_d() +
@@ -168,43 +218,62 @@ imd_by_la %>%
 
 ## Compare distributions of IMD deciles 
 
-The changes in IMD decile ranks can be seen when comparing the bar plots shown above (e.g., Fig 2.2 vs. Fig 3.2) -- but they can be hard to spot.
+The changes in IMD decile ranks can be seen when comparing the bar plots shown 
+above (e.g., Fig 2.2 vs. Fig 3.2) -- but they can be hard to spot.
 
-Changes in the distribution of IMD deciles (see density plots in Figure 4) illustrate the effect of recalculating 'local' IMD scores a bit clearer.
+Changes in the distribution of IMD deciles (see density plots in Figure 4) 
+illustrate the effect of recalculating 'local' IMD scores a bit clearer.
 
-* The plot on the left with the title '**ENG IMD**' shows the distribution of IMD deciles when all IMD scores in England were used to calculate the decile ranks.
+* The plot on the left with the title '**ENG IMD**' shows the distribution of 
+IMD deciles when all IMD scores in England were used to calculate the decile 
+ranks.
 
-* The plot on the right (**Local IMD**) shows the distribution of IMD deciles when only the IMD scores of the selected LAs were used.
+* The plot on the right (**Local IMD**) shows the distribution of IMD deciles 
+when only the IMD scores of the selected LAs were used.
 
-The effect of recalculating local IMD scores can be seen in changes in the shape of the density distribution (e.g., narrow shape vs flat shape, changes of the peak on the x axis) for the individual IMD deciles.
+The effect of recalculating local IMD scores can be seen in changes in the shape 
+of the density distribution (e.g., narrow shape vs flat shape, changes of the 
+peak on the x axis) for the individual IMD deciles.
 
 
 ```{r fig.width=7, fig.height=3.5}
-imd_by_la %>%   
-  pivot_longer(cols = c(imd_decile, imd_decile_la), 
-               names_to = "imd_method", values_to = "imd_value") %>% 
+imd_by_la %>%
+  pivot_longer(
+    cols = c(imd_decile, imd_decile_la),
+    names_to = "imd_method", values_to = "imd_value"
+  ) %>%
   mutate(imd_value = factor(imd_value,
-                             levels = 1:10,
-                             labels = c("1 - Most deprived", 2:9, "10 - Least deprived"))) %>% 
-  filter(la_code %in% la_code_nott_city_notts_county) %>% 
+    levels = 1:10,
+    labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
+  )) %>%
+  filter(la_code %in% la_code_nott_city_notts_county) %>%
   ggplot(aes(x = imd_score, fill = factor(imd_value))) +
   scale_fill_viridis_d(direction = 1) +
   labs(x = "IMD score", y = NULL, fill = "IMD decile") +
   geom_density(alpha = .6, adjust = 2) +
-  facet_wrap(~factor(imd_method,
-                     levels = c("imd_decile", "imd_decile_la"),
-                     labels = c("END IMD", "Local IMD"))) +
+  facet_wrap(~ factor(imd_method,
+                      levels = c("imd_decile",
+                                 "imd_decile_la"),
+                      labels = c("END IMD",
+                                 "Local IMD"))) +
   ggtitle("Fig. 4. Distributions of ENG and local IMD deciles")
 ```
 
 
 ## Additional resources
 
-A blog post by @Turner2021IMD also discusses how to calculate local IMD scores illustrating examples in SQL and R.
+A blog post by @Turner2021IMD also discusses how to calculate local IMD scores 
+illustrating examples in SQL and R.
 
 ## Notes for anyone contributing to the html and vignettes 
 
-The pages built here https://nhs-r-community.github.io/NHSRpopulation/ have been done using the package [{pkgdown}](https://pkgdown.r-lib.org/). In order to rebuild the pages after any changes use `pkgdown::build_site()` in the console. There will be a number of changes to the supporting files in the folder `docs/` which all then need to be committed.
+The pages built here https://nhs-r-community.github.io/NHSRpopulation/ have 
+been done using the package [{pkgdown}](https://pkgdown.r-lib.org/). 
+In order to rebuild the pages after any changes use `pkgdown::build_site()` in 
+the console. There will be a number of changes to the supporting files in the 
+folder `docs/` which all then need to be committed.
 
 ## References
-<!-- References are compiled automatically from text in the main areas preceded by the @ sign like @Turner2021IMD. This note is hidden from the published sites. -->
+<!-- References are compiled automatically from text in the main areas preceded 
+by the @ sign like @Turner2021IMD. This note is hidden from the 
+published sites. -->
