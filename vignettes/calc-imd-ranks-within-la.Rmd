@@ -28,7 +28,8 @@ library(patchwork)
 
 [Indices of Multiple Deprivation (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) describe the deprivation of [Lower layer Super Output Areas (LSOAs)](https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas) with scores ranging from `r min(imd$imd_score)` to `r max(imd$imd_score)` for the year 2019.
 
-In this example we are looking at the IMD scores and decile ranks for Local Authorities (LAs) in Nottingham City and Nottinghamshire County. First, we define the corresponding Local Authority Codes to make it easier to work with only these regions.
+In this example we are looking at the IMD scores and decile ranks for Local Authorities (LAs) in Nottingham City and Nottinghamshire County. 
+First, we define the corresponding Local Authority Codes to make it easier to work with only these regions.
 
 ```{r define-las}
 # Nottingham City Local Authority and Nottinghamshire County Council LA areas often have their data combined, particularly for the Provider Trusts like Nottinghamshire Healthcare NHS Foundation Trust.
