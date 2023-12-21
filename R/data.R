@@ -28,21 +28,26 @@ get_imd <- function(
     var = "postcode",
     fix_invalid = TRUE) {
 
+  # use {NHSRpostcodetools} to validate postcodes
   x <- NHSRpostcodetools::postcode_data_join(.data = .data)
 
-  where_clause <- paste0("PCDS IN ('", paste(x$new_postcode, collapse = "', '"), "')")
+  # Connect to ONS Postcode Directory
+  base_url <- "https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/Online_ONS_Postcode_Directory_Live/FeatureServer/0/query"
 
-  # Construct the full URL with outFields including 'PCDS'
-  base_url <- "https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/Online_ONS_Postcode_Directory_Live/FeatureServer/0/query?"
-  full_url <- paste0(base_url, "where=", utils::URLencode(where_clause), "&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=IMD%2C+LSOA11%2C+LSOA21%2C+ICB%2C+PCDS&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pgeojson&token=")
+  query_params <- list(
+    where = paste0("PCDS IN ('", paste(x$new_postcode, collapse = "', '"), "')"),
+    outFields = "IMD,LSOA11,LSOA21,ICB,PCDS",
+    returnCountOnly = FALSE,
+    f = "json"
+  )
 
   # Send a GET request to the API
-  response <- httr::GET(full_url)
+  response <- httr::GET(base_url, query = query_params)
 
   # Parse the JSON response
   response_list <- jsonlite::fromJSON(httr::content(response, "text"))
 
-  df <- data.frame(response_list$features$properties)
+  df <- data.frame(response_list$features$attributes)
 
   df |>
     dplyr::left_join(x |>
