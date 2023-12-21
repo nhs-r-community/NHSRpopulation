@@ -252,10 +252,15 @@ imd_by_la %>%
   labs(x = "IMD score", y = NULL, fill = "IMD decile") +
   geom_density(alpha = .6, adjust = 2) +
   facet_wrap(~ factor(imd_method,
-                      levels = c("imd_decile",
-                                 "imd_decile_la"),
-                      labels = c("END IMD",
-                                 "Local IMD"))) +
+    levels = c(
+      "imd_decile",
+      "imd_decile_la"
+    ),
+    labels = c(
+      "END IMD",
+      "Local IMD"
+    )
+  )) +
   ggtitle("Fig. 4. Distributions of ENG and local IMD deciles")
 ```
 
