@@ -19,6 +19,7 @@ Imports:
     dplyr,
     ggplot2,
     magrittr,
+    NHSRpostcodetools,
     patchwork,
     tidyr
 Depends: 
@@ -26,4 +27,5 @@ Depends:
 Suggests: 
     rmarkdown,
     knitr
+Remotes: nhs-r-community/NHSRpostcodetools
 VignetteBuilder: knitr
