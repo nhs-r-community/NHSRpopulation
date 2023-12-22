@@ -10,8 +10,9 @@
 #'  postcodes that are not found (potentially because they are terminated codes,
 #'  or contain typos).
 #' @param country select which country in the nations the IMD scores relate to.
-#' Note that datasets cannot be mixed. Deciles are generated from
-#' the data provided from the API and so are based on the totals.
+#' Note that datasets cannot be mixed.
+#' Deciles are generated from the data provided from the API and so are based
+#' on the totals.
 #'
 #' @examples
 #' postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
@@ -25,74 +26,107 @@ get_imd <- function(
     .data,
     var = "postcode",
     fix_invalid = TRUE) {
-  # use {NHSRpostcodetools} to validate postcodes
-  pc_checked <- NHSRpostcodetools::postcode_data_join(.data = .data)
+  check_postcodes <- check_postcodes(.data)
 
-  # Connect to ONS Postcode Directory
-  base_url <- "https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/Online_ONS_Postcode_Directory_Live/FeatureServer/0/query"
-
-  query_params <- list(
-    where = paste0("PCDS IN ('", paste(pc_checked$new_postcode, collapse = "', '"), "')"),
-    outFields = "IMD,LSOA11,LSOA21,ICB,PCDS",
-    returnCountOnly = FALSE,
-    returnDistinctValues = TRUE,
-    f = "json"
+  set_params <- set_params(
+    data = check_postcodes,
+    type = "postcode"
   )
 
-  # Send a GET request to the API
-  response <- httr::GET(base_url, query = query_params)
+  get_api <- get_api(query_params = set_params)
 
-  # Parse the JSON response
-  response_list <- jsonlite::fromJSON(httr::content(response, "text"))
+  parse_json <- parse_json(json = get_api)
 
-  df <- data.frame(response_list$features$attributes)
-
-  # Country totals
-  # if(country == "england") {
-
-  country_params <- list(
-    where = "LSOA11 LIKE 'E%'",
-    outFields = "LSOA11",
-    returnCountOnly = TRUE,
-    returnDistinctValues = TRUE,
-    f = "json"
-  )
-  # }
-
-  # Send a GET request to the API
-  country_response <- httr::GET(base_url, query = country_params)
-
-  # Parse the JSON response
-  country_list <- jsonlite::fromJSON(httr::content(country_response, "text"))
-
-  total <- data.frame(country_list)
-
-
+  get_data <- get_data(response_list = parse_json)
 
   # Join original data with postcode information to IMD
 
-  # [TODO] link postcode correction to imd output
-
-  pc_checked |>
+  check_postcodes |>
     dplyr::left_join(
-      df |>
-        dplyr::mutate(imd_decile = dplyr::case_when(
-          IMD <= country_list$count / 10 ~ 1,
-          IMD <= 2 * country_list$count / 10 ~ 2,
-          IMD <= 3 * country_list$count / 10 ~ 3,
-          IMD <= 4 * country_list$count / 10 ~ 4,
-          IMD <= 5 * country_list$count / 10 ~ 5,
-          IMD <= 6 * country_list$count / 10 ~ 6,
-          IMD <= 7 * country_list$count / 10 ~ 7,
-          IMD <= 8 * country_list$count / 10 ~ 8,
-          IMD <= 9 * country_list$count / 10 ~ 9,
-          TRUE ~ 10
-        )),
+      get_data |>
+        dplyr::mutate(
+          imd_decile = dplyr::case_when(
+            IMD <= get_country_count() / 10 ~ 1,
+            IMD <= 2 * get_country_count() / 10 ~ 2,
+            IMD <= 3 * get_country_count() / 10 ~ 3,
+            IMD <= 4 * get_country_count() / 10 ~ 4,
+            IMD <= 5 * get_country_count() / 10 ~ 5,
+            IMD <= 6 * get_country_count() / 10 ~ 6,
+            IMD <= 7 * get_country_count() / 10 ~ 7,
+            IMD <= 8 * get_country_count() / 10 ~ 8,
+            IMD <= 9 * get_country_count() / 10 ~ 9,
+            TRUE ~ 10
+          ),
+          imd_quintile = floor((imd_decile - 1) / 2) + 1
+        ),
       dplyr::join_by(postcode == PCDS)
     ) |>
     dplyr::select(
       IMD,
       imd_decile,
+      imd_quintile,
       dplyr::everything()
     )
+}
+
+
+#' Function that gets IMD deciles and quintiles for LSOA codes.
+#'
+#' @param .data A data frame with a column of lsoas, or a vector
+#'  of lsoas.
+#' @param return data frame of all postcodes in the LSOA area as default,
+#' one random from a decile or the first from a decile for example postcodes.
+#'
+#' @export
+get_lsoa <- function(.data,
+                     return = c(
+                       "all",
+                       "random",
+                       "first"
+                     )) {
+  return <- match.arg(return)
+
+  set_params <- set_params(
+    data = .data,
+    type = "lsoa"
+  )
+
+  get_api <- get_api(query_params = set_params)
+
+  parse_json <- parse_json(json = get_api)
+
+  get_data <- get_data(response_list = parse_json)
+
+  data <- get_data |>
+    dplyr::mutate(
+      imd_decile = dplyr::case_when(
+        IMD <= get_data_c / 10 ~ 1,
+        IMD <= 2 * get_data_c / 10 ~ 2,
+        IMD <= 3 * get_data_c / 10 ~ 3,
+        IMD <= 4 * get_data_c / 10 ~ 4,
+        IMD <= 5 * get_data_c / 10 ~ 5,
+        IMD <= 6 * get_data_c / 10 ~ 6,
+        IMD <= 7 * get_data_c / 10 ~ 7,
+        IMD <= 8 * get_data_c / 10 ~ 8,
+        IMD <= 9 * get_data_c / 10 ~ 9,
+        TRUE ~ 10
+      ),
+      imd_quintile = floor((imd_decile - 1) / 2) + 1
+    )
+
+  if (return == "all") {
+    data <- data
+  }
+
+  if (return == "random") {
+    data <- data |>
+      dplyr::slice_sample(by = LSOA11)
+  }
+
+  if (return == "first") {
+    data <- data |>
+      dplyr::slice_max(by = LSOA11, order_by = PCDS)
+  }
+
+  data
 }
