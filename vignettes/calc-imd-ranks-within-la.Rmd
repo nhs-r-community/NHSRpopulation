@@ -12,6 +12,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  eval = FALSE,
   comment = "#>"
 )
 ```
@@ -24,6 +25,11 @@ library(ggplot2)
 library(tidyr)
 library(patchwork)
 ```
+
+*This vignette refers to data that is no longer in this package and is waiting 
+on updates to be made to be able to search for local authority codes as the 
+package currently only matches on postcodes.*
+
 
 [Indices of Multiple Deprivation (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) describe the deprivation of [Lower layer Super Output Areas (LSOAs)](https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas).
 
@@ -59,8 +65,6 @@ colour codings for the IMD decile ranks that were calculated using data from all
 Local Authorities in England.
 
 ```{r fig.width=7, fig.height=5}
-get_lsoa(la_code_nott_city_notts_county)
-
 imd |>
   mutate(imd_decile_factor = factor(imd_decile,
     levels = 1:10,
