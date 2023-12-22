@@ -25,7 +25,7 @@ library(tidyr)
 library(patchwork)
 ```
 
-[Indices of Multiple Deprivation (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) describe the deprivation of [Lower layer Super Output Areas (LSOAs)](https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas) with scores ranging from `r min(imd$imd_score)` to `r max(imd$imd_score)` for the year 2019.
+[Indices of Multiple Deprivation (IMD)](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019) describe the deprivation of [Lower layer Super Output Areas (LSOAs)](https://data.gov.uk/dataset/c481f2d3-91fc-4767-ae10-2efdf6d58996/lower-layer-super-output-areas-lsoas).
 
 In this example we are looking at the IMD scores and decile ranks for Local 
 Authorities (LAs) in Nottingham City and Nottinghamshire County. 
@@ -52,19 +52,21 @@ la_code_notts_county <- c(
 la_code_nott_city_notts_county <- c(la_code_nott_city, la_code_notts_county)
 ```
 
-Lower IMD scores indicate 'less deprivation' areas while higher IMD scores 
-indicate 'more deprivation'.
-Figure 1 shows the raw scores for each of the different LAs with colour codings 
-for the IMD decile ranks that were calculated using data from all LAs in 
-England.
+Lower IMD scores indicate 'less deprived' areas while higher IMD scores 
+indicate 'higher deprivation'.
+Figure 1 shows the raw scores for each of the different Local Authorities with 
+colour codings for the IMD decile ranks that were calculated using data from all 
+Local Authorities in England.
 
 ```{r fig.width=7, fig.height=5}
-imd %>%
+get_lsoa(la_code_nott_city_notts_county)
+
+imd |>
   mutate(imd_decile_factor = factor(imd_decile,
     levels = 1:10,
     labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
-  )) %>%
-  filter(la_code %in% la_code_nott_city_notts_county) %>%
+  )) |>
+  filter(la_code %in% la_code_nott_city_notts_county) |>
   ggplot(aes(x = imd_score, y = la_name, fill = imd_decile_factor)) +
   geom_jitter(shape = 21, height = .2, alpha = 0.8, size = 2) +
   scale_fill_viridis_d(direction = -1) +
@@ -107,12 +109,12 @@ or guidance when and how to calculate local IMD ranks.
 
 ```{r fig.width=7, fig.height=5}
 # Plot deciles ----
-imd %>%
+imd |>
   mutate(imd_decile = factor(imd_decile,
     levels = 1:10,
     labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
-  )) %>%
-  filter(la_code %in% la_code_nott_city_notts_county) %>%
+  )) |>
+  filter(la_code %in% la_code_nott_city_notts_county) |>
   ggplot(aes(factor(imd_decile), fill = factor(imd_decile))) +
   geom_bar() +
   scale_fill_viridis_d() +
@@ -123,12 +125,12 @@ imd %>%
 
 
 ```{r fig.width=7, fig.height=7}
-imd %>%
+imd |>
   mutate(imd_decile = factor(imd_decile,
     levels = 1:10,
     labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
-  )) %>%
-  filter(la_code %in% la_code_nott_city_notts_county) %>%
+  )) |>
+  filter(la_code %in% la_code_nott_city_notts_county) |>
   ggplot(aes(factor(imd_decile), fill = factor(imd_decile))) +
   geom_bar() +
   scale_fill_viridis_d() +
@@ -161,12 +163,12 @@ direction, we need to add a minus before the IMD score:
 
 ```{r}
 # Calculate IMD decile ranks (n = 10) for local authorities ----
-imd_by_la <- imd %>%
+imd_by_la <- imd |>
   mutate(la_groups = case_when(
     la_code %in% la_code_nott_city_notts_county ~ "notts_city_county"
-  )) %>%
-  filter(la_groups == "notts_city_county") %>%
-  group_by(la_groups, imd_year) %>%
+  )) |>
+  filter(la_groups == "notts_city_county") |>
+  group_by(la_groups, imd_year) |>
   mutate(imd_decile_la = ntile(-imd_score, n = 10))
 ```
 
@@ -177,12 +179,12 @@ deciles for the LAs Nottingham City and Nottinghamshire County.
 
 ```{r fig.width=7, fig.height=5}
 # Plot ENG and NOTTS deciles ----
-imd_by_la %>%
+imd_by_la |>
   mutate(imd_decile_la = factor(imd_decile_la,
     levels = 1:10,
     labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
-  )) %>%
-  filter(la_code %in% la_code_nott_city_notts_county) %>%
+  )) |>
+  filter(la_code %in% la_code_nott_city_notts_county) |>
   ggplot(aes(factor(imd_decile_la), fill = factor(imd_decile_la))) +
   geom_bar() +
   scale_fill_viridis_d() +
@@ -201,12 +203,12 @@ variation across these LAs.
 
 ```{r fig.width=7, fig.height=7}
 # Plot ENG and NOTTS deciles ----
-imd_by_la %>%
+imd_by_la |>
   mutate(imd_decile_la = factor(imd_decile_la,
     levels = 1:10,
     labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
-  )) %>%
-  filter(la_code %in% la_code_nott_city_notts_county) %>%
+  )) |>
+  filter(la_code %in% la_code_nott_city_notts_county) |>
   ggplot(aes(factor(imd_decile_la), fill = factor(imd_decile_la))) +
   geom_bar() +
   scale_fill_viridis_d() +
@@ -237,16 +239,16 @@ peak on the x axis) for the individual IMD deciles.
 
 
 ```{r fig.width=7, fig.height=3.5}
-imd_by_la %>%
+imd_by_la |>
   pivot_longer(
     cols = c(imd_decile, imd_decile_la),
     names_to = "imd_method", values_to = "imd_value"
-  ) %>%
+  ) |>
   mutate(imd_value = factor(imd_value,
     levels = 1:10,
     labels = c("1 - Most deprived", 2:9, "10 - Least deprived")
-  )) %>%
-  filter(la_code %in% la_code_nott_city_notts_county) %>%
+  )) |>
+  filter(la_code %in% la_code_nott_city_notts_county) |>
   ggplot(aes(x = imd_score, fill = factor(imd_value))) +
   scale_fill_viridis_d(direction = 1) +
   labs(x = "IMD score", y = NULL, fill = "IMD decile") +

@@ -100,15 +100,15 @@ get_lsoa <- function(.data,
   data <- get_data |>
     dplyr::mutate(
       imd_decile = dplyr::case_when(
-        IMD <= get_data_c / 10 ~ 1,
-        IMD <= 2 * get_data_c / 10 ~ 2,
-        IMD <= 3 * get_data_c / 10 ~ 3,
-        IMD <= 4 * get_data_c / 10 ~ 4,
-        IMD <= 5 * get_data_c / 10 ~ 5,
-        IMD <= 6 * get_data_c / 10 ~ 6,
-        IMD <= 7 * get_data_c / 10 ~ 7,
-        IMD <= 8 * get_data_c / 10 ~ 8,
-        IMD <= 9 * get_data_c / 10 ~ 9,
+        IMD <= get_country_count() / 10 ~ 1,
+        IMD <= 2 * get_country_count() / 10 ~ 2,
+        IMD <= 3 * get_country_count() / 10 ~ 3,
+        IMD <= 4 * get_country_count() / 10 ~ 4,
+        IMD <= 5 * get_country_count() / 10 ~ 5,
+        IMD <= 6 * get_country_count() / 10 ~ 6,
+        IMD <= 7 * get_country_count() / 10 ~ 7,
+        IMD <= 8 * get_country_count() / 10 ~ 8,
+        IMD <= 9 * get_country_count() / 10 ~ 9,
         TRUE ~ 10
       ),
       imd_quintile = floor((imd_decile - 1) / 2) + 1
