@@ -19,11 +19,15 @@ Imports:
     dplyr,
     ggplot2,
     magrittr,
+    NHSRpostcodetools,
     patchwork,
     tidyr
 Depends: 
     R (>= 2.10)
 Suggests: 
     rmarkdown,
-    knitr
+    knitr,
+    testthat (>= 3.0.0)
+Remotes: nhs-r-community/NHSRpostcodetools
 VignetteBuilder: knitr
+Config/testthat/edition: 3
