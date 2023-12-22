@@ -25,15 +25,39 @@
     <loc>https://nhs-r-community.github.io/NHSRpopulation/index.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/imd.html</loc>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/check_postcodes.html</loc>
+  </url>
+  <url>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_api.html</loc>
+  </url>
+  <url>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_count.html</loc>
+  </url>
+  <url>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_country_count.html</loc>
+  </url>
+  <url>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_data.html</loc>
+  </url>
+  <url>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_imd.html</loc>
+  </url>
+  <url>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_lsoa.html</loc>
   </url>
   <url>
     <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/lsoa.html</loc>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/parse_json.html</loc>
   </url>
   <url>
     <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/set_country_params.html</loc>
+  </url>
+  <url>
+    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/set_params.html</loc>
   </url>
 </urlset>
