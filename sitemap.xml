@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/CODE_OF_CONDUCT.html</loc>
+    <loc>/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/LICENSE-text.html</loc>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/LICENSE.html</loc>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/articles/calc-imd-ranks-within-la.html</loc>
+    <loc>/articles/calc-imd-ranks-within-la.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/articles/get-started.html</loc>
+    <loc>/articles/get-started.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/articles/index.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/authors.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/check_postcodes.html</loc>
+    <loc>/reference/check_postcodes.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_api.html</loc>
+    <loc>/reference/get_api.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_count.html</loc>
+    <loc>/reference/get_count.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_country_count.html</loc>
+    <loc>/reference/get_country_count.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_data.html</loc>
+    <loc>/reference/get_data.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_imd.html</loc>
+    <loc>/reference/get_imd.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/get_lsoa.html</loc>
+    <loc>/reference/get_lsoa.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/index.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/parse_json.html</loc>
+    <loc>/reference/parse_json.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/pipe.html</loc>
+    <loc>/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/set_country_params.html</loc>
+    <loc>/reference/set_country_params.html</loc>
   </url>
   <url>
-    <loc>https://nhs-r-community.github.io/NHSRpopulation/reference/set_params.html</loc>
+    <loc>/reference/set_params.html</loc>
   </url>
 </urlset>
