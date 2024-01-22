@@ -11,20 +11,14 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 The goal of `NHSRpopulation` is to make population estimates for **Lower
 layer Super Output Areas (LSOA)** and their **Indices of Multiple
-Deprivation (IMD)** easily available in R. Population estimates are
-broken down by age (0 to 90+) and gender (female/male). Information
-about the original sources of the data and a transparent description of
-all transformation of the data that is made available in this package
-can be found in this repository, see `"data-raw/imd.R` and
-`"data-raw/lsoa.R`. Main changes to the original data structures include
-(1) the transformation from wide to long data, (2) the addition of
-further information that was only available in variable names, and (3)
-renaming variables in a consistent way.
-
-The current version of this package only includes LSOA population
-estimates and IMD scores for the year 2019 for England. Because we store
-quite a lot in this package it currently relatively large (~9mb)
-compared to other packages.
+Deprivation (IMD)** easily available in R. In its first iteration this
+package was data saved from
+<https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019>
+and has subsequently been moved to the API
+\[<https://services1.arcgis.com/>\] to keep the data up to date
+(although it only updated every few years) and give access to all the
+nations across the UK including Wales, Scotland, Northern Ireland as
+well as England.
 
 ## Installation
 
@@ -34,66 +28,6 @@ You can install the current version of `NHSRpopulation` from
 ``` r
 # install.packages("remotes")
 remotes::install_github("nhs-r-community/NHSRpopulation")
-```
-
-## Example
-
-``` r
-# Load the package
-library(NHSRpopulation)
-#> 
-#> ── This is NHSRpopulation 0.0.2 ────────────────────────────────────────────────
-#> ℹ Please report any issues or ideas at:
-#> ℹ https://github.com/nhs-r-community/NHSRpopulation/issues
-```
-
-### Lower layer Super Output Areas (LSOA)
-
-The LSOA population estimates are available in the dataset `lsoa`:
-
-``` r
-# Show the first 6 rows of the dataset
-# For further information about this dataset see the help file: help(lsoa)
-head(lsoa)
-#>   lsoa_year lsoa_code           lsoa_name la_year   la_code        la_name age
-#> 1      2019 E01000001 City of London 001A    2019 E09000001 City of London   0
-#> 2      2019 E01000001 City of London 001A    2019 E09000001 City of London   1
-#> 3      2019 E01000001 City of London 001A    2019 E09000001 City of London   2
-#> 4      2019 E01000001 City of London 001A    2019 E09000001 City of London   3
-#> 5      2019 E01000001 City of London 001A    2019 E09000001 City of London   4
-#> 6      2019 E01000001 City of London 001A    2019 E09000001 City of London   5
-#>   gender est_year  n
-#> 1      f     2019  2
-#> 2      f     2019  9
-#> 3      f     2019  4
-#> 4      f     2019 12
-#> 5      f     2019 11
-#> 6      f     2019  5
-```
-
-### Indices of Multiple Deprivation (IMD)
-
-The IMD scores (raw scores and ranked deciles) and available in the
-dataset `imd`:
-
-``` r
-# Show the first 6 rows of the dataset
-# For further information about this dataset see the help file: help(imd)
-head(imd)
-#>   lsoa_year lsoa_code                 lsoa_name la_year   la_code
-#> 1      2011 E01000001       City of London 001A    2019 E09000001
-#> 2      2011 E01000002       City of London 001B    2019 E09000001
-#> 3      2011 E01000003       City of London 001C    2019 E09000001
-#> 4      2011 E01000005       City of London 001E    2019 E09000001
-#> 5      2011 E01000006 Barking and Dagenham 016A    2019 E09000002
-#> 6      2011 E01000007 Barking and Dagenham 015A    2019 E09000002
-#>                la_name imd_year imd_score imd_decile
-#> 1       City of London     2019     6.208          9
-#> 2       City of London     2019     5.143         10
-#> 3       City of London     2019    19.402          5
-#> 4       City of London     2019    28.652          3
-#> 5 Barking and Dagenham     2019    19.837          5
-#> 6 Barking and Dagenham     2019    31.576          3
 ```
 
 ## Sources of Data

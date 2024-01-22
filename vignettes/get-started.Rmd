@@ -1,0 +1,112 @@
+---
+title: "Getting started using the package"
+output: rmarkdown::html_vignette
+bibliography: "references.bib"
+link-citations: TRUE
+vignette: >
+  %\VignetteIndexEntry{get-started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = TRUE,
+  eval = FALSE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+### Indices of Multiple Deprivation (IMD)
+
+To get the IMD scores (raw scores and ranked deciles) for a dataset run the following code to generate some random example postcodes:
+
+```{r}
+library(purrr)
+library(tibble)
+library(PostcodesioR)
+library(NHSRpopulation)
+
+postcodes <- purrr::map_chr(
+  1:10,
+  .f = ~PostcodesioR::random_postcode() |> 
+    purrr::pluck(1) 
+) 
+
+tibble_postcodes <- postcodes |> 
+  tibble::as_tibble()
+```
+
+Then, using the `get_imd()` function for a vector (returning just the first five columns):
+
+```{r}
+NHSRpopulation::get_imd(postcodes) |> 
+  dplyr::select(1:5)
+```
+
+Or with a data frame (returning just the first five columns):
+
+```{r}
+NHSRpopulation::get_imd(tibble_postcodes$value) |> 
+  dplyr::select(1:5)
+```
+
+This function can be used to fix missing postcodes as some are terminated or are invalid:
+
+```{r}
+postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
+
+NHSRpopulation::get_imd(postcodes) |> 
+  dplyr::select(1:5)
+
+```
+
+Currently, although the postcode is fixed with the column `new_postcode` the IMD is not overwritten.
+
+## Lower Super Output area (LSOA)
+
+To return the `IMD`, `imd_decile` and `imd_quintile` for LSOAs this can be as a vector:
+
+```{r}
+# Example LSOAs from each England Decile group
+lsoa_imd <- c("E01000002",
+              "E01000001",
+              "E01000117",
+              "E01000119",
+              "E01000069",
+              "E01000070",
+              "E01000066",
+              "E01000005",
+              "E01000008",
+              "E01000048")
+
+NHSRpopulation::get_lsoa(lsoa_imd) |> 
+  head(10) # first 10 rows
+```
+
+Or from a data frame:
+
+```{r}
+
+tibble_lsoa_imd <- lsoa_imd |> 
+  tibble::as_tibble()
+
+NHSRpopulation::get_lsoa(tibble_lsoa_imd$value) |> 
+  head(10)
+
+```
+
+The functions return everything in those LSOAs and if you would like to return some random postcodes from each decile:
+
+```{r}
+NHSRpopulation::get_lsoa(lsoa_imd, return = "random")
+```
+
+Or just the first postcode that appears in each decile:
+
+```{r}
+NHSRpopulation::get_lsoa(lsoa_imd, return = "first")
+```
