@@ -3,7 +3,8 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   calc-imd-ranks-within-la: calc-imd-ranks-within-la.html
-last_built: 2023-12-22T19:03Z
+  get-started: get-started.html
+last_built: 2024-01-22T17:55Z
 urls:
   reference: https://nhs-r-community.github.io/NHSRpopulation/reference
   article: https://nhs-r-community.github.io/NHSRpopulation/articles
