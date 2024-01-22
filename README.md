@@ -15,10 +15,9 @@ Deprivation (IMD)** easily available in R. In its first iteration this
 package was data saved from
 <https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019>
 and has subsequently been moved to the API
-\[<https://services1.arcgis.com/>\] to keep the data up to date
-(although it only updated every few years) and give access to all the
-nations across the UK including Wales, Scotland, Northern Ireland as
-well as England.
+<https://services1.arcgis.com/> to keep the data up to date (although it
+only updated every few years) and give access to all the nations across
+the UK including Wales, Scotland, Northern Ireland as well as England.
 
 ## Installation
 

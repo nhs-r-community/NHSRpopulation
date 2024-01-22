@@ -1,5 +1,5 @@
 ---
-title: "Getting started using the package"
+title: "Getting started"
 output: rmarkdown::html_vignette
 bibliography: "references.bib"
 link-citations: TRUE
