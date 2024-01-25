@@ -1,10 +1,10 @@
 ---
-title: "Getting started"
+title: "Getting started with NHSRpopulation"
 output: rmarkdown::html_vignette
 bibliography: "references.bib"
 link-citations: TRUE
 vignette: >
-  %\VignetteIndexEntry{get-started}
+  %\VignetteIndexEntry{Getting started with NHSRpopulation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
