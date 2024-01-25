@@ -13,7 +13,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   echo = TRUE,
-  eval = FALSE,
+  eval = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%"
