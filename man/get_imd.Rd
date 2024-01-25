@@ -28,11 +28,3 @@ on the totals.}
 Function that validates postcodes and links to IMD datasets, returning the
 score and generated deciles and quintiles.
 }
-\examples{
-postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
-test_df1 <- dplyr::tibble(
-  place = paste0("place_", 1:3),
-  postcode = postcodes
-)
-postcode_data_join(test_df1, fix_invalid = TRUE)
-}
