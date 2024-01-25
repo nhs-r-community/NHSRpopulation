@@ -14,7 +14,6 @@
 #' Deciles are generated from the data provided from the API and so are based
 #' on the totals.
 #'
-#' @examples
 #' @export
 get_imd <- function(
     .data,

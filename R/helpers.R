@@ -104,7 +104,7 @@ get_api <- function(query_params) {
 
 #' Parse the JSON response
 #'
-#' @return
+#' @return JSON
 #' @export
 #'
 parse_json <- function(json) {
