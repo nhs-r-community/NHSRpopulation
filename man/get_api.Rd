@@ -6,6 +6,9 @@
 \usage{
 get_api(query_params)
 }
+\arguments{
+\item{query_params}{uses the output from the function \code{set_country_params()}}
+}
 \value{
 list
 }

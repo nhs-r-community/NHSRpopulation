@@ -18,11 +18,6 @@ Should be acceptable as a symbol or as a standard string.}
 \item{fix_invalid}{Boolean, default \code{TRUE}. Whether to try to fix any
 postcodes that are not found (potentially because they are terminated codes,
 or contain typos).}
-
-\item{country}{select which country in the nations the IMD scores relate to.
-Note that datasets cannot be mixed.
-Deciles are generated from the data provided from the API and so are based
-on the totals.}
 }
 \description{
 Function that validates postcodes and links to IMD datasets, returning the

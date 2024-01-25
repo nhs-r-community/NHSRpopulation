@@ -93,6 +93,8 @@ get_count <- function(response_list) {
 
 #' Send a GET request to the API
 #'
+#' @param query_params uses the output from the function `set_country_params()`
+#'
 #' @return list
 #' @export
 #'
@@ -104,7 +106,8 @@ get_api <- function(query_params) {
 
 #' Parse the JSON response
 #'
-#' @return JSON
+#' @param json uses output from function `get_api()`
+#'
 #' @export
 #'
 parse_json <- function(json) {
@@ -113,6 +116,8 @@ parse_json <- function(json) {
 }
 
 #' Create a data frame
+#'
+#' @param response_list uses output from the function `parse_json()`
 #'
 #' @return data frame
 #' @export

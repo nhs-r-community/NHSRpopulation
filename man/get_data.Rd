@@ -6,6 +6,9 @@
 \usage{
 get_data(response_list)
 }
+\arguments{
+\item{response_list}{uses output from the function \code{parse_json()}}
+}
 \value{
 data frame
 }

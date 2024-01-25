@@ -6,6 +6,9 @@
 \usage{
 parse_json(json)
 }
+\arguments{
+\item{json}{uses output from function \code{get_api()}}
+}
 \description{
 Parse the JSON response
 }
