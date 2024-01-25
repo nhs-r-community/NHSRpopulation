@@ -38,7 +38,8 @@ areas only and not with England see this
 ## Sources of Data
 
 The original source of the data provided in this R package is available
-[here](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareamidyearpopulationestimates)
+from the
+[ONS](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareamidyearpopulationestimates)
 and licenced under the [Open Government Licence
 v3.0](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
 

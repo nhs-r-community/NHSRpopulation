@@ -9,18 +9,6 @@
 #' @param fix_invalid Boolean, default `TRUE`. Whether to try to fix any
 #'  postcodes that are not found (potentially because they are terminated codes,
 #'  or contain typos).
-#' @param country select which country in the nations the IMD scores relate to.
-#' Note that datasets cannot be mixed.
-#' Deciles are generated from the data provided from the API and so are based
-#' on the totals.
-#'
-#' @examples
-#' postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
-#' test_df1 <- dplyr::tibble(
-#'   place = paste0("place_", 1:3),
-#'   postcode = postcodes
-#' )
-#' postcode_data_join(test_df1, fix_invalid = TRUE)
 #' @export
 get_imd <- function(
     .data,
