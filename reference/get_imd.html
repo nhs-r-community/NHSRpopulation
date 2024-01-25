@@ -22,24 +22,20 @@ score and generated deciles and quintiles."><meta property="og:image" content="/
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/NHSRpopulation.html">Get started</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/calc-imd-ranks-within-la.html">How to calculate 'local' IMD ranks</a>
-    <a class="dropdown-item" href="../articles/get-started.html">Getting started</a>
+    <a class="dropdown-item" href="../articles/calc-local-imd.html">How to calculate 'local' IMD deciles</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"><li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/nhs-r-community/NHSRpopulation/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
+      <ul class="navbar-nav"><li class="active nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul></div>
 
@@ -82,26 +78,8 @@ Should be acceptable as a symbol or as a standard string.</p></dd>
 postcodes that are not found (potentially because they are terminated codes,
 or contain typos).</p></dd>
 
-
-<dt>country</dt>
-<dd><p>select which country in the nations the IMD scores relate to.
-Note that datasets cannot be mixed.
-Deciles are generated from the data provided from the API and so are based
-on the totals.</p></dd>
-
 </dl></div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">postcodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HD1 2UT"</span>, <span class="st">"HD1 2UU"</span>, <span class="st">"HD1 2UV"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">test_df1</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  place <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"place_"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  postcode <span class="op">=</span> <span class="va">postcodes</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">postcode_data_join</span><span class="op">(</span><span class="va">test_df1</span>, fix_invalid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in postcode_data_join(test_df1, fix_invalid = TRUE):</span> could not find function "postcode_data_join"</span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
