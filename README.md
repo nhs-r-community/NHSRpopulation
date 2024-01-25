@@ -29,6 +29,12 @@ You can install the current version of `NHSRpopulation` from
 remotes::install_github("nhs-r-community/NHSRpopulation")
 ```
 
+To find out more about the functions there is a vignette for [Getting
+Started](https://nhs-r-community.github.io/NHSRpopulation/articles/get-started.html)
+and for information on how to recalculate the IMD deciles for local
+areas only and not with England see this
+[vignette](https://nhs-r-community.github.io/NHSRpopulation/articles/calc-imd-ranks-within-la.html).
+
 ## Sources of Data
 
 The original source of the data provided in this R package is available
