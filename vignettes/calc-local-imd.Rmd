@@ -1,10 +1,10 @@
 ---
-title: "How to calculate 'local' IMD ranks"
+title: "How to calculate 'local' IMD deciles"
 output: rmarkdown::html_vignette
 bibliography: "references.bib"
 link-citations: TRUE
 vignette: >
-  %\VignetteIndexEntry{calc-local-imd-ranks}
+  %\VignetteIndexEntry{How to calculate 'local' IMD deciles}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

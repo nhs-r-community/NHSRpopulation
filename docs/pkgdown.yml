@@ -2,9 +2,7 @@ pandoc: 3.1.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  calc-imd-ranks-within-la: calc-imd-ranks-within-la.html
-last_built: 2023-12-13T16:23Z
-urls:
-  reference: https://nhs-r-community.github.io/NHSRpopulation/reference
-  article: https://nhs-r-community.github.io/NHSRpopulation/articles
+  calc-local-imd: calc-local-imd.html
+  NHSRpopulation: NHSRpopulation.html
+last_built: 2024-01-25T17:20Z
 
