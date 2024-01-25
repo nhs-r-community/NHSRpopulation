@@ -29,7 +29,8 @@ Suggests:
     knitr,
     testthat (>= 3.0.0),
     purrr,
-    tibble
+    tibble,
+    PostcodesioR
 Remotes: nhs-r-community/NHSRpostcodetools
 VignetteBuilder: knitr
 Config/testthat/edition: 3
