@@ -98,53 +98,53 @@ run the following code to generate some random example postcodes:</p>
 <span></span>
 <span><span class="va">postcodes</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span></span>
 <span>  <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,</span>
-<span>  .f <span class="op">=</span> <span class="op">~</span><span class="fu">PostcodesioR</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/PostcodesioR/reference/random_postcode.html" class="external-link">random_postcode</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> </span>
-<span><span class="op">)</span> </span>
+<span>  .f <span class="op">=</span> <span class="op">~</span> <span class="fu">PostcodesioR</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/PostcodesioR/reference/random_postcode.html" class="external-link">random_postcode</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tibble_postcodes</span> <span class="op">&lt;-</span> <span class="va">postcodes</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">tibble_postcodes</span> <span class="op">&lt;-</span> <span class="va">postcodes</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Then, using the <code><a href="../reference/get_imd.html">get_imd()</a></code> function for a vector
 (returning just the first five columns):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_imd.html">get_imd</a></span><span class="op">(</span><span class="va">postcodes</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_imd.html">get_imd</a></span><span class="op">(</span><span class="va">postcodes</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 5</span></span></span>
 <span><span class="co">#&gt;      IMD imd_decile imd_quintile postcode new_postcode</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="text-decoration: underline;">25</span>226          8            4 IG4 5PH  IG4 5PH     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="text-decoration: underline;">31</span>661         10            5 PE19 1RE PE19 1RE    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="text-decoration: underline;">23</span>817          8            4 SN12 7PT SN12 7PT    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="text-decoration: underline;">20</span>455          7            4 N3 1JA   N3 1JA      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="text-decoration: underline;">13</span>916          5            3 LS1 2DZ  LS1 2DZ     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="text-decoration: underline;">26</span>719          9            5 SN25 2NG SN25 2NG    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="text-decoration: underline;">28</span>042          9            5 N3 1TD   N3 1TD      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>088          1            1 LS7 1LJ  LS7 1LJ     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   701          1            1 LD1 5NE  LD1 5NE     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">15</span>890          5            3 PE34 4NX PE34 4NX</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="text-decoration: underline;">31</span>971         10            5 HG5 0WJ  HG5 0WJ     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   490          1            1 SA6 8NU  SA6 8NU     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="text-decoration: underline;">16</span>898          6            3 RH11 9QE RH11 9QE    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="text-decoration: underline;">31</span>313         10            5 AL1 4QD  AL1 4QD     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="text-decoration: underline;">16</span>444          6            3 GL2 2JE  GL2 2JE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">9</span>882          4            2 WV99 2BN WV99 2BN    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="text-decoration: underline;">14</span>506          5            3 OL10 1NE OL10 1NE    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>974          1            1 HX1 1SP  HX1 1SP     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">21</span>624          7            4 DL12 9NL DL12 9NL    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">16</span>948          6            3 CT5 1EZ  CT5 1EZ</span></span></code></pre></div>
 <p>Or with a data frame (returning just the first five columns):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_imd.html">get_imd</a></span><span class="op">(</span><span class="va">tibble_postcodes</span><span class="op">$</span><span class="va">value</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_imd.html">get_imd</a></span><span class="op">(</span><span class="va">tibble_postcodes</span><span class="op">$</span><span class="va">value</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 5</span></span></span>
 <span><span class="co">#&gt;      IMD imd_decile imd_quintile postcode new_postcode</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="text-decoration: underline;">25</span>226          8            4 IG4 5PH  IG4 5PH     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="text-decoration: underline;">31</span>661         10            5 PE19 1RE PE19 1RE    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="text-decoration: underline;">23</span>817          8            4 SN12 7PT SN12 7PT    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="text-decoration: underline;">20</span>455          7            4 N3 1JA   N3 1JA      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="text-decoration: underline;">13</span>916          5            3 LS1 2DZ  LS1 2DZ     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="text-decoration: underline;">26</span>719          9            5 SN25 2NG SN25 2NG    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="text-decoration: underline;">28</span>042          9            5 N3 1TD   N3 1TD      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>088          1            1 LS7 1LJ  LS7 1LJ     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   701          1            1 LD1 5NE  LD1 5NE     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">15</span>890          5            3 PE34 4NX PE34 4NX</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="text-decoration: underline;">31</span>971         10            5 HG5 0WJ  HG5 0WJ     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   490          1            1 SA6 8NU  SA6 8NU     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="text-decoration: underline;">16</span>898          6            3 RH11 9QE RH11 9QE    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="text-decoration: underline;">31</span>313         10            5 AL1 4QD  AL1 4QD     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="text-decoration: underline;">16</span>444          6            3 GL2 2JE  GL2 2JE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">9</span>882          4            2 WV99 2BN WV99 2BN    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="text-decoration: underline;">14</span>506          5            3 OL10 1NE OL10 1NE    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>974          1            1 HX1 1SP  HX1 1SP     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">21</span>624          7            4 DL12 9NL DL12 9NL    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">16</span>948          6            3 CT5 1EZ  CT5 1EZ</span></span></code></pre></div>
 <p>This function can be used to fix missing postcodes as some are
 terminated or are invalid:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">postcodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HD1 2UT"</span>, <span class="st">"HD1 2UU"</span>, <span class="st">"HD1 2UV"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_imd.html">get_imd</a></span><span class="op">(</span><span class="va">postcodes</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_imd.html">get_imd</a></span><span class="op">(</span><span class="va">postcodes</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">ℹ</span> The following postcodes are terminated:</span></span>
 <span><span class="co">#&gt;   HD1 2UT</span></span>
@@ -170,18 +170,20 @@ terminated or are invalid:</p>
 <code>imd_quintile</code> for LSOAs this can be as a vector:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example LSOAs from each England Decile group</span></span>
-<span><span class="va">lsoa_imd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E01000002"</span>,</span>
-<span>              <span class="st">"E01000001"</span>,</span>
-<span>              <span class="st">"E01000117"</span>,</span>
-<span>              <span class="st">"E01000119"</span>,</span>
-<span>              <span class="st">"E01000069"</span>,</span>
-<span>              <span class="st">"E01000070"</span>,</span>
-<span>              <span class="st">"E01000066"</span>,</span>
-<span>              <span class="st">"E01000005"</span>,</span>
-<span>              <span class="st">"E01000008"</span>,</span>
-<span>              <span class="st">"E01000048"</span><span class="op">)</span></span>
+<span><span class="va">lsoa_imd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"E01000002"</span>,</span>
+<span>  <span class="st">"E01000001"</span>,</span>
+<span>  <span class="st">"E01000117"</span>,</span>
+<span>  <span class="st">"E01000119"</span>,</span>
+<span>  <span class="st">"E01000069"</span>,</span>
+<span>  <span class="st">"E01000070"</span>,</span>
+<span>  <span class="st">"E01000066"</span>,</span>
+<span>  <span class="st">"E01000005"</span>,</span>
+<span>  <span class="st">"E01000008"</span>,</span>
+<span>  <span class="st">"E01000048"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_lsoa.html">get_lsoa</a></span><span class="op">(</span><span class="va">lsoa_imd</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_lsoa.html">get_lsoa</a></span><span class="op">(</span><span class="va">lsoa_imd</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="co"># first 10 rows</span></span>
 <span><span class="co">#&gt;     IMD    LSOA11    LSOA21       ICB   PCDS imd_decile imd_quintile</span></span>
 <span><span class="co">#&gt; 1  8678 E01000005 E01000005 E54000029 E1 7AA          3            2</span></span>
@@ -196,11 +198,10 @@ terminated or are invalid:</p>
 <span><span class="co">#&gt; 10 8678 E01000005 E01000005 E54000029 E1 7DB          3            2</span></span></code></pre></div>
 <p>Or from a data frame:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">tibble_lsoa_imd</span> <span class="op">&lt;-</span> <span class="va">lsoa_imd</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">tibble_lsoa_imd</span> <span class="op">&lt;-</span> <span class="va">lsoa_imd</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_lsoa.html">get_lsoa</a></span><span class="op">(</span><span class="va">tibble_lsoa_imd</span><span class="op">$</span><span class="va">value</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_lsoa.html">get_lsoa</a></span><span class="op">(</span><span class="va">tibble_lsoa_imd</span><span class="op">$</span><span class="va">value</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     IMD    LSOA11    LSOA21       ICB   PCDS imd_decile imd_quintile</span></span>
 <span><span class="co">#&gt; 1  8678 E01000005 E01000005 E54000029 E1 7AA          3            2</span></span>
@@ -218,16 +219,16 @@ to return some random postcodes from each decile:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_lsoa.html">get_lsoa</a></span><span class="op">(</span><span class="va">lsoa_imd</span>, return <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      IMD    LSOA11    LSOA21       ICB     PCDS imd_decile imd_quintile</span></span>
-<span><span class="co">#&gt; 1   8678 E01000005 E01000005 E54000029 EC3N 1AD          3            2</span></span>
-<span><span class="co">#&gt; 2  29199 E01000001 E01000001 E54000029 EC2V 7JX          9            5</span></span>
-<span><span class="co">#&gt; 3  30379 E01000002 E01000002 E54000029 EC2V 7EL         10            5</span></span>
-<span><span class="co">#&gt; 4  24958 E01000117 E01000117 E54000028  EN4 8NB          8            4</span></span>
-<span><span class="co">#&gt; 5   3117 E01000048 E01034479 E54000029 IG11 7TW          1            1</span></span>
+<span><span class="co">#&gt; 1   8678 E01000005 E01000005 E54000029   E1 7AD          3            2</span></span>
+<span><span class="co">#&gt; 2  29199 E01000001 E01000001 E54000029 EC2Y 8DR          9            5</span></span>
+<span><span class="co">#&gt; 3  30379 E01000002 E01000002 E54000029 EC2Y 8BD         10            5</span></span>
+<span><span class="co">#&gt; 4  24958 E01000117 E01000117 E54000028  EN4 8NJ          8            4</span></span>
+<span><span class="co">#&gt; 5   3117 E01000048 E01034479 E54000029 IG11 7EL          1            1</span></span>
 <span><span class="co">#&gt; 6   5010 E01000008 E01000008 E54000029 IG11 8LH          2            1</span></span>
-<span><span class="co">#&gt; 7  13531 E01000070 E01000070 E54000029 IG11 9JZ          5            3</span></span>
-<span><span class="co">#&gt; 8  17580 E01000069 E01000069 E54000029 IG11 9AB          6            3</span></span>
-<span><span class="co">#&gt; 9  10329 E01000066 E01000066 E54000029 IG11 9AY          4            2</span></span>
-<span><span class="co">#&gt; 10 22657 E01000119 E01000119 E54000028  N14 5ES          7            4</span></span></code></pre></div>
+<span><span class="co">#&gt; 7  13531 E01000070 E01000070 E54000029 IG11 9XA          5            3</span></span>
+<span><span class="co">#&gt; 8  17580 E01000069 E01000069 E54000029 IG11 9BH          6            3</span></span>
+<span><span class="co">#&gt; 9  10329 E01000066 E01000066 E54000029 IG11 9EA          4            2</span></span>
+<span><span class="co">#&gt; 10 22657 E01000119 E01000119 E54000028  N14 5HB          7            4</span></span></code></pre></div>
 <p>Or just the first postcode that appears in each decile:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_lsoa.html">get_lsoa</a></span><span class="op">(</span><span class="va">lsoa_imd</span>, return <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span></span>
