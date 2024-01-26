@@ -112,16 +112,16 @@ run the following code to generate some random example postcodes:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 5</span></span></span>
 <span><span class="co">#&gt;      IMD imd_decile imd_quintile postcode new_postcode</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="text-decoration: underline;">20</span>517          7            4 CH63 4JN CH63 4JN    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="text-decoration: underline;">15</span>785          5            3 CM1 4TD  CM1 4TD     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   387          1            1 BT44 9JD BT44 9JD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="text-decoration: underline;">21</span>470          7            4 TR3 6HF  TR3 6HF     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="text-decoration: underline;">31</span>075         10            5 GL12 7PN GL12 7PN    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="text-decoration: underline;">14</span>788          5            3 SS8 8NF  SS8 8NF     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="text-decoration: underline;">23</span>242          8            4 SL3 7BE  SL3 7BE     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   671          1            1 DE21 4LN DE21 4LN    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">20</span>487          7            4 EX2 9BX  EX2 9BX     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">21</span>122          7            4 B79 0LL  B79 0LL</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="text-decoration: underline;">25</span>226          8            4 IG4 5PH  IG4 5PH     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="text-decoration: underline;">31</span>661         10            5 PE19 1RE PE19 1RE    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="text-decoration: underline;">23</span>817          8            4 SN12 7PT SN12 7PT    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="text-decoration: underline;">20</span>455          7            4 N3 1JA   N3 1JA      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="text-decoration: underline;">13</span>916          5            3 LS1 2DZ  LS1 2DZ     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="text-decoration: underline;">26</span>719          9            5 SN25 2NG SN25 2NG    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="text-decoration: underline;">28</span>042          9            5 N3 1TD   N3 1TD      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>088          1            1 LS7 1LJ  LS7 1LJ     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   701          1            1 LD1 5NE  LD1 5NE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">15</span>890          5            3 PE34 4NX PE34 4NX</span></span></code></pre></div>
 <p>Or with a data frame (returning just the first five columns):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_imd.html">get_imd</a></span><span class="op">(</span><span class="va">tibble_postcodes</span><span class="op">$</span><span class="va">value</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -129,16 +129,16 @@ run the following code to generate some random example postcodes:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 5</span></span></span>
 <span><span class="co">#&gt;      IMD imd_decile imd_quintile postcode new_postcode</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="text-decoration: underline;">20</span>517          7            4 CH63 4JN CH63 4JN    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="text-decoration: underline;">15</span>785          5            3 CM1 4TD  CM1 4TD     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   387          1            1 BT44 9JD BT44 9JD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="text-decoration: underline;">21</span>470          7            4 TR3 6HF  TR3 6HF     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="text-decoration: underline;">31</span>075         10            5 GL12 7PN GL12 7PN    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="text-decoration: underline;">14</span>788          5            3 SS8 8NF  SS8 8NF     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="text-decoration: underline;">23</span>242          8            4 SL3 7BE  SL3 7BE     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   671          1            1 DE21 4LN DE21 4LN    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">20</span>487          7            4 EX2 9BX  EX2 9BX     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">21</span>122          7            4 B79 0LL  B79 0LL</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="text-decoration: underline;">25</span>226          8            4 IG4 5PH  IG4 5PH     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="text-decoration: underline;">31</span>661         10            5 PE19 1RE PE19 1RE    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="text-decoration: underline;">23</span>817          8            4 SN12 7PT SN12 7PT    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="text-decoration: underline;">20</span>455          7            4 N3 1JA   N3 1JA      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="text-decoration: underline;">13</span>916          5            3 LS1 2DZ  LS1 2DZ     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="text-decoration: underline;">26</span>719          9            5 SN25 2NG SN25 2NG    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="text-decoration: underline;">28</span>042          9            5 N3 1TD   N3 1TD      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>088          1            1 LS7 1LJ  LS7 1LJ     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   701          1            1 LD1 5NE  LD1 5NE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="text-decoration: underline;">15</span>890          5            3 PE34 4NX PE34 4NX</span></span></code></pre></div>
 <p>This function can be used to fix missing postcodes as some are
 terminated or are invalid:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -218,16 +218,16 @@ to return some random postcodes from each decile:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_lsoa.html">get_lsoa</a></span><span class="op">(</span><span class="va">lsoa_imd</span>, return <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      IMD    LSOA11    LSOA21       ICB     PCDS imd_decile imd_quintile</span></span>
-<span><span class="co">#&gt; 1   8678 E01000005 E01000005 E54000029   E1 7ED          3            2</span></span>
-<span><span class="co">#&gt; 2  29199 E01000001 E01000001 E54000029 EC2Y 8DN          9            5</span></span>
-<span><span class="co">#&gt; 3  30379 E01000002 E01000002 E54000029 EC2Y 9HR         10            5</span></span>
-<span><span class="co">#&gt; 4  24958 E01000117 E01000117 E54000028  EN4 8NN          8            4</span></span>
-<span><span class="co">#&gt; 5   3117 E01000048 E01034479 E54000029 IG11 7RS          1            1</span></span>
-<span><span class="co">#&gt; 6   5010 E01000008 E01000008 E54000029 IG11 8LS          2            1</span></span>
-<span><span class="co">#&gt; 7  13531 E01000070 E01000070 E54000029 IG11 9LR          5            3</span></span>
-<span><span class="co">#&gt; 8  17580 E01000069 E01000069 E54000029 IG11 9HD          6            3</span></span>
-<span><span class="co">#&gt; 9  10329 E01000066 E01000066 E54000029 IG11 9AS          4            2</span></span>
-<span><span class="co">#&gt; 10 22657 E01000119 E01000119 E54000028  N14 5BD          7            4</span></span></code></pre></div>
+<span><span class="co">#&gt; 1   8678 E01000005 E01000005 E54000029 EC3N 1AD          3            2</span></span>
+<span><span class="co">#&gt; 2  29199 E01000001 E01000001 E54000029 EC2V 7JX          9            5</span></span>
+<span><span class="co">#&gt; 3  30379 E01000002 E01000002 E54000029 EC2V 7EL         10            5</span></span>
+<span><span class="co">#&gt; 4  24958 E01000117 E01000117 E54000028  EN4 8NB          8            4</span></span>
+<span><span class="co">#&gt; 5   3117 E01000048 E01034479 E54000029 IG11 7TW          1            1</span></span>
+<span><span class="co">#&gt; 6   5010 E01000008 E01000008 E54000029 IG11 8LH          2            1</span></span>
+<span><span class="co">#&gt; 7  13531 E01000070 E01000070 E54000029 IG11 9JZ          5            3</span></span>
+<span><span class="co">#&gt; 8  17580 E01000069 E01000069 E54000029 IG11 9AB          6            3</span></span>
+<span><span class="co">#&gt; 9  10329 E01000066 E01000066 E54000029 IG11 9AY          4            2</span></span>
+<span><span class="co">#&gt; 10 22657 E01000119 E01000119 E54000028  N14 5ES          7            4</span></span></code></pre></div>
 <p>Or just the first postcode that appears in each decile:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_lsoa.html">get_lsoa</a></span><span class="op">(</span><span class="va">lsoa_imd</span>, return <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span></span>
