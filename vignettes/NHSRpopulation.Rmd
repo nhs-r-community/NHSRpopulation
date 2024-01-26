@@ -32,25 +32,25 @@ library(NHSRpopulation)
 
 postcodes <- purrr::map_chr(
   1:10,
-  .f = ~PostcodesioR::random_postcode() |> 
-    purrr::pluck(1) 
-) 
+  .f = ~ PostcodesioR::random_postcode() |>
+    purrr::pluck(1)
+)
 
-tibble_postcodes <- postcodes |> 
+tibble_postcodes <- postcodes |>
   tibble::as_tibble()
 ```
 
 Then, using the `get_imd()` function for a vector (returning just the first five columns):
 
 ```{r}
-NHSRpopulation::get_imd(postcodes) |> 
+NHSRpopulation::get_imd(postcodes) |>
   dplyr::select(1:5)
 ```
 
 Or with a data frame (returning just the first five columns):
 
 ```{r}
-NHSRpopulation::get_imd(tibble_postcodes$value) |> 
+NHSRpopulation::get_imd(tibble_postcodes$value) |>
   dplyr::select(1:5)
 ```
 
@@ -59,9 +59,8 @@ This function can be used to fix missing postcodes as some are terminated or are
 ```{r}
 postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
 
-NHSRpopulation::get_imd(postcodes) |> 
+NHSRpopulation::get_imd(postcodes) |>
   dplyr::select(1:5)
-
 ```
 
 Currently, although the postcode is fixed with the column `new_postcode` the IMD is not overwritten.
@@ -72,31 +71,31 @@ To return the `IMD`, `imd_decile` and `imd_quintile` for LSOAs this can be as a 
 
 ```{r}
 # Example LSOAs from each England Decile group
-lsoa_imd <- c("E01000002",
-              "E01000001",
-              "E01000117",
-              "E01000119",
-              "E01000069",
-              "E01000070",
-              "E01000066",
-              "E01000005",
-              "E01000008",
-              "E01000048")
+lsoa_imd <- c(
+  "E01000002",
+  "E01000001",
+  "E01000117",
+  "E01000119",
+  "E01000069",
+  "E01000070",
+  "E01000066",
+  "E01000005",
+  "E01000008",
+  "E01000048"
+)
 
-NHSRpopulation::get_lsoa(lsoa_imd) |> 
+NHSRpopulation::get_lsoa(lsoa_imd) |>
   head(10) # first 10 rows
 ```
 
 Or from a data frame:
 
 ```{r}
-
-tibble_lsoa_imd <- lsoa_imd |> 
+tibble_lsoa_imd <- lsoa_imd |>
   tibble::as_tibble()
 
-NHSRpopulation::get_lsoa(tibble_lsoa_imd$value) |> 
+NHSRpopulation::get_lsoa(tibble_lsoa_imd$value) |>
   head(10)
-
 ```
 
 The functions return everything in those LSOAs and if you would like to return some random postcodes from each decile:

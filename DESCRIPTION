@@ -30,12 +30,12 @@ Imports:
 Depends: 
     R (>= 2.10)
 Suggests: 
-    rmarkdown,
     knitr,
-    testthat (>= 3.0.0),
+    PostcodesioR,
     purrr,
-    tibble,
-    PostcodesioR
+    rmarkdown,
+    testthat (>= 3.0.0),
+    tibble
 Remotes: nhs-r-community/NHSRpostcodetools
 VignetteBuilder: knitr
 Config/testthat/edition: 3
