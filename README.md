@@ -43,12 +43,17 @@ from the
 and licenced under the [Open Government Licence
 v3.0](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
 
-## Code of Conduct
+## Contributing
 
-Please note that the `NHSRpopulation` project is released with a
-[Contributor Code of
-Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+Please see our 
+[guidance on how to contribute](https://tools.nhsrcommunity.com/contribution.html).
+
+This project is released with a Contributor [Code of Conduct](./CODE_OF_CONDUCT.md). 
 By contributing to this project, you agree to abide by its terms.
+
+The simplest way to contribute is to raise an issue detailing the feature or 
+functionality you would like to see added, or any unexpected behaviour or bugs 
+you have experienced.
 
 ## Special note of thanks
 
