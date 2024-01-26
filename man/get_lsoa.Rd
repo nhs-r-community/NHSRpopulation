@@ -4,10 +4,10 @@
 \alias{get_lsoa}
 \title{Function that gets IMD deciles and quintiles for LSOA codes.}
 \usage{
-get_lsoa(.data, return = c("all", "random", "first"))
+get_lsoa(x, return = c("all", "random", "first"))
 }
 \arguments{
-\item{.data}{A data frame with a column of lsoas, or a vector
+\item{x}{A data frame with a column of lsoas, or a vector
 of lsoas.}
 
 \item{return}{data frame of all postcodes in the LSOA area as default,

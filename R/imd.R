@@ -1,7 +1,7 @@
 #' Function that validates postcodes and links to IMD datasets, returning the
 #' score and generated deciles and quintiles.
 #'
-#' @param .data A data frame with a column of postcodes, or a vector
+#' @param x A data frame with a column of postcodes, or a vector
 #'  of postcodes.
 #' @param var String or symbol. The name of the variable in the data frame that
 #'  comprises the postcodes to be submitted.
@@ -11,10 +11,10 @@
 #'  or contain typos).
 #' @export
 get_imd <- function(
-    .data,
+    x,
     var = "postcode",
     fix_invalid = TRUE) {
-  check_postcodes <- check_postcodes(.data)
+  check_postcodes <- check_postcodes(x)
 
   set_params <- set_params(
     data = check_postcodes,
@@ -60,13 +60,13 @@ get_imd <- function(
 
 #' Function that gets IMD deciles and quintiles for LSOA codes.
 #'
-#' @param .data A data frame with a column of lsoas, or a vector
+#' @param x A data frame with a column of lsoas, or a vector
 #'  of lsoas.
 #' @param return data frame of all postcodes in the LSOA area as default,
 #' one random from a decile or the first from a decile for example postcodes.
 #'
 #' @export
-get_lsoa <- function(.data,
+get_lsoa <- function(x,
                      return = c(
                        "all",
                        "random",
@@ -75,7 +75,7 @@ get_lsoa <- function(.data,
   return <- match.arg(return)
 
   set_params <- set_params(
-    data = .data,
+    data = x,
     type = "lsoa"
   )
 

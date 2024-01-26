@@ -6,7 +6,7 @@
 #' information
 #' @export
 check_postcodes <- function(data) {
-  NHSRpostcodetools::postcode_data_join(.data = data)
+  NHSRpostcodetools::postcode_data_join(x = data)
 }
 
 #' Connect to services1.arcgis API for data

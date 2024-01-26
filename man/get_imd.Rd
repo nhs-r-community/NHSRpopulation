@@ -5,10 +5,10 @@
 \title{Function that validates postcodes and links to IMD datasets, returning the
 score and generated deciles and quintiles.}
 \usage{
-get_imd(.data, var = "postcode", fix_invalid = TRUE)
+get_imd(x, var = "postcode", fix_invalid = TRUE)
 }
 \arguments{
-\item{.data}{A data frame with a column of postcodes, or a vector
+\item{x}{A data frame with a column of postcodes, or a vector
 of postcodes.}
 
 \item{var}{String or symbol. The name of the variable in the data frame that
