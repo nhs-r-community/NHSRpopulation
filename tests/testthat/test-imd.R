@@ -71,6 +71,16 @@ testthat::test_that("Only one IMD score is returned because only 1 postcode
   )
 })
 
+testthat::test_that("No message when postcodes are valid", {
+  test_vector <- "HD1 2RD"
+
+  testthat::expect_no_message(
+    get_imd(test_vector)
+  )
+
+
+})
+
 # LSOA --------------------------------------------------------------------
 
 
