@@ -77,8 +77,6 @@ testthat::test_that("No message when postcodes are valid", {
   testthat::expect_no_message(
     get_imd(test_vector)
   )
-
-
 })
 
 # LSOA --------------------------------------------------------------------

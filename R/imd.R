@@ -57,26 +57,6 @@ get_imd <- function(
     )
 }
 
-#' Function that links to IMD dataset. Currently returns only a maximum of
-#' 2000 rows and should be just over 4000
-#'
-#' @param x A data frame with a column of postcodes, or a vector
-#'  of postcodes.
-#' @export
-get_imd_api <- function(
-    x
-    ) {
-
-  get_api_imd <- get_api_imd()
-
-  parse_json_imd <- parse_json(json = get_api_imd)
-
-  get_data_imd <- get_data(response_list = parse_json_imd)
-
-  get_data_imd
-
-}
-
 #' Function that gets IMD deciles and quintiles for LSOA codes.
 #'
 #' @param x A data frame with a column of lsoas, or a vector
