@@ -2,8 +2,8 @@
 % Please edit documentation in R/imd.R
 \name{get_imd}
 \alias{get_imd}
-\title{Function that validates postcodes and links to IMD datasets, returning the
-score and generated deciles and quintiles.}
+\title{Function that validates postcodes and links to postcode dataset which
+includes IMD, returning only the score and generated deciles and quintiles.}
 \usage{
 get_imd(x, var = "postcode", fix_invalid = TRUE)
 }
@@ -20,6 +20,6 @@ postcodes that are not found (potentially because they are terminated codes,
 or contain typos).}
 }
 \description{
-Function that validates postcodes and links to IMD datasets, returning the
-score and generated deciles and quintiles.
+Function that validates postcodes and links to postcode dataset which
+includes IMD, returning only the score and generated deciles and quintiles.
 }
