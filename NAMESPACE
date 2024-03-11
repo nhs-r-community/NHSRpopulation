@@ -3,6 +3,7 @@
 export("%>%")
 export(api_url)
 export(get_data)
+export(is_lsoa)
 export(is_postcode)
 export(pull_table_data)
 export(retrieve_data)
