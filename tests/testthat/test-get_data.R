@@ -1,13 +1,22 @@
-
 postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
 
 imd <- c("E01011107", "E01011229")
 
 test_df1 <- dplyr::tibble(
   place = paste0("place_", 1:3),
-  lsoa11 = c("E01011107",
-             "E01011229", "E01011229"),
+  lsoa11 = c(
+    "E01011107",
+    "E01011229", "E01011229"
+  ),
   postcode = postcodes
+)
+
+missing_df1 <- dplyr::tibble(
+  place = paste0("place_", 1:3),
+  lsoa11 = c(
+    "E01011107",
+    "E01011229", "E01011229"
+  )
 )
 
 # Taken from
@@ -65,10 +74,17 @@ httptest2::with_mock_dir("postcodes", {
     testthat::expect_equal(
       ncol(get_data(postcodes, url_type = "postcode")), n_col
     )
-
   })
 })
 
+
+httptest2::with_mock_dir("postcode_message", {
+  test_that("Returns message there is no postcode data", {
+    testthat::expect_error(
+      get_data(missing_df1, "postcode"),
+      "There isn't any postcode data in this data frame to connect to the Postcode API.")
+  })
+})
 
 httptest2::with_mock_dir("imd", {
   test_that("Returns url_type = 'imd'", {
@@ -91,7 +107,6 @@ httptest2::with_mock_dir("imd", {
     # testthat::expect_equal(
     #   ncol(get_data(imd, url_type = "imd")), n_col
     # )
-
   })
 })
 

@@ -65,12 +65,19 @@ get_data <- function(data,
                        "imd"
                      )) {
   url_type <- match.arg(url_type)
-
   req <- api_url(url_type)
+  is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
+
+  if (is.data.frame(data)) {
+    assertthat::assert_that(
+      is_postcode_check > 0,
+      msg = "There isn't any postcode data in this data frame to connect to the Postcode API."
+    )
+  }
 
   # Check the data frame or vector for any postcode to then run through
   # the postcode_data_join API
-  if (sum(is_postcode(as.vector(t(data))), na.rm = TRUE) > 0) {
+  if (is_postcode_check > 0) {
     data <- NHSRpostcodetools::postcode_data_join(x = data)
   }
 

@@ -1,0 +1,541 @@
+{
+    "objectIdFieldName": "OBJECTID",
+    "uniqueIdField": {
+        "name": "OBJECTID",
+        "isSystemMaintained": true
+    },
+    "globalIdFieldName": "",
+    "geometryType": "esriGeometryPoint",
+    "spatialReference": {
+        "wkid": 27700,
+        "latestWkid": 27700
+    },
+    "fields": [
+        {
+            "name": "OBJECTID",
+            "type": "esriFieldTypeOID",
+            "alias": "OBJECTID",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "PCD",
+            "type": "esriFieldTypeString",
+            "alias": "PCD",
+            "sqlType": "sqlTypeOther",
+            "length": 7,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "PCD2",
+            "type": "esriFieldTypeString",
+            "alias": "PCD2",
+            "sqlType": "sqlTypeOther",
+            "length": 8,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "PCDS",
+            "type": "esriFieldTypeString",
+            "alias": "PCDS",
+            "sqlType": "sqlTypeOther",
+            "length": 8,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "DOINTR",
+            "type": "esriFieldTypeString",
+            "alias": "DOINTR",
+            "sqlType": "sqlTypeOther",
+            "length": 6,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "DOTERM",
+            "type": "esriFieldTypeString",
+            "alias": "DOTERM",
+            "sqlType": "sqlTypeOther",
+            "length": 6,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OSCTY",
+            "type": "esriFieldTypeString",
+            "alias": "OSCTY",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "CED",
+            "type": "esriFieldTypeString",
+            "alias": "CED",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OSLAUA",
+            "type": "esriFieldTypeString",
+            "alias": "OSLAUA",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OSWARD",
+            "type": "esriFieldTypeString",
+            "alias": "OSWARD",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "USERTYPE",
+            "type": "esriFieldTypeString",
+            "alias": "USERTYPE",
+            "sqlType": "sqlTypeOther",
+            "length": 1,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OSEAST1M",
+            "type": "esriFieldTypeString",
+            "alias": "OSEAST1M",
+            "sqlType": "sqlTypeOther",
+            "length": 6,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OSNRTH1M",
+            "type": "esriFieldTypeString",
+            "alias": "OSNRTH1M",
+            "sqlType": "sqlTypeOther",
+            "length": 7,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OSGRDIND",
+            "type": "esriFieldTypeString",
+            "alias": "OSGRDIND",
+            "sqlType": "sqlTypeOther",
+            "length": 1,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OSHLTHAU",
+            "type": "esriFieldTypeString",
+            "alias": "OSHLTHAU",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "NHSER",
+            "type": "esriFieldTypeString",
+            "alias": "NHSER",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "CTRY",
+            "type": "esriFieldTypeString",
+            "alias": "CTRY",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "RGN",
+            "type": "esriFieldTypeString",
+            "alias": "RGN",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "PCON",
+            "type": "esriFieldTypeString",
+            "alias": "PCON",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "TTWA",
+            "type": "esriFieldTypeString",
+            "alias": "TTWA",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "PARK",
+            "type": "esriFieldTypeString",
+            "alias": "PARK",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OA11",
+            "type": "esriFieldTypeString",
+            "alias": "OA11",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "LSOA11",
+            "type": "esriFieldTypeString",
+            "alias": "LSOA11",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "MSOA11",
+            "type": "esriFieldTypeString",
+            "alias": "MSOA11",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "PARISH",
+            "type": "esriFieldTypeString",
+            "alias": "PARISH",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "WZ11",
+            "type": "esriFieldTypeString",
+            "alias": "WZ11",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "SICBL",
+            "type": "esriFieldTypeString",
+            "alias": "SICBL",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "BUA11",
+            "type": "esriFieldTypeString",
+            "alias": "BUA11",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "BUASD11",
+            "type": "esriFieldTypeString",
+            "alias": "BUASD11",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "RU11IND",
+            "type": "esriFieldTypeString",
+            "alias": "RU11IND",
+            "sqlType": "sqlTypeOther",
+            "length": 2,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OAC11",
+            "type": "esriFieldTypeString",
+            "alias": "OAC11",
+            "sqlType": "sqlTypeOther",
+            "length": 3,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "LAT",
+            "type": "esriFieldTypeSingle",
+            "alias": "LAT",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "LONG",
+            "type": "esriFieldTypeSingle",
+            "alias": "LONG",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "LEP1",
+            "type": "esriFieldTypeString",
+            "alias": "LEP1",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "LEP2",
+            "type": "esriFieldTypeString",
+            "alias": "LEP2",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "PFA",
+            "type": "esriFieldTypeString",
+            "alias": "PFA",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "IMD",
+            "type": "esriFieldTypeInteger",
+            "alias": "IMD",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "CALNCV",
+            "type": "esriFieldTypeString",
+            "alias": "CALNCV",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "ICB",
+            "type": "esriFieldTypeString",
+            "alias": "ICB",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "ITL",
+            "type": "esriFieldTypeString",
+            "alias": "ITL",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "OA21",
+            "type": "esriFieldTypeString",
+            "alias": "OA21",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "LSOA21",
+            "type": "esriFieldTypeString",
+            "alias": "LSOA21",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "MSOA21",
+            "type": "esriFieldTypeString",
+            "alias": "MSOA21",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        }
+    ],
+    "features": [
+        {
+            "attributes": {
+                "OBJECTID": 686162,
+                "PCD": "HD1 2RD",
+                "PCD2": "HD1  2RD",
+                "PCDS": "HD1 2RD",
+                "DOINTR": "198001",
+                "DOTERM": null,
+                "OSCTY": "E99999999",
+                "CED": "E99999999",
+                "OSLAUA": "E08000034",
+                "OSWARD": "E05001410",
+                "USERTYPE": "0",
+                "OSEAST1M": "414639",
+                "OSNRTH1M": "0416430",
+                "OSGRDIND": "1",
+                "OSHLTHAU": "E18000003",
+                "NHSER": "E40000012",
+                "CTRY": "E92000001",
+                "RGN": "E12000003",
+                "PCON": "E14000756",
+                "TTWA": "E30000219",
+                "PARK": "E65000001",
+                "OA11": "E00055983",
+                "LSOA11": "E01011107",
+                "MSOA11": "E02002299",
+                "PARISH": "E43000188",
+                "WZ11": "E33009457",
+                "SICBL": "E38000254",
+                "BUA11": "E34004684",
+                "BUASD11": "E35001402",
+                "RU11IND": "A1",
+                "OAC11": "3A2",
+                "LAT": 53.64418,
+                "LONG": -1.780038,
+                "LEP1": "E37000062",
+                "LEP2": null,
+                "PFA": "E23000010",
+                "IMD": 2928,
+                "CALNCV": "E56000030",
+                "ICB": "E54000054",
+                "ITL": "E08000034",
+                "OA21": "E00178700",
+                "LSOA21": "E01011107",
+                "MSOA21": "E02002299"
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 686180,
+                "PCD": "HD1 2UD",
+                "PCD2": "HD1  2UD",
+                "PCDS": "HD1 2UD",
+                "DOINTR": "198001",
+                "DOTERM": null,
+                "OSCTY": "E99999999",
+                "CED": "E99999999",
+                "OSLAUA": "E08000034",
+                "OSWARD": "E05001410",
+                "USERTYPE": "0",
+                "OSEAST1M": "414371",
+                "OSNRTH1M": "0416317",
+                "OSGRDIND": "1",
+                "OSHLTHAU": "E18000003",
+                "NHSER": "E40000012",
+                "CTRY": "E92000001",
+                "RGN": "E12000003",
+                "PCON": "E14000756",
+                "TTWA": "E30000219",
+                "PARK": "E65000001",
+                "OA11": "E00056549",
+                "LSOA11": "E01011229",
+                "MSOA11": "E02002312",
+                "PARISH": "E43000188",
+                "WZ11": "E33009493",
+                "SICBL": "E38000254",
+                "BUA11": "E34004684",
+                "BUASD11": "E35001402",
+                "RU11IND": "A1",
+                "OAC11": "3C1",
+                "LAT": 53.64317,
+                "LONG": -1.784097,
+                "LEP1": "E37000062",
+                "LEP2": null,
+                "PFA": "E23000010",
+                "IMD": 9558,
+                "CALNCV": "E56000030",
+                "ICB": "E54000054",
+                "ITL": "E08000034",
+                "OA21": "E00056549",
+                "LSOA21": "E01011229",
+                "MSOA21": "E02002312"
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 686184,
+                "PCD": "HD1 2UU",
+                "PCD2": "HD1  2UU",
+                "PCDS": "HD1 2UU",
+                "DOINTR": "198604",
+                "DOTERM": null,
+                "OSCTY": "E99999999",
+                "CED": "E99999999",
+                "OSLAUA": "E08000034",
+                "OSWARD": "E05001410",
+                "USERTYPE": "1",
+                "OSEAST1M": "414433",
+                "OSNRTH1M": "0416422",
+                "OSGRDIND": "1",
+                "OSHLTHAU": "E18000003",
+                "NHSER": "E40000012",
+                "CTRY": "E92000001",
+                "RGN": "E12000003",
+                "PCON": "E14000756",
+                "TTWA": "E30000219",
+                "PARK": "E65000001",
+                "OA11": "E00056549",
+                "LSOA11": "E01011229",
+                "MSOA11": "E02002312",
+                "PARISH": "E43000188",
+                "WZ11": "E33009497",
+                "SICBL": "E38000254",
+                "BUA11": "E34004684",
+                "BUASD11": "E35001402",
+                "RU11IND": "A1",
+                "OAC11": "3C1",
+                "LAT": 53.64411,
+                "LONG": -1.783154,
+                "LEP1": "E37000062",
+                "LEP2": null,
+                "PFA": "E23000010",
+                "IMD": 9558,
+                "CALNCV": "E56000030",
+                "ICB": "E54000054",
+                "ITL": "E08000034",
+                "OA21": "E00056549",
+                "LSOA21": "E01011229",
+                "MSOA21": "E02002312"
+            }
+        }
+    ]
+}
