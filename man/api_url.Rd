@@ -4,12 +4,13 @@
 \alias{api_url}
 \title{Getting data from the api_urls}
 \usage{
-api_url(url_type = c("postcode", "imd", "lsoa"))
+api_url(url_type = c("postcode", "imd"))
 }
 \arguments{
 \item{url_type}{String defaults to \code{postcode} which connects to
-Online_ONS_Postcode_Directory_Live and \code{imd} connects to
-Indices_of_Multiple_Deprivation_(IMD)_2019}
+Online_ONS_Postcode_Directory_Live to return Postcode information and
+\code{imd} connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
+IMD information}
 }
 \value{
 dataset

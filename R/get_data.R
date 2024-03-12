@@ -1,19 +1,19 @@
 #' Getting data from the api_urls
 #'
 #' @param url_type String defaults to `postcode` which connects to
-#' Online_ONS_Postcode_Directory_Live and `imd` connects to
-#' Indices_of_Multiple_Deprivation_(IMD)_2019
+#' Online_ONS_Postcode_Directory_Live to return Postcode information and
+#' `imd` connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
+#' IMD information
 #'
 #' @return dataset
 #' @export
 api_url <- function(url_type = c(
                       "postcode",
-                      "imd",
-                      "lsoa"
+                      "imd"
                     )) {
   url_type <- match.arg(url_type)
 
-  if (url_type == "postcode" | url_type == "lsoa") {
+  if (url_type == "postcode") {
     api_url <- paste0(
       "https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/",
       "rest/services/Online_ONS_Postcode_Directory_Live/",
@@ -45,9 +45,10 @@ api_url <- function(url_type = c(
 #' from the Online_ONS_Postcode_Directory_Live will take too long and is often
 #' unnecessary.
 #'
-#' @param url_type String "postcode" and "lsoa" connect to
-#' Online_ONS_Postcode_Directory_Live and imd connects to
-#' Indices_of_Multiple_Deprivation_(IMD)_2019
+#' @param url_type String defaults to `postcode` which connects to
+#' Online_ONS_Postcode_Directory_Live to return Postcode information and
+#' `imd` connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
+#' IMD information
 #' @param data String in "postcode" this is checked using the
 #' {NHSRpostcodetools} so selects the postcode column from a data frame or can
 #' handle a vector.
@@ -61,8 +62,7 @@ api_url <- function(url_type = c(
 get_data <- function(data,
                      url_type = c(
                        "postcode",
-                       "imd",
-                       "lsoa"
+                       "imd"
                      )) {
   url_type <- match.arg(url_type)
 
@@ -70,12 +70,12 @@ get_data <- function(data,
 
   # Check the data frame or vector for any postcode to then run through
   # the postcode_data_join API
-  if (sum(is_postcode(as.vector(t(test_df1))), na.rm = TRUE) > 0) {
+  if (sum(is_postcode(as.vector(t(data))), na.rm = TRUE) > 0) {
     data <- NHSRpostcodetools::postcode_data_join(x = data)
-
   }
 
   if (url_type == "postcode") {
+
     text <- paste0(
       "PCDS IN ('",
       paste(data$new_postcode,

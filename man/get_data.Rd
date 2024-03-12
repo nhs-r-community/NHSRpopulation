@@ -4,7 +4,7 @@
 \alias{get_data}
 \title{Query information to restrict data returned}
 \usage{
-get_data(data, url_type = c("postcode", "imd", "lsoa"))
+get_data(data, url_type = c("postcode", "imd"))
 }
 \arguments{
 \item{data}{String in "postcode" this is checked using the
@@ -14,9 +14,10 @@ This functionality needs to be extended to "lsoa" codes which currently only
 allow a vector.
 "imd" brings all data back and only relates to the English IMD.}
 
-\item{url_type}{String "postcode" and "lsoa" connect to
-Online_ONS_Postcode_Directory_Live and imd connects to
-Indices_of_Multiple_Deprivation_(IMD)_2019}
+\item{url_type}{String defaults to \code{postcode} which connects to
+Online_ONS_Postcode_Directory_Live to return Postcode information and
+\code{imd} connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
+IMD information}
 }
 \value{
 list Ids only as these are faster to batch
