@@ -4,7 +4,12 @@
 \alias{get_data}
 \title{Query information to restrict data returned}
 \usage{
-get_data(data, url_type = c("postcode", "imd"))
+get_data(
+  data,
+  url_type = c("postcode", "imd"),
+  fix_invalid = TRUE,
+  var = "postcode"
+)
 }
 \arguments{
 \item{data}{String in "postcode" this is checked using the
@@ -18,6 +23,14 @@ allow a vector.
 Online_ONS_Postcode_Directory_Live to return Postcode information and
 \code{imd} connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
 IMD information}
+
+\item{fix_invalid}{Boolean, default \code{TRUE}. Whether to try to fix any
+postcodes that are not found (potentially because they are terminated codes,
+or contain typos).}
+
+\item{var}{String or symbol. The name of the variable in the data frame that
+comprises the postcodes to be submitted. Should be acceptable as a symbol
+or as a standard string.}
 }
 \value{
 list Ids only as these are faster to batch

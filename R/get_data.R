@@ -55,6 +55,12 @@ api_url <- function(url_type = c(
 #' This functionality needs to be extended to "lsoa" codes which currently only
 #' allow a vector.
 #' "imd" brings all data back and only relates to the English IMD.
+#' @param fix_invalid Boolean, default `TRUE`. Whether to try to fix any
+#'  postcodes that are not found (potentially because they are terminated codes,
+#'  or contain typos).
+#' @param var String or symbol. The name of the variable in the data frame that
+#'  comprises the postcodes to be submitted. Should be acceptable as a symbol
+#'  or as a standard string.
 #'
 #' @return list Ids only as these are faster to batch
 #' @export
@@ -63,7 +69,10 @@ get_data <- function(data,
                      url_type = c(
                        "postcode",
                        "imd"
-                     )) {
+                     ),
+                     fix_invalid = TRUE,
+                     var = "postcode"
+                     ) {
   url_type <- match.arg(url_type)
   req <- api_url(url_type)
   is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
@@ -78,7 +87,8 @@ get_data <- function(data,
   # Check the data frame or vector for any postcode to then run through
   # the postcode_data_join API
   if (is_postcode_check > 0) {
-    data <- NHSRpostcodetools::postcode_data_join(x = data)
+    data <- NHSRpostcodetools::postcode_data_join(x = data,
+                                                  fix_invalid = fix_invalid)
   }
 
   if (url_type == "postcode") {
