@@ -71,28 +71,63 @@ get_data <- function(data,
                        "imd"
                      ),
                      fix_invalid = TRUE,
-                     var = "postcode"
-                     ) {
+                     var = NULL) {
   url_type <- match.arg(url_type)
   req <- api_url(url_type)
   is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
+  is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
 
-  if (is.data.frame(data)) {
+  if (url_type == "postcode" & is.null(var)) {
+    var <- "postcode"
+  }
+
+  if (url_type == "imd" & is.null(var)) {
+    var <- "lsoa11"
+  }
+
+  if (is.data.frame(data) & url_type == "postcode") {
     assertthat::assert_that(
       is_postcode_check > 0,
-      msg = "There isn't any postcode data in this data frame to connect to the Postcode API."
+      msg = paste0("There isn't any postcode data in this data frame to",
+                   "connect to the Postcode API.")
     )
   }
+
+  if (is.vector(data) & url_type == "postcode") {
+    assertthat::assert_that(
+      is_postcode_check > 0,
+      msg = paste0("There isn't any postcode data in this data frame to",
+                   "connect to the Postcode API.")
+    )
+  }
+
+  if (is.data.frame(data) & url_type == "imd") {
+    assertthat::assert_that(
+      is_lsoa_check > 0,
+      msg = paste0("There doesn't appear to be any data in this data frame",
+                   "to connect to the IMD API.")
+    )
+  }
+
+  if (is.vector(data) & url_type == "imd") {
+    assertthat::assert_that(
+      is_lsoa_check > 0,
+      msg = paste0("There doesn't appear to be any data in this data frame",
+                    "to connect to the IMD API.")
+    )
+  }
+
 
   # Check the data frame or vector for any postcode to then run through
   # the postcode_data_join API
   if (is_postcode_check > 0) {
-    data <- NHSRpostcodetools::postcode_data_join(x = data,
-                                                  fix_invalid = fix_invalid)
+    data <- NHSRpostcodetools::postcode_data_join(
+      x = data,
+      fix_invalid = fix_invalid
+    )
   }
 
-  if (url_type == "postcode") {
-
+  if (is.data.frame(data) & url_type == "postcode") {
     text <- paste0(
       "PCDS IN ('",
       paste(data$new_postcode,
@@ -101,21 +136,30 @@ get_data <- function(data,
     )
   }
 
-  if (url_type == "lsoa") {
+  # if (url_type == "lsoa") {
+  #   text <- paste0(
+  #     "LSOA11 IN ('",
+  #     paste(data$lsoa11,
+  #       collapse = "', '"
+  #     ), "')"
+  #   )
+  # }
+
+  if (is.data.frame(data) & url_type == "imd") {
+    # text <- "1=1" # get all rows (no filter) Takes a while to run
     text <- paste0(
-      "LSOA11 IN ('",
-      paste(data$lsoa11,
+      "LSOA11CD IN ('",
+      paste(unique(data$lsoa11),
         collapse = "', '"
       ), "')"
     )
   }
 
-  if (url_type == "imd") {
-    # text <- "1=1" # get all rows (no filter) Takes a while to run
+  if (rlang::is_vector(data) & url_type == "imd") {
     text <- paste0(
       "LSOA11CD IN ('",
-      paste(data$lsoa11,
-        collapse = "', '"
+      paste(data,
+            collapse = "', '"
       ), "')"
     )
   }
@@ -143,7 +187,26 @@ get_data <- function(data,
     purrr::map(poss_pull_table_data) |>
     purrr::list_rbind()
 
-  data_out
+  # Because APIs only return data where a match has been made which results in
+  # non matched data being dropped this joins back to the original.
+  # Postcode information is passed through {NHSRpostcodetools} which handles
+  # this but IMD is handled here.
+
+  # if (is.data.frame(data) & url_type == "imd") {
+  #   data_output <- data |>
+  #     dplyr::left_join(data_out,
+  #       by = vctrs::vec_c({{ var }} := "lsoa11cd")
+  #     )
+  # }
+
+  if (rlang::is_vector(data) & url_type == "imd") {
+    data_output <- tibble::as_tibble(data) |>
+      dplyr::left_join(data_out,
+        join_by(value == lsoa11cd)
+      )
+  }
+
+  data_output
 }
 
 #' use batched IDs to retrieve table data
