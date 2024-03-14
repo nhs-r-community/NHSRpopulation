@@ -71,25 +71,23 @@ get_data <- function(data,
                        "imd"
                      ),
                      fix_invalid = TRUE,
-                     var = NULL) {
+                     var = c("postcode", "lsoa11")) {
   url_type <- match.arg(url_type)
   req <- api_url(url_type)
   is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
   is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
 
-  if (url_type == "postcode" & is.null(var)) {
-    var <- "postcode"
-  }
-
-  if (url_type == "imd" & is.null(var)) {
-    var <- "lsoa11"
-  }
 
   if (is.data.frame(data) & url_type == "postcode") {
     assertthat::assert_that(
       is_postcode_check > 0,
       msg = paste0("There isn't any postcode data in this data frame to",
                    "connect to the Postcode API.")
+    )
+
+    assertthat::assert_that(
+      "postcode" %in% names(data),
+      msg = "There isn't a column called `postcode` in this data frame."
     )
   }
 
@@ -127,6 +125,10 @@ get_data <- function(data,
     )
   }
 
+  if (is_postcode_check == 0) {
+    data
+  }
+
   if (is.data.frame(data) & url_type == "postcode") {
     text <- paste0(
       "PCDS IN ('",
@@ -149,8 +151,8 @@ get_data <- function(data,
     # text <- "1=1" # get all rows (no filter) Takes a while to run
     text <- paste0(
       "LSOA11CD IN ('",
-      paste(unique(data$lsoa11),
-        collapse = "', '"
+      paste(data$lsoa11,
+            collapse = "', '"
       ), "')"
     )
   }
@@ -192,21 +194,19 @@ get_data <- function(data,
   # Postcode information is passed through {NHSRpostcodetools} which handles
   # this but IMD is handled here.
 
-  # if (is.data.frame(data) & url_type == "imd") {
-  #   data_output <- data |>
-  #     dplyr::left_join(data_out,
-  #       by = vctrs::vec_c({{ var }} := "lsoa11cd")
-  #     )
-  # }
-
-  if (rlang::is_vector(data) & url_type == "imd") {
-    data_output <- tibble::as_tibble(data) |>
+  if (is.data.frame(data) & url_type == "imd") {
+    data |>
       dplyr::left_join(data_out,
-        join_by(value == lsoa11cd)
+                       dplyr::join_by(lsoa11 == lsoa11cd)
       )
+  } else if (rlang::is_vector(data) & url_type == "imd") {
+    tibble::as_tibble(data) |>
+      dplyr::left_join(data_out,
+                       dplyr::join_by(value == lsoa11cd)
+      )
+  } else {
+    data
   }
-
-  data_output
 }
 
 #' use batched IDs to retrieve table data

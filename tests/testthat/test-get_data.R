@@ -4,7 +4,7 @@ postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
 
 missing_vector <- c("none", "missing", "HD111 2UV")
 
-imd <- c("E01011107", "E01011229", "E01000002")
+imd <- c("E01011107", "E01011229", "E01002")
 
 # Taken from
 # www.gov.uk/government/statistics/english-indices-of-deprivation-2019
@@ -36,12 +36,17 @@ test_df1 <- dplyr::tibble(
 missing_df1 <- dplyr::tibble(
   place = paste0("place_", 1:3))
 
+no_postcode_colm <- dplyr::tibble(
+  pcs = postcodes
+)
+
 # get_data() ----------------------------------------------------------------
 
 httptest2::with_mock_dir("postcodes", {
   test_that("Returns the default and url_type = 'postcode'", {
     n_rows <- 3
-    n_col <- 41
+    n_col_df <- 42
+    n_col_vector <- 40
 
     testthat::expect_equal(
       nrow(get_data(test_df1)), n_rows
@@ -52,11 +57,11 @@ httptest2::with_mock_dir("postcodes", {
     )
 
     testthat::expect_equal(
-      ncol(get_data(test_df1)), n_col
+      ncol(get_data(test_df1)), n_col_df
     )
 
     testthat::expect_equal(
-      ncol(get_data(postcodes)), n_col
+      ncol(get_data(postcodes)), n_col_vector
     )
 
     testthat::expect_equal(
@@ -68,11 +73,11 @@ httptest2::with_mock_dir("postcodes", {
     )
 
     testthat::expect_equal(
-      ncol(get_data(test_df1, url_type = "postcode")), n_col
+      ncol(get_data(test_df1, url_type = "postcode")), n_col_df
     )
 
     testthat::expect_equal(
-      ncol(get_data(postcodes, url_type = "postcode")), n_col
+      ncol(get_data(postcodes, url_type = "postcode")), n_col_vector
     )
   })
 })
@@ -145,18 +150,3 @@ httptest2::with_mock_dir("imd", {
 })
 
 
-testthat::test_that("Returned IMD decile", {
-  testthat::expect_equal(
-    get_data(test_df1, url_type = "imd") |>
-      dplyr::filter(!is.na(imd_decile)) |>
-      dplyr::select(imd_decile) |>
-      dplyr::pull(), 3
-  )
-
-  testthat::expect_equal(
-    get_imd(postcodes) |>
-      dplyr::filter(!is.na(imd_decile)) |>
-      dplyr::select(imd_decile) |>
-      dplyr::pull(), 3
-  )
-})

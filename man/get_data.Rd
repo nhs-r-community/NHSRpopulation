@@ -8,7 +8,7 @@ get_data(
   data,
   url_type = c("postcode", "imd"),
   fix_invalid = TRUE,
-  var = "postcode"
+  var = c("postcode", "lsoa11")
 )
 }
 \arguments{
