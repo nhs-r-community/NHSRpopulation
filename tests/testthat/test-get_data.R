@@ -1,23 +1,10 @@
+## Vectors
+
 postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
 
-imd <- c("E01011107", "E01011229")
+missing_vector <- c("none", "missing", "HD111 2UV")
 
-test_df1 <- dplyr::tibble(
-  place = paste0("place_", 1:3),
-  lsoa11 = c(
-    "E01011107",
-    "E01011229", "E01011229"
-  ),
-  postcode = postcodes
-)
-
-missing_df1 <- dplyr::tibble(
-  place = paste0("place_", 1:3),
-  lsoa11 = c(
-    "E01011107",
-    "E01011229", "E01011229"
-  )
-)
+imd <- c("E01011107", "E01011229", "E01000002")
 
 # Taken from
 # www.gov.uk/government/statistics/english-indices-of-deprivation-2019
@@ -35,6 +22,19 @@ postcodes_from_each_decile <- c(
   "E01000048"
 )
 
+## Data frames
+
+test_df1 <- dplyr::tibble(
+  place = paste0("place_", 1:3),
+  lsoa11 = c(
+    "E01011107",
+    "E01011229", "E01011229"
+  ),
+  postcode = postcodes
+)
+
+missing_df1 <- dplyr::tibble(
+  place = paste0("place_", 1:3))
 
 # get_data() ----------------------------------------------------------------
 
@@ -79,10 +79,44 @@ httptest2::with_mock_dir("postcodes", {
 
 
 httptest2::with_mock_dir("postcode_message", {
-  test_that("Returns message there is no postcode data", {
+  test_that("Returns message there is no postcode data for data frame", {
     testthat::expect_error(
       get_data(missing_df1, "postcode"),
-      "There isn't any postcode data in this data frame to connect to the Postcode API.")
+      paste0(
+        "There isn't any postcode data in this data frame to",
+        "connect to the Postcode API."
+      )
+    )
+  })
+
+  test_that("Returns message there is no postcode data for vector", {
+    testthat::expect_error(
+      get_data(missing_vector, "postcode"),
+      paste0(
+        "There isn't any postcode data in this data frame to",
+        "connect to the Postcode API."
+      )
+    )
+  })
+
+  test_that("Returns message there is no imd data for data frame", {
+    testthat::expect_error(
+      get_data(missing_df1, "imd"),
+      paste0(
+        "There doesn't appear to be any data in this data frame",
+        "to connect to the IMD API."
+      )
+    )
+  })
+
+  test_that("Returns message there is no imd data for vector", {
+    testthat::expect_error(
+      get_data(missing_vector, "imd"),
+      paste0(
+        "There doesn't appear to be any data in this data frame",
+        "to connect to the IMD API."
+      )
+    )
   })
 })
 
@@ -96,17 +130,17 @@ httptest2::with_mock_dir("imd", {
       nrow(get_data(test_df1, url_type = "imd")), n_rows
     )
 
-    # testthat::expect_equal(
-    #   nrow(get_data(imd, url_type = "imd")), n_rows
-    # )
+    testthat::expect_equal(
+      nrow(get_data(imd, url_type = "imd")), n_rows
+    )
 
     testthat::expect_equal(
       ncol(get_data(test_df1, url_type = "imd")), n_col
     )
 
-    # testthat::expect_equal(
-    #   ncol(get_data(imd, url_type = "imd")), n_col
-    # )
+    testthat::expect_equal(
+      ncol(get_data(imd, url_type = "imd")), n_col
+    )
   })
 })
 
