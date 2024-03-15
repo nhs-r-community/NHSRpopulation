@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 To get the IMD scores (raw scores and ranked deciles) for a dataset run the 
 following code to generate some random example postcodes:
 
-```{r}
+```{r, eval=TRUE}
 library(tibble)
 library(NHSRpopulation)
 
@@ -39,7 +39,7 @@ tibble_postcodes
 
 Then, using the `get_data()` function for a vector:
 
-```{r}
+```{r,}
 # [TODO] Error when knitting
 # Error in `response_list$features`:
 # ! $ operator is invalid for atomic vectors
@@ -89,7 +89,7 @@ NHSRpopulation::get_data(tibble_postcodes, fix_invalid = FALSE) |>
 # Index of Multiple Deprivation
 
 
-```{r}
+```{r, eval=TRUE}
 # Note that the third LSOA in this list is incorrect on purpose
 imd <- c("E01011107", "E01011229", "E01002")
 
@@ -123,7 +123,7 @@ Where data frames are used the expectation of the functions is that postcodes
 will be in a column called `postcode` and IMD will be from `lsoa11`, however, 
 this can be overwritten:
 
-```{r}
+```{r, eval=TRUE}
 different_names <- dplyr::tibble(
   lower_soa_codes = imd,
   pcs = postcodes
@@ -134,24 +134,20 @@ different_names
 
 And as for other examples either vectors or data frames can be used in the
 function.
-Without specifying the different named column the following messages will show:
 
-```{r, eval=FALSE}
-NHSRpopulation::get_data(different_names, url_type = "postcode")
-NHSRpopulation::get_data(different_names, url_type = "imd")
-```
+The following parameter can be used to set the column name:
 
-And the following parameter can be used to set the column name:
-
-```{r, eval=FALSE}
-# [TODO] returns errors but tests don't - needs debugging
-NHSRpopulation::get_data(different_names,
-  column = "pcs"
-) # postcode is default
-
+```{r}
 NHSRpopulation::get_data(different_names,
   url_type = "imd",
   column = "lower_soa_codes"
+)
+```
+
+```{r}
+NHSRpopulation::get_data(different_names,
+  # url_type is set to postcodes as default
+  column = "pcs"
 )
 ```
 
