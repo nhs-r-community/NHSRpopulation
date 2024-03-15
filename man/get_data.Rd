@@ -8,32 +8,25 @@ get_data(
   data,
   url_type = c("postcode", "imd"),
   fix_invalid = TRUE,
-  var = c("postcode", "lsoa11")
+  column = "default"
 )
 }
 \arguments{
-\item{data}{String in "postcode" this is checked using the
-{NHSRpostcodetools} so selects the postcode column from a data frame or can
-handle a vector.
-This functionality needs to be extended to "lsoa" codes which currently only
-allow a vector.
-"imd" brings all data back and only relates to the English IMD.}
+\item{data}{dataframe or vector.The data that will connect to either the
+postcode API or imd API.}
 
-\item{url_type}{String defaults to \code{postcode} which connects to
-Online_ONS_Postcode_Directory_Live to return Postcode information and
-\code{imd} connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
-IMD information}
+\item{url_type}{String defaults to \code{postcode} which returns information from
+Online_ONS_Postcode_Directory_Live to return Postcode information via the
+{NHSRpostcodetools} package. \code{imd} connects to
+Indices_of_Multiple_Deprivation_(IMD)_2019 to return IMD information.}
 
 \item{fix_invalid}{Boolean, default \code{TRUE}. Whether to try to fix any
 postcodes that are not found (potentially because they are terminated codes,
 or contain typos).}
 
-\item{var}{String or symbol. The name of the variable in the data frame that
-comprises the postcodes to be submitted. Should be acceptable as a symbol
-or as a standard string.}
-}
-\value{
-list Ids only as these are faster to batch
+\item{column}{String. Default would mean the automatic connection of a
+column called \code{postcode} if postcode data is being expected or \code{lsoa11} if
+imd data as requested via the parameter \code{url_type = "imd"}.}
 }
 \description{
 This function queries the API based on the information required and returns

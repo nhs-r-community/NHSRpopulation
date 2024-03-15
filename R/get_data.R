@@ -1,37 +1,17 @@
-#' Getting data from the api_urls
+#' Getting data from the IMD api
 #'
-#' @param url_type String defaults to `postcode` which connects to
-#' Online_ONS_Postcode_Directory_Live to return Postcode information and
-#' `imd` connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
-#' IMD information
+#' @description
+#' Only required for IMD as postcodes is routed through the {NHSRpostcodetools}
+#' package
 #'
 #' @return dataset
 #' @export
-api_url <- function(url_type = c(
-                      "postcode",
-                      "imd"
-                    )) {
-  url_type <- match.arg(url_type)
-
-  if (url_type == "postcode") {
-    api_url <- paste0(
-      "https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/",
-      "rest/services/Online_ONS_Postcode_Directory_Live/",
-      "FeatureServer/0/query"
-    )
-  }
-
-  if (url_type == "imd") {
-    api_url <- paste0(
-      "https://services3.arcgis.com/ivmBBrHfQfDnDf8Q/arcgis/rest/services/",
-      "Indices_of_Multiple_Deprivation_(IMD)_2019/FeatureServer/0/query"
-    )
-  }
-
-  req <- httr2::request(api_url) |>
+api_url <- function() {
+  req <- httr2::request(paste0(
+    "https://services3.arcgis.com/ivmBBrHfQfDnDf8Q/arcgis/rest/services/",
+    "Indices_of_Multiple_Deprivation_(IMD)_2019/FeatureServer/0/query"
+  )) |>
     httr2::req_url_query(f = "json")
-
-  req
 }
 
 #' Query information to restrict data returned
@@ -45,24 +25,20 @@ api_url <- function(url_type = c(
 #' from the Online_ONS_Postcode_Directory_Live will take too long and is often
 #' unnecessary.
 #'
-#' @param url_type String defaults to `postcode` which connects to
-#' Online_ONS_Postcode_Directory_Live to return Postcode information and
-#' `imd` connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
-#' IMD information
-#' @param data String in "postcode" this is checked using the
-#' {NHSRpostcodetools} so selects the postcode column from a data frame or can
-#' handle a vector.
-#' This functionality needs to be extended to "lsoa" codes which currently only
-#' allow a vector.
-#' "imd" brings all data back and only relates to the English IMD.
+#' @param url_type String defaults to `postcode` which returns information from
+#' Online_ONS_Postcode_Directory_Live to return Postcode information via the
+#' {NHSRpostcodetools} package. `imd` connects to
+#' Indices_of_Multiple_Deprivation_(IMD)_2019 to return IMD information.
+#' @param data dataframe or vector.The data that will connect to either the
+#' postcode API or imd API.
 #' @param fix_invalid Boolean, default `TRUE`. Whether to try to fix any
 #'  postcodes that are not found (potentially because they are terminated codes,
 #'  or contain typos).
-#' @param var String or symbol. The name of the variable in the data frame that
-#'  comprises the postcodes to be submitted. Should be acceptable as a symbol
-#'  or as a standard string.
+#' @param column String. Default would mean the automatic connection of a
+#' column called `postcode` if postcode data is being expected or `lsoa11` if
+#' imd data as requested via the parameter `url_type = "imd"`.
 #'
-#' @return list Ids only as these are faster to batch
+#' @return
 #' @export
 #'
 get_data <- function(data,
@@ -71,20 +47,32 @@ get_data <- function(data,
                        "imd"
                      ),
                      fix_invalid = TRUE,
-                     var = c("postcode", "lsoa11")) {
+                     column = "default") {
   url_type <- match.arg(url_type)
-  req <- api_url(url_type)
+  req <- api_url()
+
   is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
   is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
+  column <- rlang::as_string(column)
 
+  if (column == "default" & url_type == "imd") {
+    # Extract lsoa codes before the data is connected to the postcodes API
+    # via {NHSRpostcodetools}
+    column <- "lsoa11"
+  }
+
+  if (column != "default") {
+    column
+  }
 
   if (is.data.frame(data) & url_type == "postcode") {
     assertthat::assert_that(
       is_postcode_check > 0,
-      msg = paste0("There isn't any postcode data in this data frame to",
-                   "connect to the Postcode API.")
+      msg = paste(
+        "There isn't any postcode data in this data frame to",
+        "connect to the Postcode API."
+      )
     )
-
     assertthat::assert_that(
       "postcode" %in% names(data),
       msg = "There isn't a column called `postcode` in this data frame."
@@ -94,24 +82,34 @@ get_data <- function(data,
   if (is.vector(data) & url_type == "postcode") {
     assertthat::assert_that(
       is_postcode_check > 0,
-      msg = paste0("There isn't any postcode data in this data frame to",
-                   "connect to the Postcode API.")
+      msg = paste(
+        "There isn't any postcode data in this data frame to",
+        "connect to the Postcode API."
+      )
     )
   }
 
   if (is.data.frame(data) & url_type == "imd") {
     assertthat::assert_that(
       is_lsoa_check > 0,
-      msg = paste0("There doesn't appear to be any data in this data frame",
-                   "to connect to the IMD API.")
+      msg = paste(
+        "There doesn't appear to be any data in this data frame",
+        "to connect to the IMD API."
+      )
+    )
+    assertthat::assert_that(
+      "lsoa11" %in% names(data),
+      msg = "There isn't a column called `lsoa11` in this data frame."
     )
   }
 
   if (is.vector(data) & url_type == "imd") {
     assertthat::assert_that(
       is_lsoa_check > 0,
-      msg = paste0("There doesn't appear to be any data in this data frame",
-                    "to connect to the IMD API.")
+      msg = paste(
+        "There doesn't appear to be any data in this data frame",
+        "to connect to the IMD API."
+      )
     )
   }
 
@@ -119,20 +117,16 @@ get_data <- function(data,
   # Check the data frame or vector for any postcode to then run through
   # the postcode_data_join API
   if (is_postcode_check > 0) {
-    data <- NHSRpostcodetools::postcode_data_join(
+    data_transformed <- NHSRpostcodetools::postcode_data_join(
       x = data,
       fix_invalid = fix_invalid
     )
   }
 
-  if (is_postcode_check == 0) {
-    data
-  }
-
   if (is.data.frame(data) & url_type == "postcode") {
     text <- paste0(
       "PCDS IN ('",
-      paste(data$new_postcode,
+      paste(data_transformed$new_postcode,
         collapse = "', '"
       ), "')"
     )
@@ -147,47 +141,51 @@ get_data <- function(data,
   #   )
   # }
 
-  if (is.data.frame(data) & url_type == "imd") {
-    # text <- "1=1" # get all rows (no filter) Takes a while to run
-    text <- paste0(
-      "LSOA11CD IN ('",
-      paste(data$lsoa11,
-            collapse = "', '"
-      ), "')"
-    )
-  }
 
   if (rlang::is_vector(data) & url_type == "imd") {
     text <- paste0(
       "LSOA11CD IN ('",
       paste(data,
-            collapse = "', '"
+        collapse = "', '"
       ), "')"
     )
   }
 
-  ids <- req |>
-    httr2::req_url_query(returnIdsonly = TRUE) |>
-    httr2::req_url_query(where = text) |>
-    httr2::req_perform() |>
-    httr2::resp_body_json() |>
-    purrr::pluck("objectIds")
+  if (is.data.frame(data) & url_type == "imd") {
+    # text <- "1=1" # get all rows (no filter) Takes a while to run
 
-  ids_batched <- NHSRpostcodetools::batch_it(ids, 100L)
+    text <- paste0(
+      "LSOA11CD IN ('",
+      paste(data[[column]],
+        collapse = "', '"
+      ), "')"
+    )
+  }
 
-  # Uses function retrieve data
-  poss_retrieve_data <- purrr::possibly(retrieve_data) # safely handle any errors
+  if (url_type == "imd") {
+    ids <- req |>
+      httr2::req_url_query(returnIdsonly = TRUE) |>
+      httr2::req_url_query(where = text) |>
+      httr2::req_perform() |>
+      httr2::resp_body_json() |>
+      purrr::pluck("objectIds")
 
-  resps <- ids_batched |>
-    purrr::map(\(x) poss_retrieve_data(req, x)) |>
-    purrr::compact()
+    ids_batched <- NHSRpostcodetools::batch_it(ids, 100L)
 
-  # Uses function pull_table_data
-  poss_pull_table_data <- purrr::possibly(pull_table_data)
+    # Uses function retrieve data
+    poss_retrieve_data <- purrr::possibly(retrieve_data) # safely handle any errors
 
-  data_out <- resps |>
-    purrr::map(poss_pull_table_data) |>
-    purrr::list_rbind()
+    resps <- ids_batched |>
+      purrr::map(\(x) poss_retrieve_data(req, x)) |>
+      purrr::compact()
+
+    # Uses function pull_table_data
+    poss_pull_table_data <- purrr::possibly(pull_table_data)
+
+    data_out <- resps |>
+      purrr::map(poss_pull_table_data) |>
+      purrr::list_rbind()
+  }
 
   # Because APIs only return data where a match has been made which results in
   # non matched data being dropped this joins back to the original.
@@ -196,16 +194,19 @@ get_data <- function(data,
 
   if (is.data.frame(data) & url_type == "imd") {
     data |>
-      dplyr::left_join(data_out,
-                       dplyr::join_by(lsoa11 == lsoa11cd)
+      dplyr::left_join(
+        data_out,
+        dplyr::join_by({{ column }} == lsoa11cd)
       )
   } else if (rlang::is_vector(data) & url_type == "imd") {
     tibble::as_tibble(data) |>
-      dplyr::left_join(data_out,
-                       dplyr::join_by(value == lsoa11cd)
-      )
+      dplyr::left_join(
+        data_out,
+        dplyr::join_by(value == lsoa11cd)
+      ) |>
+      dplyr::rename(lsoa11 = value)
   } else {
-    data
+    data_transformed
   }
 }
 

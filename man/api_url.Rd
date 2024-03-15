@@ -2,19 +2,14 @@
 % Please edit documentation in R/get_data.R
 \name{api_url}
 \alias{api_url}
-\title{Getting data from the api_urls}
+\title{Getting data from the IMD api}
 \usage{
-api_url(url_type = c("postcode", "imd"))
-}
-\arguments{
-\item{url_type}{String defaults to \code{postcode} which connects to
-Online_ONS_Postcode_Directory_Live to return Postcode information and
-\code{imd} connects to Indices_of_Multiple_Deprivation_(IMD)_2019 to return
-IMD information}
+api_url()
 }
 \value{
 dataset
 }
 \description{
-Getting data from the api_urls
+Only required for IMD as postcodes is routed through the {NHSRpostcodetools}
+package
 }

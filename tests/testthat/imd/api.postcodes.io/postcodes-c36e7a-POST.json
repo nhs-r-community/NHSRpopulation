@@ -1,0 +1,52 @@
+{
+    "status": 200,
+    "result": [
+        {
+            "query": "HD1 2UU",
+            "result": {
+                "postcode": "HD1 2UU",
+                "quality": 1,
+                "eastings": 414433,
+                "northings": 416422,
+                "country": "England",
+                "nhs_ha": "Yorkshire and the Humber",
+                "longitude": -1.783154,
+                "latitude": 53.644112,
+                "european_electoral_region": "Yorkshire and The Humber",
+                "primary_care_trust": "Kirklees",
+                "region": "Yorkshire and The Humber",
+                "lsoa": "Kirklees 042D",
+                "msoa": "Kirklees 042",
+                "incode": "2UU",
+                "outcode": "HD1",
+                "parliamentary_constituency": "Huddersfield",
+                "parliamentary_constituency_2024": "Huddersfield",
+                "admin_district": "Kirklees",
+                "parish": "Kirklees, unparished area",
+                "admin_county": null,
+                "date_of_introduction": "198604",
+                "admin_ward": "Newsome",
+                "ced": null,
+                "ccg": "NHS West Yorkshire",
+                "nuts": "Kirklees",
+                "pfa": "West Yorkshire",
+                "codes": {
+                    "admin_district": "E08000034",
+                    "admin_county": "E99999999",
+                    "admin_ward": "E05001410",
+                    "parish": "E43000188",
+                    "parliamentary_constituency": "E14000756",
+                    "parliamentary_constituency_2024": "E14001297",
+                    "ccg": "E38000254",
+                    "ccg_id": "X2C4Y",
+                    "ced": "E99999999",
+                    "nuts": "TLE44",
+                    "lsoa": "E01011229",
+                    "msoa": "E02002312",
+                    "lau2": "E08000034",
+                    "pfa": "E23000010"
+                }
+            }
+        }
+    ]
+}
