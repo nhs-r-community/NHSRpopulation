@@ -5,10 +5,10 @@
 \title{Function to check if a string is a valid postcode regardless of its
 formatting.}
 \usage{
-is_postcode(Postcode)
+is_postcode(data)
 }
 \arguments{
-\item{Postcode}{string}
+\item{data}{string}
 }
 \value{
 Logical

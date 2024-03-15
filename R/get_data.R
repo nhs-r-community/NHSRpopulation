@@ -7,7 +7,7 @@
 #' @return dataset
 #' @export
 api_url <- function() {
-  req <- httr2::request(paste0(
+  httr2::request(paste0(
     "https://services3.arcgis.com/ivmBBrHfQfDnDf8Q/arcgis/rest/services/",
     "Indices_of_Multiple_Deprivation_(IMD)_2019/FeatureServer/0/query"
   )) |>
@@ -55,7 +55,7 @@ get_data <- function(data,
   is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
   column <- rlang::as_string(column)
 
-  if (column == "default" & url_type == "imd") {
+  if (column == "default" && url_type == "imd") {
     # Extract lsoa codes before the data is connected to the postcodes API
     # via {NHSRpostcodetools}
     column <- "lsoa11"
@@ -65,7 +65,7 @@ get_data <- function(data,
     column
   }
 
-  if (is.data.frame(data) & url_type == "postcode") {
+  if (is.data.frame(data) && url_type == "postcode") {
     assertthat::assert_that(
       is_postcode_check > 0,
       msg = paste(
@@ -79,7 +79,7 @@ get_data <- function(data,
     )
   }
 
-  if (is.vector(data) & url_type == "postcode") {
+  if (is.vector(data) && url_type == "postcode") {
     assertthat::assert_that(
       is_postcode_check > 0,
       msg = paste(
@@ -89,7 +89,7 @@ get_data <- function(data,
     )
   }
 
-  if (is.data.frame(data) & url_type == "imd") {
+  if (is.data.frame(data) && url_type == "imd") {
     assertthat::assert_that(
       is_lsoa_check > 0,
       msg = paste(
@@ -103,7 +103,7 @@ get_data <- function(data,
     )
   }
 
-  if (is.vector(data) & url_type == "imd") {
+  if (is.vector(data) && url_type == "imd") {
     assertthat::assert_that(
       is_lsoa_check > 0,
       msg = paste(
@@ -123,7 +123,7 @@ get_data <- function(data,
     )
   }
 
-  if (is.data.frame(data) & url_type == "postcode") {
+  if (is.data.frame(data) && url_type == "postcode") {
     text <- paste0(
       "PCDS IN ('",
       paste(data_transformed$new_postcode,
@@ -142,7 +142,7 @@ get_data <- function(data,
   # }
 
 
-  if (rlang::is_vector(data) & url_type == "imd") {
+  if (rlang::is_vector(data) && url_type == "imd") {
     text <- paste0(
       "LSOA11CD IN ('",
       paste(data,
@@ -151,7 +151,7 @@ get_data <- function(data,
     )
   }
 
-  if (is.data.frame(data) & url_type == "imd") {
+  if (is.data.frame(data) && url_type == "imd") {
     # text <- "1=1" # get all rows (no filter) Takes a while to run
 
     text <- paste0(
@@ -173,7 +173,8 @@ get_data <- function(data,
     ids_batched <- NHSRpostcodetools::batch_it(ids, 100L)
 
     # Uses function retrieve data
-    poss_retrieve_data <- purrr::possibly(retrieve_data) # safely handle any errors
+    # safely handle any errors
+    poss_retrieve_data <- purrr::possibly(retrieve_data)
 
     resps <- ids_batched |>
       purrr::map(\(x) poss_retrieve_data(req, x)) |>
@@ -192,13 +193,13 @@ get_data <- function(data,
   # Postcode information is passed through {NHSRpostcodetools} which handles
   # this but IMD is handled here.
 
-  if (is.data.frame(data) & url_type == "imd") {
+  if (is.data.frame(data) && url_type == "imd") {
     data |>
       dplyr::left_join(
         data_out,
         dplyr::join_by({{ column }} == lsoa11cd)
       )
-  } else if (rlang::is_vector(data) & url_type == "imd") {
+  } else if (rlang::is_vector(data) && url_type == "imd") {
     tibble::as_tibble(data) |>
       dplyr::left_join(
         data_out,

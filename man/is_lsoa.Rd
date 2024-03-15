@@ -4,10 +4,10 @@
 \alias{is_lsoa}
 \title{Function to check if a string is an LSOA code}
 \usage{
-is_lsoa(LSOA)
+is_lsoa(data)
 }
 \arguments{
-\item{LSOA}{string}
+\item{data}{string}
 }
 \value{
 Logical
