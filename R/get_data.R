@@ -50,19 +50,18 @@ get_data <- function(data,
                      column = "default") {
   url_type <- match.arg(url_type)
   req <- api_url()
-
-  is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
-  is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
   column <- rlang::as_string(column)
 
-  if (column == "default" && url_type == "imd") {
-    # Extract lsoa codes before the data is connected to the postcodes API
-    # via {NHSRpostcodetools}
-    column <- "lsoa11"
-  }
+  # Check there is corresponding type data somewhere in data frame
+  is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
+  is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
 
-  if (column != "default") {
-    column
+  if (column == "default" && url_type == "imd") {
+    column <- "lsoa11"
+  } else if (column == "default" && url_type == "postcode") {
+    column <- "postcode"
+  } else {
+    rlang::eval_tidy(rlang::quo(column))
   }
 
   if (is.data.frame(data) && url_type == "postcode") {
@@ -73,17 +72,13 @@ get_data <- function(data,
         "connect to the Postcode API."
       )
     )
-    assertthat::assert_that(
-      "postcode" %in% names(data),
-      msg = "There isn't a column called `postcode` in this data frame."
-    )
   }
 
   if (is.vector(data) && url_type == "postcode") {
     assertthat::assert_that(
       is_postcode_check > 0,
       msg = paste(
-        "There isn't any postcode data in this data frame to",
+        "There isn't any postcode data in this vector to",
         "connect to the Postcode API."
       )
     )
@@ -97,29 +92,30 @@ get_data <- function(data,
         "to connect to the IMD API."
       )
     )
-    assertthat::assert_that(
-      "lsoa11" %in% names(data),
-      msg = "There isn't a column called `lsoa11` in this data frame."
-    )
-  }
-
-  if (is.vector(data) && url_type == "imd") {
-    assertthat::assert_that(
-      is_lsoa_check > 0,
-      msg = paste(
-        "There doesn't appear to be any data in this data frame",
-        "to connect to the IMD API."
-      )
-    )
+    # assertthat::assert_that(
+    #     "lsoa11" %in% names(data),
+    #     msg = "There isn't a column called `lsoa11` in this data frame."
+    #   )
+    # }
+    #
+    # if (is.vector(data) && url_type == "imd") {
+    #   assertthat::assert_that(
+    #     is_lsoa_check > 0,
+    #     msg = paste(
+    #       "There doesn't appear to be any data in this data frame",
+    #       "to connect to the IMD API."
+    #     )
+    #   )
   }
 
 
   # Check the data frame or vector for any postcode to then run through
   # the postcode_data_join API
-  if (is_postcode_check > 0) {
+  if (is_postcode_check > 0 && url_type != "imd") {
     data_transformed <- NHSRpostcodetools::postcode_data_join(
       x = data,
-      fix_invalid = fix_invalid
+      fix_invalid = fix_invalid,
+      var = column
     )
   }
 
@@ -131,16 +127,6 @@ get_data <- function(data,
       ), "')"
     )
   }
-
-  # if (url_type == "lsoa") {
-  #   text <- paste0(
-  #     "LSOA11 IN ('",
-  #     paste(data$lsoa11,
-  #       collapse = "', '"
-  #     ), "')"
-  #   )
-  # }
-
 
   if (rlang::is_vector(data) && url_type == "imd") {
     text <- paste0(
