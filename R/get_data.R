@@ -38,7 +38,7 @@ api_url <- function() {
 #' column called `postcode` if postcode data is being expected or `lsoa11` if
 #' imd data as requested via the parameter `url_type = "imd"`.
 #'
-#' @return
+#' @return data frame
 #' @export
 #'
 get_data <- function(data,

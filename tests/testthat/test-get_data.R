@@ -30,9 +30,7 @@ test_df1 <- dplyr::tibble(
     "E01011107",
     "E01011229", "E01000002"
   ),
-  lower_soa_codes = imd,
   postcode = postcodes,
-  pcs = postcodes
 )
 
 missing_df1 <- dplyr::tibble(
@@ -44,17 +42,18 @@ no_postcode_colm <- dplyr::tibble(
   imd_codes = imd
 )
 
+different_names <- dplyr::tibble(
+  lower_soa_codes = imd,
+  pcs = postcodes
+)
+
 # get_data() ----------------------------------------------------------------
 
 httptest2::with_mock_dir("postcodes", {
   test_that("Returns the default and url_type = 'postcode'", {
     n_rows <- 3
-    n_col_df <- 44
+    n_col_df <- 42
     n_col_vector <- 40
-
-    testthat::expect_equal(
-      nrow(get_data(test_df1, column = "pcs")), n_rows
-    )
 
     testthat::expect_equal(
       nrow(get_data(test_df1)), n_rows
@@ -69,19 +68,11 @@ httptest2::with_mock_dir("postcodes", {
     )
 
     testthat::expect_equal(
-      ncol(get_data(test_df1, column = "pcs")), n_col_df
-    )
-
-    testthat::expect_equal(
       ncol(get_data(postcodes)), n_col_vector
     )
 
     testthat::expect_equal(
       nrow(get_data(test_df1, url_type = "postcode")), n_rows
-    )
-
-    testthat::expect_equal(
-      nrow(get_data(test_df1, url_type = "postcode", column = "pcs")), n_rows
     )
 
     testthat::expect_equal(
@@ -93,15 +84,47 @@ httptest2::with_mock_dir("postcodes", {
     )
 
     testthat::expect_equal(
-      ncol(get_data(test_df1, url_type = "postcode", column = "pcs")), n_col_df
-    )
-
-    testthat::expect_equal(
       ncol(get_data(postcodes, url_type = "postcode")), n_col_vector
     )
   })
 })
 
+
+httptest2::with_mock_dir("different columns", {
+  test_that("Returns data with different column names", {
+    n_rows <- 3
+    n_col_df <- 44
+    n_col_vector <- 40
+
+    testthat::expect_equal(
+      nrow(get_data(different_names, column = "pcs")), n_rows
+    )
+
+    testthat::expect_equal(
+      ncol(get_data(different_names, column = "pcs")), n_col_df
+    )
+
+    testthat::expect_equal(
+      nrow(get_data(different_names, url_type = "postcode", column = "pcs")),
+      n_rows
+    )
+
+    testthat::expect_equal(
+      ncol(get_data(different_names, url_type = "postcode", column = "pcs")),
+      n_col_df
+    )
+
+    testthat::expect_equal(
+      nrow(get_data(different_names, url_type = "imd", column = "lsoa11")),
+      n_rows
+    )
+
+    testthat::expect_equal(
+      ncol(get_data(different_names, url_type = "imd", column = "lsoa11")),
+      n_col_df
+    )
+  })
+})
 
 httptest2::with_mock_dir("postcode_message", {
   test_that("Returns message there is no postcode data for data frame", {
@@ -169,22 +192,14 @@ httptest2::with_mock_dir("imd", {
   test_that("Returns url_type = 'imd'", {
     n_rows <- 3
     n_col_vector <- 66
-    n_col_df <- 70
+    n_col_df <- 68
 
     testthat::expect_equal(
       nrow(get_data(test_df1, url_type = "imd")), n_rows
     )
 
     testthat::expect_equal(
-      nrow(get_data(test_df1, url_type = "imd", column = "lsoa11")), n_rows
-    )
-
-    testthat::expect_equal(
       ncol(get_data(test_df1, url_type = "imd")), n_col_df
-    )
-
-    testthat::expect_equal(
-      ncol(get_data(test_df1, url_type = "imd", column = "lsoa11")), n_col_df
     )
 
     # vectors

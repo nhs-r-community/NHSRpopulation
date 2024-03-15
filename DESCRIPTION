@@ -31,7 +31,6 @@ Depends:
 Suggests: 
     httptest2,
     knitr,
-    PostcodesioR,
     purrr,
     rmarkdown,
     testthat (>= 3.0.0),

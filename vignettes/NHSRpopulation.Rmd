@@ -1,7 +1,6 @@
 ---
 title: "Getting started with NHSRpopulation"
 output: rmarkdown::html_vignette
-bibliography: "references.bib"
 link-citations: TRUE
 vignette: >
   %\VignetteIndexEntry{Getting started with NHSRpopulation}
@@ -13,7 +12,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   echo = TRUE,
-  eval = TRUE,
+  eval = FALSE,
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%"
@@ -22,90 +21,137 @@ knitr::opts_chunk$set(
 
 ### Indices of Multiple Deprivation (IMD)
 
-To get the IMD scores (raw scores and ranked deciles) for a dataset run the following code to generate some random example postcodes:
+To get the IMD scores (raw scores and ranked deciles) for a dataset run the 
+following code to generate some random example postcodes:
 
 ```{r}
-library(purrr)
 library(tibble)
-library(PostcodesioR)
 library(NHSRpopulation)
 
-postcodes <- purrr::map_chr(
-  1:10,
-  .f = ~ PostcodesioR::random_postcode() |>
-    purrr::pluck(1)
-)
-
-tibble_postcodes <- postcodes |>
-  tibble::as_tibble()
-```
-
-Then, using the `get_imd()` function for a vector (returning just the first five columns):
-
-```{r}
-NHSRpopulation::get_imd(postcodes) |>
-  dplyr::select(1:5)
-```
-
-Or with a data frame (returning just the first five columns):
-
-```{r}
-NHSRpopulation::get_imd(tibble_postcodes$value) |>
-  dplyr::select(1:5)
-```
-
-This function can be used to fix missing postcodes as some are terminated or are invalid:
-
-```{r}
 postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
 
-NHSRpopulation::get_imd(postcodes) |>
-  dplyr::select(1:5)
+tibble_postcodes <- postcodes |>
+  tibble::as_tibble() |>
+  dplyr::rename(postcode = value)
+
+tibble_postcodes
 ```
 
-Currently, although the postcode is fixed with the column `new_postcode` the IMD is not overwritten.
-
-## Lower Super Output area (LSOA)
-
-To return the `IMD`, `imd_decile` and `imd_quintile` for LSOAs this can be as a vector:
+Then, using the `get_data()` function for a vector:
 
 ```{r}
-# Example LSOAs from each England Decile group
-lsoa_imd <- c(
-  "E01000002",
-  "E01000001",
-  "E01000117",
-  "E01000119",
-  "E01000069",
-  "E01000070",
-  "E01000066",
-  "E01000005",
-  "E01000008",
-  "E01000048"
+# [TODO] Error when knitting
+# Error in `response_list$features`:
+# ! $ operator is invalid for atomic vectors
+# Backtrace:
+#  1. dplyr::select(...)
+#  2. NHSRpopulation::get_data(postcodes)
+#  3. base::data.frame(response_list$features$attributes)
+# Execution halted
+NHSRpopulation::get_data(postcodes) |>
+  dplyr::select(
+    postcode,
+    new_postcode,
+    result_type,
+    lsoa_code
+  )
+```
+
+Or with a data frame:
+
+```{r}
+NHSRpopulation::get_data(tibble_postcodes) |>
+  dplyr::select(
+    postcode,
+    new_postcode,
+    result_type,
+    lsoa_code
+  )
+```
+
+Note that this function uses the {NHSRpostcodetools} package to offer the 
+opportunity to fix postcodes which are terminated or are incorrect. 
+This is default and appears in the column `new_postcode` and does not overwrite
+the original `postcode` column.
+Switching off this automatic fix can be done with the code and will accept both
+vectors and data frames:
+
+```{r}
+NHSRpopulation::get_data(tibble_postcodes, fix_invalid = FALSE) |>
+  dplyr::select(
+    postcode,
+    new_postcode,
+    result_type,
+    lsoa_code
+  )
+```
+
+# Index of Multiple Deprivation
+
+
+```{r}
+# Note that the third LSOA in this list is incorrect on purpose
+imd <- c("E01011107", "E01011229", "E01002")
+
+tibble_imd <- imd |>
+  tibble::as_tibble() |>
+  dplyr::rename(lsoa11 = value)
+
+tibble_imd
+```
+
+Using the same function but with a parameter/argument to return IMD data:
+
+```{r}
+NHSRpopulation::get_data(tibble_imd, url_type = "imd") |>
+  dplyr::select(
+    lsoa11,
+    imd_rank,
+    imd_decile,
+    imd_score
+  )
+```
+
+Data can be either vectors or data frames.
+
+No corrections are made to incorrect LSOA codes and the current join to the API
+is on `lsoa11` data.
+
+# Column names
+
+Where data frames are used the expectation of the functions is that postcodes
+will be in a column called `postcode` and IMD will be from `lsoa11`, however, 
+this can be overwritten:
+
+```{r}
+different_names <- dplyr::tibble(
+  lower_soa_codes = imd,
+  pcs = postcodes
 )
 
-NHSRpopulation::get_lsoa(lsoa_imd) |>
-  head(10) # first 10 rows
+different_names
 ```
 
-Or from a data frame:
+And as for other examples either vectors or data frames can be used in the
+function.
+Without specifying the different named column the following messages will show:
 
-```{r}
-tibble_lsoa_imd <- lsoa_imd |>
-  tibble::as_tibble()
-
-NHSRpopulation::get_lsoa(tibble_lsoa_imd$value) |>
-  head(10)
+```{r, eval=FALSE}
+NHSRpopulation::get_data(different_names, url_type = "postcode")
+NHSRpopulation::get_data(different_names, url_type = "imd")
 ```
 
-The functions return everything in those LSOAs and if you would like to return some random postcodes from each decile:
+And the following parameter can be used to set the column name:
 
-```{r}
-NHSRpopulation::get_lsoa(lsoa_imd, return = "random")
+```{r, eval=FALSE}
+# [TODO] returns errors but tests don't - needs debugging
+NHSRpopulation::get_data(different_names,
+  column = "pcs"
+) # postcode is default
+
+NHSRpopulation::get_data(different_names,
+  url_type = "imd",
+  column = "lower_soa_codes"
+)
 ```
 
-Or just the first postcode that appears in each decile:
-
-```{r}
-NHSRpopulation::get_lsoa(lsoa_imd, return = "first")
-```

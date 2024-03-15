@@ -1,13 +1,13 @@
 structure(list(
   method = "GET", url = "https://api.postcodes.io/terminated_postcodes/HD1%202UV",
   status_code = 404L, headers = structure(list(
-    Date = "Mon, 11 Mar 2024 17:26:40 GMT",
+    Date = "Fri, 15 Mar 2024 18:33:06 GMT",
     `Content-Type` = "application/json; charset=utf-8", `Transfer-Encoding` = "chunked",
     Connection = "keep-alive", `x-gnu` = "Michael J Blanchard",
     `access-control-allow-origin` = "*", etag = "W/\"36-GttZSTwwwLlS7Lnu5NllR3pXy/E\"",
-    `CF-Cache-Status` = "HIT", Age = "21", `Report-To` = "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=0eokjtIfXzmPAg2JbHXvCkNk%2FM4F14fpmiG6Q66qAiP3CzXzTANBNiH%2FwH721VsW99r%2B%2BPChzwLMJjZr%2BPnmhMQp77VGKYX6qzs1SJUkg48H%2Bts7jEDngLTx1cEkZfJlY9s%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+    `CF-Cache-Status` = "HIT", Age = "174428", `Report-To` = "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=f0zCBaPHKLICjE8DTMw8VKWl8A%2FMkqJavhniBEfjxPBdSiHjUlGglQUWex2gpke33QY6JbwZB9OKplr5iPB1Nf62ouxourS1udPkBJtfwLV8CGB2CLR%2FA3gqfm0MrIJ6Brk%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
     NEL = "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
-    Vary = "Accept-Encoding", Server = "cloudflare", `CF-RAY` = "862d4037283d60fd-LHR",
+    Vary = "Accept-Encoding", Server = "cloudflare", `CF-RAY` = "864e97061a5b23d8-LHR",
     `Content-Encoding` = "gzip"
   ), class = "httr2_headers"),
   body = charToRaw("{\"status\":404,\"error\":\"Terminated postcode not found\"}"),

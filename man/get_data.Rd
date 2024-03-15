@@ -28,6 +28,9 @@ or contain typos).}
 column called \code{postcode} if postcode data is being expected or \code{lsoa11} if
 imd data as requested via the parameter \code{url_type = "imd"}.}
 }
+\value{
+data frame
+}
 \description{
 This function queries the API based on the information required and returns
 ids as these have no restriction applied to them.
