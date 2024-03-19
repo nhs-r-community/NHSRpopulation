@@ -56,88 +56,38 @@ get_data <- function(data,
   is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
   is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
 
-  if (column == "default" && url_type == "imd") {
+  if (column == "default" && is_postcode_check == 0 && is_lsoa_check > 0) {
     column <- "lsoa11"
   } else if (column == "default" && url_type == "postcode") {
     column <- "postcode"
   } else {
-    rlang::eval_tidy(rlang::quo(column))
+    column <- rlang::eval_tidy(rlang::quo(column))
   }
-
-  if (is.data.frame(data) && url_type == "postcode") {
-    assertthat::assert_that(
-      is_postcode_check > 0,
-      msg = paste(
-        "There isn't any postcode data in this data frame to",
-        "connect to the Postcode API."
-      )
-    )
-  }
-
-  if (is.vector(data) && url_type == "postcode") {
-    assertthat::assert_that(
-      is_postcode_check > 0,
-      msg = paste(
-        "There isn't any postcode data in this vector to",
-        "connect to the Postcode API."
-      )
-    )
-  }
-
-  if (is.data.frame(data) && url_type == "imd") {
-    assertthat::assert_that(
-      is_lsoa_check > 0,
-      msg = paste(
-        "There doesn't appear to be any data in this data frame",
-        "to connect to the IMD API."
-      )
-    )
-    # assertthat::assert_that(
-    #     "lsoa11" %in% names(data),
-    #     msg = "There isn't a column called `lsoa11` in this data frame."
-    #   )
-    # }
-    #
-    # if (is.vector(data) && url_type == "imd") {
-    #   assertthat::assert_that(
-    #     is_lsoa_check > 0,
-    #     msg = paste(
-    #       "There doesn't appear to be any data in this data frame",
-    #       "to connect to the IMD API."
-    #     )
-    #   )
-  }
-
 
   # Check the data frame or vector for any postcode to then run through
   # the postcode_data_join API
-  if (is_postcode_check > 0 && url_type != "imd") {
+  if (is.data.frame(data) && is_postcode_check > 0) {
     data_transformed <- NHSRpostcodetools::postcode_data_join(
-      x = data,
+      x = data[[column]],
       fix_invalid = fix_invalid,
       var = column
     )
-  }
-
-  if (is.data.frame(data) && url_type == "postcode") {
-    text <- paste0(
-      "PCDS IN ('",
-      paste(data_transformed$new_postcode,
-        collapse = "', '"
-      ), "')"
+  } else if (is.atomic(data) && is_postcode_check > 0) {
+    data_transformed <- NHSRpostcodetools::postcode_data_join(
+      x = data,
+      fix_invalid = fix_invalid,
+      var = column # Not required but doesn't cause error
     )
-  }
-
-  if (rlang::is_vector(data) && url_type == "imd") {
+  } else if (is.atomic(data) && is_postcode_check == 0 &&
+    is_lsoa_check > 0) {
     text <- paste0(
       "LSOA11CD IN ('",
       paste(data,
         collapse = "', '"
       ), "')"
     )
-  }
-
-  if (is.data.frame(data) && url_type == "imd") {
+  } else if (is.data.frame(data) && is_postcode_check == 0 &&
+    is_lsoa_check > 0) {
     # text <- "1=1" # get all rows (no filter) Takes a while to run
 
     text <- paste0(
@@ -146,9 +96,11 @@ get_data <- function(data,
         collapse = "', '"
       ), "')"
     )
+  } else {
+    data
   }
 
-  if (url_type == "imd") {
+  if (is_postcode_check == 0 && is_lsoa_check > 0 | url_type == "imd") {
     ids <- req |>
       httr2::req_url_query(returnIdsonly = TRUE) |>
       httr2::req_url_query(where = text) |>
@@ -179,13 +131,25 @@ get_data <- function(data,
   # Postcode information is passed through {NHSRpostcodetools} which handles
   # this but IMD is handled here.
 
-  if (is.data.frame(data) && url_type == "imd") {
+  if (exists("data_transformed") && is.data.frame(data)) {
+    data |>
+      dplyr::left_join(
+        data_transformed
+      )
+  } else if (exists("data_transformed") && is.atomic(data)) {
+    tibble::as_tibble(data) |>
+      dplyr::left_join(
+        data_transformed,
+        dplyr::join_by(value == postcode)
+      ) |>
+      dplyr::rename(postcode = value)
+  } else if (is.data.frame(data)) {
     data |>
       dplyr::left_join(
         data_out,
         dplyr::join_by({{ column }} == lsoa11cd)
       )
-  } else if (rlang::is_vector(data) && url_type == "imd") {
+  } else if (is.atomic(data)) {
     tibble::as_tibble(data) |>
       dplyr::left_join(
         data_out,
@@ -193,7 +157,7 @@ get_data <- function(data,
       ) |>
       dplyr::rename(lsoa11 = value)
   } else {
-    data_transformed
+    data
   }
 }
 

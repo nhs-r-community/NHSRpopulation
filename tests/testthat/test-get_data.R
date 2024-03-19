@@ -1,13 +1,9 @@
 ## Vectors
 
 postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
-#
-# missing_vector <- c("none", "missing", "HD111 2UV")
-#
+
 imd <- c("E01011107", "E01011229", "E01000002")
-#
-# incorrect <- imd <- c("E01011107", "E01011229", "E01002")
-#
+
 # # Taken from
 # # www.gov.uk/government/statistics/english-indices-of-deprivation-2019
 #
@@ -42,16 +38,6 @@ lsoa_df1 <- dplyr::tibble(
     "E01011229", "E01002"
   )
 )
-
-
-# missing_df1 <- dplyr::tibble(
-#   place = paste0("place_", 1:3)
-# )
-#
-# no_postcode_colm <- dplyr::tibble(
-#   pcs = postcodes,
-#   imd_codes = imd
-# )
 
 pcs_tb <- dplyr::tibble(
   pcs = postcodes
