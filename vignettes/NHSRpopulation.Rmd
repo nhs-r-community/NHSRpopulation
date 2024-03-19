@@ -146,7 +146,7 @@ NHSRpopulation::get_data(lsoa_tb,
 ```
 
 ```{r}
-NHSRpopulation::get_data(different_names,
+NHSRpopulation::get_data(pcs_tb,
   # url_type is set to postcodes as default
   column = "pcs"
 )
