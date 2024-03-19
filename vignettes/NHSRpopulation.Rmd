@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 To get the IMD scores (raw scores and ranked deciles) for a dataset run the 
 following code to generate some random example postcodes:
 
-```{r}
+```{r, eval=TRUE}
 library(tibble)
 library(NHSRpopulation)
 
@@ -82,7 +82,7 @@ NHSRpopulation::get_data(tibble_postcodes, fix_invalid = FALSE) |>
 # Index of Multiple Deprivation
 
 
-```{r}
+```{r, eval=TRUE}
 # Note that the third LSOA in this list is incorrect on purpose
 imd <- c("E01011107", "E01011229", "E01002")
 
@@ -142,6 +142,13 @@ NHSRpopulation::get_data(pcs_tb,
 ```{r}
 NHSRpopulation::get_data(lsoa_tb,
   column = "lower_soa"
+)
+```
+
+```{r}
+NHSRpopulation::get_data(different_names,
+  # url_type is set to postcodes as default
+  column = "pcs"
 )
 ```
 
