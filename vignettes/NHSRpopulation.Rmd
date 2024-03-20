@@ -8,23 +8,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  echo = TRUE,
-  eval = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
+
 
 ### Indices of Multiple Deprivation (IMD)
 
 To get the IMD scores (raw scores and ranked deciles) for a dataset run the 
 following code to generate some random example postcodes:
 
-```{r, eval=TRUE}
+
+```r
 library(tibble)
 library(NHSRpopulation)
 
@@ -35,11 +27,18 @@ tibble_postcodes <- postcodes |>
   dplyr::rename(postcode = value)
 
 tibble_postcodes
+#> # A tibble: 3 × 1
+#>   postcode
+#>   <chr>   
+#> 1 HD1 2UT 
+#> 2 HD1 2UU 
+#> 3 HD1 2UV
 ```
 
 Then, using the `get_data()` function for a vector:
 
-```{r,}
+
+```r
 # Execution halted
 NHSRpopulation::get_data(postcodes) |>
   dplyr::select(
@@ -48,11 +47,26 @@ NHSRpopulation::get_data(postcodes) |>
     result_type,
     lsoa_code
   )
+#> ℹ The following postcodes are terminated:
+#>   HD1 2UT
+#>   and have been replaced with these current postcodes:
+#>   HD1 2RD
+#> ℹ The following postcodes are invalid:
+#>   HD1 2UV
+#>   and have been replaced with these nearby postcodes:
+#>   HD1 2UD
+#> # A tibble: 3 × 4
+#>   postcode new_postcode result_type   lsoa_code
+#>   <chr>    <chr>        <chr>         <chr>    
+#> 1 HD1 2UT  HD1 2RD      terminated    E01011107
+#> 2 HD1 2UU  HD1 2UU      valid         E01011229
+#> 3 HD1 2UV  HD1 2UD      autocompleted E01011229
 ```
 
 Or with a data frame:
 
-```{r}
+
+```r
 NHSRpopulation::get_data(tibble_postcodes) |>
   dplyr::select(
     postcode,
@@ -60,6 +74,21 @@ NHSRpopulation::get_data(tibble_postcodes) |>
     result_type,
     lsoa_code
   )
+#> ℹ The following postcodes are terminated:
+#>   HD1 2UT
+#>   and have been replaced with these current postcodes:
+#>   HD1 2RD
+#> ℹ The following postcodes are invalid:
+#>   HD1 2UV
+#>   and have been replaced with these nearby postcodes:
+#>   HD1 2UD
+#> Joining with `by = join_by(postcode)`
+#> # A tibble: 3 × 4
+#>   postcode new_postcode result_type   lsoa_code
+#>   <chr>    <chr>        <chr>         <chr>    
+#> 1 HD1 2UT  HD1 2RD      terminated    E01011107
+#> 2 HD1 2UU  HD1 2UU      valid         E01011229
+#> 3 HD1 2UV  HD1 2UD      autocompleted E01011229
 ```
 
 Note that this function uses the {NHSRpostcodetools} package to offer the 
@@ -69,7 +98,8 @@ the original `postcode` column.
 Switching off this automatic fix can be done with the code and will accept both
 vectors and data frames:
 
-```{r}
+
+```r
 NHSRpopulation::get_data(tibble_postcodes, fix_invalid = FALSE) |>
   dplyr::select(
     postcode,
@@ -77,12 +107,26 @@ NHSRpopulation::get_data(tibble_postcodes, fix_invalid = FALSE) |>
     result_type,
     lsoa_code
   )
+#> ℹ The following postcodes are invalid:
+#>   HD1 2UT
+#>   but have not been successfully replaced with valid codes.
+#>   The following postcodes are invalid:
+#>   HD1 2UV
+#>   but have not been successfully replaced with valid codes.
+#> Joining with `by = join_by(postcode)`
+#> # A tibble: 3 × 4
+#>   postcode new_postcode result_type lsoa_code
+#>   <chr>    <chr>        <chr>       <chr>    
+#> 1 HD1 2UT  <NA>         <NA>        <NA>     
+#> 2 HD1 2UU  HD1 2UU      valid       E01011229
+#> 3 HD1 2UV  <NA>         <NA>        <NA>
 ```
 
 # Index of Multiple Deprivation
 
 
-```{r, eval=TRUE}
+
+```r
 # Note that the third LSOA in this list is incorrect on purpose
 imd <- c("E01011107", "E01011229", "E01002")
 
@@ -91,11 +135,18 @@ tibble_imd <- imd |>
   dplyr::rename(lsoa11 = value)
 
 tibble_imd
+#> # A tibble: 3 × 1
+#>   lsoa11   
+#>   <chr>    
+#> 1 E01011107
+#> 2 E01011229
+#> 3 E01002
 ```
 
 Using the same function but with a parameter/argument to return IMD data:
 
-```{r}
+
+```r
 NHSRpopulation::get_data(tibble_imd, url_type = "imd") |>
   dplyr::select(
     lsoa11,
@@ -103,6 +154,12 @@ NHSRpopulation::get_data(tibble_imd, url_type = "imd") |>
     imd_decile,
     imd_score
   )
+#> # A tibble: 3 × 4
+#>   lsoa11    imd_rank imd_decile imd_score
+#>   <chr>        <int>      <int>     <dbl>
+#> 1 E01011107     2928          1      45.6
+#> 2 E01011229     9558          3      27.0
+#> 3 E01002          NA         NA      NA
 ```
 
 Data can be either vectors or data frames.
@@ -116,39 +173,112 @@ Where data frames are used the expectation of the functions is that postcodes
 will be in a column called `postcode` and IMD will be from `lsoa11`, however, 
 this can be overwritten:
 
-```{r}
+
+```r
 # Create datasets
 pcs_tb <- dplyr::tibble(
   pcs = postcodes
 )
 
 pcs_tb  
+#> # A tibble: 3 × 1
+#>   pcs    
+#>   <chr>  
+#> 1 HD1 2UT
+#> 2 HD1 2UU
+#> 3 HD1 2UV
 
 lsoa_tb <- dplyr::tibble(
   lower_soa = imd
 )
 
 lsoa_tb
+#> # A tibble: 3 × 1
+#>   lower_soa
+#>   <chr>    
+#> 1 E01011107
+#> 2 E01011229
+#> 3 E01002
 ```
 
 The argument/parameter `column = ` can be used to set the column name:
 
-```{r}
+
+```r
 NHSRpopulation::get_data(pcs_tb,
   column = "pcs"
 )
+#> ℹ The following postcodes are terminated:
+#>   HD1 2UT
+#>   and have been replaced with these current postcodes:
+#>   HD1 2RD
+#> ℹ The following postcodes are invalid:
+#>   HD1 2UV
+#>   and have been replaced with these nearby postcodes:
+#>   HD1 2UD
+#> Joining with `by = join_by(pcs)`
+#> # A tibble: 3 × 40
+#>   pcs     new_postcode result_type   quality eastings northings country nhs_ha              longitude latitude european_electoral_r…¹
+#>   <chr>   <chr>        <chr>           <int>    <int>     <int> <chr>   <chr>                   <dbl>    <dbl> <chr>                 
+#> 1 HD1 2UT HD1 2RD      terminated          1   414639    416430 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
+#> 2 HD1 2UU HD1 2UU      valid               1   414433    416422 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
+#> 3 HD1 2UV HD1 2UD      autocompleted       1   414371    416317 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
+#> # ℹ abbreviated name: ¹​european_electoral_region
+#> # ℹ 29 more variables: primary_care_trust <chr>, region <chr>, lsoa <chr>, msoa <chr>, incode <chr>, outcode <chr>,
+#> #   parliamentary_constituency <chr>, parliamentary_constituency_2024 <chr>, admin_district <chr>, parish <chr>,
+#> #   date_of_introduction <chr>, admin_ward <chr>, ccg <chr>, nuts <chr>, pfa <chr>, admin_district_code <chr>,
+#> #   admin_county_code <chr>, admin_ward_code <chr>, parish_code <chr>, parliamentary_constituency_code <chr>,
+#> #   parliamentary_constituency_2024_code <chr>, ccg_code <chr>, ccg_id_code <chr>, ced_code <chr>, nuts_code <chr>, lsoa_code <chr>,
+#> #   msoa_code <chr>, lau2_code <chr>, pfa_code <chr>
 ```
 
-```{r}
+
+```r
 NHSRpopulation::get_data(lsoa_tb,
   column = "lower_soa"
 )
+#> # A tibble: 3 × 66
+#>   lower_soa   fid lsoa11nm    lsoa11nmw st_areasha st_lengths imd_rank imd_decile lsoa01nm la_dcd la_dnm imd_score imd_rank0 imd_dec0
+#>   <chr>     <int> <chr>       <chr>          <dbl>      <dbl>    <int>      <int> <chr>    <chr>  <chr>      <dbl>     <int>    <int>
+#> 1 E01011107 11200 Kirklees 0… Kirklees…   1921709.      7525.     2928          1 Kirklee… E0800… Kirkl…      45.6      2928        1
+#> 2 E01011229 11707 Kirklees 0… Kirklees…    833130.      7023.     9558          3 Kirklee… E0800… Kirkl…      27.0      9558        3
+#> 3 E01002       NA <NA>        <NA>             NA         NA        NA         NA <NA>     <NA>   <NA>        NA          NA       NA
+#> # ℹ 52 more variables: inc_score <dbl>, inc_rank <int>, inc_dec <int>, emp_score <dbl>, emp_rank <int>, emp_dec <int>,
+#> #   edu_score <dbl>, edu_rank <int>, edu_dec <int>, hdd_score <dbl>, hdd_rank <int>, hdd_dec <int>, cri_score <dbl>, cri_rank <int>,
+#> #   cri_dec <int>, bhs_score <dbl>, bhs_rank <int>, bhs_dec <int>, env_score <dbl>, env_rank <int>, env_dec <int>, idc_score <dbl>,
+#> #   idc_rank <int>, idc_dec <int>, ido_score <dbl>, ido_rank <int>, ido_dec <int>, cyp_score <dbl>, cyp_rank <int>, cyp_dec <int>,
+#> #   as_score <dbl>, as_rank <int>, as_dec <int>, gb_score <dbl>, gb_rank <int>, gb_dec <int>, wb_score <dbl>, wb_rank <int>,
+#> #   wb_dec <int>, ind_score <dbl>, ind_rank <int>, ind_dec <int>, out_score <dbl>, out_rank <int>, out_dec <int>, tot_pop <int>,
+#> #   dep_chi <int>, pop16_59 <int>, pop60 <int>, work_pop <dbl>, shape_area <dbl>, shape_length <dbl>
 ```
 
-```{r}
+
+```r
 NHSRpopulation::get_data(pcs_tb,
   # url_type is set to postcodes as default
   column = "pcs"
 )
+#> ℹ The following postcodes are terminated:
+#>   HD1 2UT
+#>   and have been replaced with these current postcodes:
+#>   HD1 2RD
+#> ℹ The following postcodes are invalid:
+#>   HD1 2UV
+#>   and have been replaced with these nearby postcodes:
+#>   HD1 2UD
+#> Joining with `by = join_by(pcs)`
+#> # A tibble: 3 × 40
+#>   pcs     new_postcode result_type   quality eastings northings country nhs_ha              longitude latitude european_electoral_r…¹
+#>   <chr>   <chr>        <chr>           <int>    <int>     <int> <chr>   <chr>                   <dbl>    <dbl> <chr>                 
+#> 1 HD1 2UT HD1 2RD      terminated          1   414639    416430 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
+#> 2 HD1 2UU HD1 2UU      valid               1   414433    416422 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
+#> 3 HD1 2UV HD1 2UD      autocompleted       1   414371    416317 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
+#> # ℹ abbreviated name: ¹​european_electoral_region
+#> # ℹ 29 more variables: primary_care_trust <chr>, region <chr>, lsoa <chr>, msoa <chr>, incode <chr>, outcode <chr>,
+#> #   parliamentary_constituency <chr>, parliamentary_constituency_2024 <chr>, admin_district <chr>, parish <chr>,
+#> #   date_of_introduction <chr>, admin_ward <chr>, ccg <chr>, nuts <chr>, pfa <chr>, admin_district_code <chr>,
+#> #   admin_county_code <chr>, admin_ward_code <chr>, parish_code <chr>, parliamentary_constituency_code <chr>,
+#> #   parliamentary_constituency_2024_code <chr>, ccg_code <chr>, ccg_id_code <chr>, ced_code <chr>, nuts_code <chr>, lsoa_code <chr>,
+#> #   msoa_code <chr>, lau2_code <chr>, pfa_code <chr>
 ```
 
