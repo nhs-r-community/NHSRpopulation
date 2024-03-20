@@ -146,9 +146,10 @@ get_data <- function(data,
     )
 
     pc_data |>
-      dplyr::left_join(data_out,
-                       dplyr::join_by(lsoa_code == lsoa11cd))
-
+      dplyr::left_join(
+        data_out,
+        dplyr::join_by(lsoa_code == lsoa11cd)
+      )
   } else if (exists("pc_data") && url_type == "postcode") {
     pc_data
   } else {
