@@ -1,19 +1,3 @@
-#' Getting data from the IMD api
-#'
-#' @description
-#' Only required for IMD as postcodes is routed through the {NHSRpostcodetools}
-#' package
-#'
-#' @return dataset
-#' @export
-api_url <- function() {
-  httr2::request(paste0(
-    "https://services3.arcgis.com/ivmBBrHfQfDnDf8Q/arcgis/rest/services/",
-    "Indices_of_Multiple_Deprivation_(IMD)_2019/FeatureServer/0/query"
-  )) |>
-    httr2::req_url_query(f = "json")
-}
-
 #' Query information to restrict data returned
 #'
 #' @description
@@ -101,29 +85,8 @@ get_data <- function(data,
   }
 
   if (is_postcode_check == 0 && is_lsoa_check > 0 | url_type == "imd") {
-    ids <- req |>
-      httr2::req_url_query(returnIdsonly = TRUE) |>
-      httr2::req_url_query(where = text) |>
-      httr2::req_perform() |>
-      httr2::resp_body_json() |>
-      purrr::pluck("objectIds")
-
-    ids_batched <- NHSRpostcodetools::batch_it(ids, 100L)
-
-    # Uses function retrieve data
-    # safely handle any errors
-    poss_retrieve_data <- purrr::possibly(retrieve_data)
-
-    resps <- ids_batched |>
-      purrr::map(\(x) poss_retrieve_data(req, x)) |>
-      purrr::compact()
-
-    # Uses function pull_table_data
-    poss_pull_table_data <- purrr::possibly(pull_table_data)
-
-    data_out <- resps |>
-      purrr::map(poss_pull_table_data) |>
-      purrr::list_rbind()
+    data_out <- imd_api(text = text,
+            req = req)
   }
 
   # Because APIs only return data where a match has been made which results in
@@ -131,18 +94,38 @@ get_data <- function(data,
   # Postcode information is passed through {NHSRpostcodetools} which handles
   # this but IMD is handled here.
 
-  if (exists("data_transformed") && is.data.frame(data)) {
+  if (exists("data_transformed") && is.data.frame(data) &&
+    url_type == "postcode") {
     data |>
       dplyr::left_join(
         data_transformed
       )
-  } else if (exists("data_transformed") && is.atomic(data)) {
+  } else if (exists("data_transformed") && is.atomic(data) &&
+    url_type == "postcode") {
     tibble::as_tibble(data) |>
       dplyr::left_join(
         data_transformed,
         dplyr::join_by(value == postcode)
       ) |>
       dplyr::rename(postcode = value)
+  } else if (exists("data_transformed") && is.data.frame(data) &&
+    url_type == "url") {
+    data |>
+      dplyr::left_join(
+        data_transformed
+      ) |>
+      dplyr::left_join(
+        data_out,
+        dplyr::join_by(lsoa_code == lsoa)
+      )
+    # } else if (exists("data_transformed") && is.atomic(data) &&
+    #   url_type == "url") {
+    #   tibble::as_tibble(data) |>
+    #     dplyr::left_join(
+    #       data_transformed,
+    #       dplyr::join_by(value == postcode)
+    #     ) |>
+    #     dplyr::rename(postcode = value)
   } else if (is.data.frame(data)) {
     data |>
       dplyr::left_join(
@@ -159,37 +142,4 @@ get_data <- function(data,
   } else {
     data
   }
-}
-
-#' use batched IDs to retrieve table data
-#'
-#' @param req used in function \code{\link{get_data}}
-#' @param ids_vec used in function \code{\link{get_data}}
-#'
-#' @return function
-#' @export
-retrieve_data <- function(req, ids_vec) {
-  ids <- stringr::str_flatten(ids_vec, collapse = ",")
-  req |>
-    httr2::req_url_query(objectIds = ids) |>
-    httr2::req_url_query(outFields = "*") |> # returns all columns
-    httr2::req_url_query(returnGeometry = FALSE) |> # superfluous tbf
-    httr2::req_retry(max_tries = 3) |> # shouldn't be needed
-    httr2::req_perform()
-}
-
-
-#' pull actual data out from API JSON response
-#'
-#' @param respused in function \code{\link{get_data}}
-#'
-#' @return function
-#' @export
-pull_table_data <- function(resp) {
-  resp |>
-    httr2::resp_check_status() |>
-    httr2::resp_body_json() |>
-    purrr::pluck("features") |>
-    purrr::map_df("attributes") |>
-    janitor::clean_names()
 }
