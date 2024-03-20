@@ -37,13 +37,14 @@ get_data <- function(data,
   column <- rlang::as_string(column)
 
   # Check there is corresponding type data somewhere in data frame
+  # Use this to allow for other column names to be used in later code
   is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
   is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
 
-  if (column == "default" && is_postcode_check == 0 && is_lsoa_check > 0) {
-    column <- "lsoa11"
-  } else if (column == "default" && url_type == "postcode") {
+  if ("postcode" %in% colnames(data)) {
     column <- "postcode"
+  } else if ("lsoa11" %in% colnames(data)) {
+    column <- "lsoa11"
   } else {
     column <- rlang::eval_tidy(rlang::quo(column))
   }
@@ -62,7 +63,11 @@ get_data <- function(data,
       fix_invalid = fix_invalid,
       var = column # Not required but doesn't cause error
     )
-  } else if (is.atomic(data) && is_postcode_check == 0 &&
+  }
+
+  ## Generate specific text for the url
+
+  if (is.atomic(data) && is_postcode_check == 0 &&
     is_lsoa_check > 0) {
     text <- paste0(
       "LSOA11CD IN ('",
@@ -80,13 +85,13 @@ get_data <- function(data,
         collapse = "', '"
       ), "')"
     )
-  } else {
-    data
-  }
-
-  if (is_postcode_check == 0 && is_lsoa_check > 0 | url_type == "imd") {
-    data_out <- imd_api(text = text,
-            req = req)
+  } else if (exists("data_transformed") && url_type == "imd") {
+    text <- paste0(
+      "LSOA11CD IN ('",
+      paste(data_transformed$lsoa_code,
+        collapse = "', '"
+      ), "')"
+    )
   }
 
   # Because APIs only return data where a match has been made which results in
@@ -94,52 +99,59 @@ get_data <- function(data,
   # Postcode information is passed through {NHSRpostcodetools} which handles
   # this but IMD is handled here.
 
-  if (exists("data_transformed") && is.data.frame(data) &&
-    url_type == "postcode") {
-    data |>
+  if (exists("data_transformed") && is.data.frame(data)) {
+    pc_data <- data |>
       dplyr::left_join(
         data_transformed
       )
-  } else if (exists("data_transformed") && is.atomic(data) &&
-    url_type == "postcode") {
-    tibble::as_tibble(data) |>
-      dplyr::left_join(
-        data_transformed,
-        dplyr::join_by(value == postcode)
-      ) |>
-      dplyr::rename(postcode = value)
-  } else if (exists("data_transformed") && is.data.frame(data) &&
-    url_type == "url") {
-    data |>
-      dplyr::left_join(
-        data_transformed
-      ) |>
-      dplyr::left_join(
-        data_out,
-        dplyr::join_by(lsoa_code == lsoa)
-      )
-    # } else if (exists("data_transformed") && is.atomic(data) &&
-    #   url_type == "url") {
-    #   tibble::as_tibble(data) |>
-    #     dplyr::left_join(
-    #       data_transformed,
-    #       dplyr::join_by(value == postcode)
-    #     ) |>
-    #     dplyr::rename(postcode = value)
-  } else if (is.data.frame(data)) {
-    data |>
+  } else if (exists("data_transformed") && is.atomic(data)) {
+    pc_data <- data_transformed
+  }
+
+
+  ## IMD data
+
+  if (is_postcode_check == 0 && is_lsoa_check > 0 &&
+    is.data.frame(data)) {
+    data_out <- imd_api(
+      text = text,
+      req = req
+    )
+
+    imd_data <- data |>
       dplyr::left_join(
         data_out,
         dplyr::join_by({{ column }} == lsoa11cd)
       )
-  } else if (is.atomic(data)) {
-    tibble::as_tibble(data) |>
+  } else if (is_postcode_check == 0 && is_lsoa_check > 0 && is.atomic(data)) {
+    data_out <- imd_api(
+      text = text,
+      req = req
+    )
+
+    imd_data <- tibble::as_tibble(data) |>
       dplyr::left_join(
         data_out,
         dplyr::join_by(value == lsoa11cd)
       ) |>
       dplyr::rename(lsoa11 = value)
+  }
+
+  ## Final data
+
+  if (exists("pc_data") && url_type == "imd") {
+    data_out <- imd_api(
+      text = text,
+      req = req
+    )
+
+    pc_data |>
+      dplyr::left_join(data_out,
+                       dplyr::join_by(lsoa_code == lsoa11cd))
+
+  } else if (exists("pc_data") && url_type == "postcode") {
+    pc_data
   } else {
-    data
+    imd_data
   }
 }

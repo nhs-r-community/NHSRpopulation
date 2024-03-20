@@ -55,12 +55,9 @@ NHSRpopulation::get_data(postcodes) |>
 #>   HD1 2UV
 #>   and have been replaced with these nearby postcodes:
 #>   HD1 2UD
-#> # A tibble: 3 × 4
-#>   postcode new_postcode result_type   lsoa_code
-#>   <chr>    <chr>        <chr>         <chr>    
-#> 1 HD1 2UT  HD1 2RD      terminated    E01011107
-#> 2 HD1 2UU  HD1 2UU      valid         E01011229
-#> 3 HD1 2UV  HD1 2UD      autocompleted E01011229
+#> Error in `dplyr::select()`:
+#> ! Can't select columns that don't exist.
+#> ✖ Column `postcode` doesn't exist.
 ```
 
 Or with a data frame:
@@ -164,14 +161,15 @@ NHSRpopulation::get_data(tibble_imd, url_type = "imd") |>
 
 Data can be either vectors or data frames.
 
-No corrections are made to incorrect LSOA codes and the current join to the API
-is on `lsoa11` data.
+No corrections are made to incorrect LSOA codes.
 
 # Column names
 
 Where data frames are used the expectation of the functions is that postcodes
 will be in a column called `postcode` and IMD will be from `lsoa11`, however,
 this can be overwritten:
+
+The argument/parameter `column = ` can be used to set the column name:
 
 
 ```r
@@ -188,23 +186,6 @@ pcs_tb
 #> 2 HD1 2UU
 #> 3 HD1 2UV
 
-lsoa_tb <- dplyr::tibble(
-  lower_soa = imd
-)
-
-lsoa_tb
-#> # A tibble: 3 × 1
-#>   lower_soa
-#>   <chr>    
-#> 1 E01011107
-#> 2 E01011229
-#> 3 E01002
-```
-
-The argument/parameter `column = ` can be used to set the column name:
-
-
-```r
 NHSRpopulation::get_data(pcs_tb,
   column = "pcs"
 )
@@ -218,37 +199,110 @@ NHSRpopulation::get_data(pcs_tb,
 #>   HD1 2UD
 #> Joining with `by = join_by(pcs)`
 #> # A tibble: 3 × 40
-#>   pcs     new_postcode result_type   quality eastings northings country nhs_ha              longitude latitude european_electoral_r…¹
-#>   <chr>   <chr>        <chr>           <int>    <int>     <int> <chr>   <chr>                   <dbl>    <dbl> <chr>                 
-#> 1 HD1 2UT HD1 2RD      terminated          1   414639    416430 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
-#> 2 HD1 2UU HD1 2UU      valid               1   414433    416422 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
-#> 3 HD1 2UV HD1 2UD      autocompleted       1   414371    416317 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
+#>   pcs     new_postcode result_type   quality eastings northings country nhs_ha    longitude latitude european_electoral_r…¹ primary_care_trust region lsoa  msoa  incode
+#>   <chr>   <chr>        <chr>           <int>    <int>     <int> <chr>   <chr>         <dbl>    <dbl> <chr>                  <chr>              <chr>  <chr> <chr> <chr> 
+#> 1 HD1 2UT HD1 2RD      terminated          1   414639    416430 England Yorkshir…     -1.78     53.6 Yorkshire and The Hum… Kirklees           Yorks… Kirk… Kirk… 2RD   
+#> 2 HD1 2UU HD1 2UU      valid               1   414433    416422 England Yorkshir…     -1.78     53.6 Yorkshire and The Hum… Kirklees           Yorks… Kirk… Kirk… 2UU   
+#> 3 HD1 2UV HD1 2UD      autocompleted       1   414371    416317 England Yorkshir…     -1.78     53.6 Yorkshire and The Hum… Kirklees           Yorks… Kirk… Kirk… 2UD   
 #> # ℹ abbreviated name: ¹​european_electoral_region
-#> # ℹ 29 more variables: primary_care_trust <chr>, region <chr>, lsoa <chr>, msoa <chr>, incode <chr>, outcode <chr>,
-#> #   parliamentary_constituency <chr>, parliamentary_constituency_2024 <chr>, admin_district <chr>, parish <chr>,
-#> #   date_of_introduction <chr>, admin_ward <chr>, ccg <chr>, nuts <chr>, pfa <chr>, admin_district_code <chr>,
-#> #   admin_county_code <chr>, admin_ward_code <chr>, parish_code <chr>, parliamentary_constituency_code <chr>,
-#> #   parliamentary_constituency_2024_code <chr>, ccg_code <chr>, ccg_id_code <chr>, ced_code <chr>, nuts_code <chr>, lsoa_code <chr>,
-#> #   msoa_code <chr>, lau2_code <chr>, pfa_code <chr>
+#> # ℹ 24 more variables: outcode <chr>, parliamentary_constituency <chr>, parliamentary_constituency_2024 <chr>, admin_district <chr>, parish <chr>,
+#> #   date_of_introduction <chr>, admin_ward <chr>, ccg <chr>, nuts <chr>, pfa <chr>, admin_district_code <chr>, admin_county_code <chr>, admin_ward_code <chr>,
+#> #   parish_code <chr>, parliamentary_constituency_code <chr>, parliamentary_constituency_2024_code <chr>, ccg_code <chr>, ccg_id_code <chr>, ced_code <chr>,
+#> #   nuts_code <chr>, lsoa_code <chr>, msoa_code <chr>, lau2_code <chr>, pfa_code <chr>
 ```
 
 
 ```r
+
+lsoa_tb <- dplyr::tibble(
+  lower_soa = imd
+)
+
+lsoa_tb
+#> # A tibble: 3 × 1
+#>   lower_soa
+#>   <chr>    
+#> 1 E01011107
+#> 2 E01011229
+#> 3 E01002
+
 NHSRpopulation::get_data(lsoa_tb,
   column = "lower_soa"
 )
 #> # A tibble: 3 × 66
-#>   lower_soa   fid lsoa11nm    lsoa11nmw st_areasha st_lengths imd_rank imd_decile lsoa01nm la_dcd la_dnm imd_score imd_rank0 imd_dec0
-#>   <chr>     <int> <chr>       <chr>          <dbl>      <dbl>    <int>      <int> <chr>    <chr>  <chr>      <dbl>     <int>    <int>
-#> 1 E01011107 11200 Kirklees 0… Kirklees…   1921709.      7525.     2928          1 Kirklee… E0800… Kirkl…      45.6      2928        1
-#> 2 E01011229 11707 Kirklees 0… Kirklees…    833130.      7023.     9558          3 Kirklee… E0800… Kirkl…      27.0      9558        3
-#> 3 E01002       NA <NA>        <NA>             NA         NA        NA         NA <NA>     <NA>   <NA>        NA          NA       NA
-#> # ℹ 52 more variables: inc_score <dbl>, inc_rank <int>, inc_dec <int>, emp_score <dbl>, emp_rank <int>, emp_dec <int>,
-#> #   edu_score <dbl>, edu_rank <int>, edu_dec <int>, hdd_score <dbl>, hdd_rank <int>, hdd_dec <int>, cri_score <dbl>, cri_rank <int>,
-#> #   cri_dec <int>, bhs_score <dbl>, bhs_rank <int>, bhs_dec <int>, env_score <dbl>, env_rank <int>, env_dec <int>, idc_score <dbl>,
-#> #   idc_rank <int>, idc_dec <int>, ido_score <dbl>, ido_rank <int>, ido_dec <int>, cyp_score <dbl>, cyp_rank <int>, cyp_dec <int>,
-#> #   as_score <dbl>, as_rank <int>, as_dec <int>, gb_score <dbl>, gb_rank <int>, gb_dec <int>, wb_score <dbl>, wb_rank <int>,
-#> #   wb_dec <int>, ind_score <dbl>, ind_rank <int>, ind_dec <int>, out_score <dbl>, out_rank <int>, out_dec <int>, tot_pop <int>,
-#> #   dep_chi <int>, pop16_59 <int>, pop60 <int>, work_pop <dbl>, shape_area <dbl>, shape_length <dbl>
+#>   lower_soa   fid lsoa11nm  lsoa11nmw st_areasha st_lengths imd_rank imd_decile lsoa01nm la_dcd la_dnm imd_score imd_rank0 imd_dec0 inc_score inc_rank inc_dec emp_score
+#>   <chr>     <int> <chr>     <chr>          <dbl>      <dbl>    <int>      <int> <chr>    <chr>  <chr>      <dbl>     <int>    <int>     <dbl>    <int>   <int>     <dbl>
+#> 1 E01011107 11200 Kirklees… Kirklees…   1921709.      7525.     2928          1 Kirklee… E0800… Kirkl…      45.6      2928        1     0.256     3753       2     0.176
+#> 2 E01011229 11707 Kirklees… Kirklees…    833130.      7023.     9558          3 Kirklee… E0800… Kirkl…      27.0      9558        3     0.092    17587       6     0.068
+#> 3 E01002       NA <NA>      <NA>             NA         NA        NA         NA <NA>     <NA>   <NA>        NA          NA       NA    NA           NA      NA    NA    
+#> # ℹ 48 more variables: emp_rank <int>, emp_dec <int>, edu_score <dbl>, edu_rank <int>, edu_dec <int>, hdd_score <dbl>, hdd_rank <int>, hdd_dec <int>, cri_score <dbl>,
+#> #   cri_rank <int>, cri_dec <int>, bhs_score <dbl>, bhs_rank <int>, bhs_dec <int>, env_score <dbl>, env_rank <int>, env_dec <int>, idc_score <dbl>, idc_rank <int>,
+#> #   idc_dec <int>, ido_score <dbl>, ido_rank <int>, ido_dec <int>, cyp_score <dbl>, cyp_rank <int>, cyp_dec <int>, as_score <dbl>, as_rank <int>, as_dec <int>,
+#> #   gb_score <dbl>, gb_rank <int>, gb_dec <int>, wb_score <dbl>, wb_rank <int>, wb_dec <int>, ind_score <dbl>, ind_rank <int>, ind_dec <int>, out_score <dbl>,
+#> #   out_rank <int>, out_dec <int>, tot_pop <int>, dep_chi <int>, pop16_59 <int>, pop60 <int>, work_pop <dbl>, shape_area <dbl>, shape_length <dbl>
 ```
 
+
+## Getting IMD data from postcodes
+
+If the data has postcodes (which automatically connects to the postcode API) and
+IMD information is wanted, the argument/parameter `url_type == "imd"` will 
+override the returned data to IMD.
+
+
+```r
+NHSRpopulation::get_data(tibble_postcodes, 
+                         url_type = "imd")
+#> ℹ The following postcodes are terminated:
+#>   HD1 2UT
+#>   and have been replaced with these current postcodes:
+#>   HD1 2RD
+#> ℹ The following postcodes are invalid:
+#>   HD1 2UV
+#>   and have been replaced with these nearby postcodes:
+#>   HD1 2UD
+#> Joining with `by = join_by(postcode)`
+#> # A tibble: 3 × 105
+#>   postcode new_postcode result_type   quality eastings northings country nhs_ha   longitude latitude european_electoral_r…¹ primary_care_trust region lsoa  msoa  incode
+#>   <chr>    <chr>        <chr>           <int>    <int>     <int> <chr>   <chr>        <dbl>    <dbl> <chr>                  <chr>              <chr>  <chr> <chr> <chr> 
+#> 1 HD1 2UT  HD1 2RD      terminated          1   414639    416430 England Yorkshi…     -1.78     53.6 Yorkshire and The Hum… Kirklees           Yorks… Kirk… Kirk… 2RD   
+#> 2 HD1 2UU  HD1 2UU      valid               1   414433    416422 England Yorkshi…     -1.78     53.6 Yorkshire and The Hum… Kirklees           Yorks… Kirk… Kirk… 2UU   
+#> 3 HD1 2UV  HD1 2UD      autocompleted       1   414371    416317 England Yorkshi…     -1.78     53.6 Yorkshire and The Hum… Kirklees           Yorks… Kirk… Kirk… 2UD   
+#> # ℹ abbreviated name: ¹​european_electoral_region
+#> # ℹ 89 more variables: outcode <chr>, parliamentary_constituency <chr>, parliamentary_constituency_2024 <chr>, admin_district <chr>, parish <chr>,
+#> #   date_of_introduction <chr>, admin_ward <chr>, ccg <chr>, nuts <chr>, pfa <chr>, admin_district_code <chr>, admin_county_code <chr>, admin_ward_code <chr>,
+#> #   parish_code <chr>, parliamentary_constituency_code <chr>, parliamentary_constituency_2024_code <chr>, ccg_code <chr>, ccg_id_code <chr>, ced_code <chr>,
+#> #   nuts_code <chr>, lsoa_code <chr>, msoa_code <chr>, lau2_code <chr>, pfa_code <chr>, fid <int>, lsoa11nm <chr>, lsoa11nmw <chr>, st_areasha <dbl>, st_lengths <dbl>,
+#> #   imd_rank <int>, imd_decile <int>, lsoa01nm <chr>, la_dcd <chr>, la_dnm <chr>, imd_score <dbl>, imd_rank0 <int>, imd_dec0 <int>, inc_score <dbl>, inc_rank <int>,
+#> #   inc_dec <int>, emp_score <dbl>, emp_rank <int>, emp_dec <int>, edu_score <dbl>, edu_rank <int>, edu_dec <int>, hdd_score <dbl>, hdd_rank <int>, hdd_dec <int>, …
+```
+
+
+Note that the postcode data is still validated.
+
+
+```r
+NHSRpopulation::get_data(tibble_postcodes, 
+                         url_type = "imd",
+                         fix_invalid = FALSE)
+#> ℹ The following postcodes are invalid:
+#>   HD1 2UT
+#>   but have not been successfully replaced with valid codes.
+#>   The following postcodes are invalid:
+#>   HD1 2UV
+#>   but have not been successfully replaced with valid codes.
+#> Joining with `by = join_by(postcode)`
+#> # A tibble: 3 × 105
+#>   postcode new_postcode result_type quality eastings northings country nhs_ha     longitude latitude european_electoral_r…¹ primary_care_trust region lsoa  msoa  incode
+#>   <chr>    <chr>        <chr>         <int>    <int>     <int> <chr>   <chr>          <dbl>    <dbl> <chr>                  <chr>              <chr>  <chr> <chr> <chr> 
+#> 1 HD1 2UT  <NA>         <NA>             NA       NA        NA <NA>    <NA>           NA        NA   <NA>                   <NA>               <NA>   <NA>  <NA>  <NA>  
+#> 2 HD1 2UU  HD1 2UU      valid             1   414433    416422 England Yorkshire…     -1.78     53.6 Yorkshire and The Hum… Kirklees           Yorks… Kirk… Kirk… 2UU   
+#> 3 HD1 2UV  <NA>         <NA>             NA       NA        NA <NA>    <NA>           NA        NA   <NA>                   <NA>               <NA>   <NA>  <NA>  <NA>  
+#> # ℹ abbreviated name: ¹​european_electoral_region
+#> # ℹ 89 more variables: outcode <chr>, parliamentary_constituency <chr>, parliamentary_constituency_2024 <chr>, admin_district <chr>, parish <chr>,
+#> #   date_of_introduction <chr>, admin_ward <chr>, ccg <chr>, nuts <chr>, pfa <chr>, admin_district_code <chr>, admin_county_code <chr>, admin_ward_code <chr>,
+#> #   parish_code <chr>, parliamentary_constituency_code <chr>, parliamentary_constituency_2024_code <chr>, ccg_code <chr>, ccg_id_code <chr>, ced_code <chr>,
+#> #   nuts_code <chr>, lsoa_code <chr>, msoa_code <chr>, lau2_code <chr>, pfa_code <chr>, fid <int>, lsoa11nm <chr>, lsoa11nmw <chr>, st_areasha <dbl>, st_lengths <dbl>,
+#> #   imd_rank <int>, imd_decile <int>, lsoa01nm <chr>, la_dcd <chr>, la_dnm <chr>, imd_score <dbl>, imd_rank0 <int>, imd_dec0 <int>, inc_score <dbl>, inc_rank <int>,
+#> #   inc_dec <int>, emp_score <dbl>, emp_rank <int>, emp_dec <int>, edu_score <dbl>, edu_rank <int>, edu_dec <int>, hdd_score <dbl>, hdd_rank <int>, hdd_dec <int>, …
+```

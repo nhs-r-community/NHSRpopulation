@@ -107,14 +107,15 @@ NHSRpopulation::get_data(tibble_imd, url_type = "imd") |>
 
 Data can be either vectors or data frames.
 
-No corrections are made to incorrect LSOA codes and the current join to the API
-is on `lsoa11` data.
+No corrections are made to incorrect LSOA codes.
 
 # Column names
 
 Where data frames are used the expectation of the functions is that postcodes
 will be in a column called `postcode` and IMD will be from `lsoa11`, however,
 this can be overwritten:
+
+The argument/parameter `column = ` can be used to set the column name:
 
 ```{r}
 # Create datasets
@@ -124,24 +125,41 @@ pcs_tb <- dplyr::tibble(
 
 pcs_tb
 
-lsoa_tb <- dplyr::tibble(
-  lower_soa = imd
-)
-
-lsoa_tb
-```
-
-The argument/parameter `column = ` can be used to set the column name:
-
-```{r}
 NHSRpopulation::get_data(pcs_tb,
   column = "pcs"
 )
 ```
 
 ```{r}
+
+lsoa_tb <- dplyr::tibble(
+  lower_soa = imd
+)
+
+lsoa_tb
+
 NHSRpopulation::get_data(lsoa_tb,
   column = "lower_soa"
 )
 ```
 
+
+## Getting IMD data from postcodes
+
+If the data has postcodes (which automatically connects to the postcode API) and
+IMD information is wanted, the argument/parameter `url_type == "imd"` will 
+override the returned data to IMD.
+
+```{r}
+NHSRpopulation::get_data(tibble_postcodes, 
+                         url_type = "imd")
+```
+
+
+Note that the postcode data is still validated.
+
+```{r}
+NHSRpopulation::get_data(tibble_postcodes, 
+                         url_type = "imd",
+                         fix_invalid = FALSE)
+```
