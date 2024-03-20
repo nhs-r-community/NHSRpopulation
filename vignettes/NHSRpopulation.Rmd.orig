@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ### Indices of Multiple Deprivation (IMD)
 
-To get the IMD scores (raw scores and ranked deciles) for a dataset run the 
+To get the IMD scores (raw scores and ranked deciles) for a dataset run the
 following code to generate some random example postcodes:
 
 ```{r, eval=TRUE}
@@ -62,8 +62,8 @@ NHSRpopulation::get_data(tibble_postcodes) |>
   )
 ```
 
-Note that this function uses the {NHSRpostcodetools} package to offer the 
-opportunity to fix postcodes which are terminated or are incorrect. 
+Note that this function uses the {NHSRpostcodetools} package to offer the
+opportunity to fix postcodes which are terminated or are incorrect.
 This is default and appears in the column `new_postcode` and does not overwrite
 the original `postcode` column.
 Switching off this automatic fix can be done with the code and will accept both
@@ -113,7 +113,7 @@ is on `lsoa11` data.
 # Column names
 
 Where data frames are used the expectation of the functions is that postcodes
-will be in a column called `postcode` and IMD will be from `lsoa11`, however, 
+will be in a column called `postcode` and IMD will be from `lsoa11`, however,
 this can be overwritten:
 
 ```{r}
@@ -122,7 +122,7 @@ pcs_tb <- dplyr::tibble(
   pcs = postcodes
 )
 
-pcs_tb  
+pcs_tb
 
 lsoa_tb <- dplyr::tibble(
   lower_soa = imd
@@ -142,13 +142,6 @@ NHSRpopulation::get_data(pcs_tb,
 ```{r}
 NHSRpopulation::get_data(lsoa_tb,
   column = "lower_soa"
-)
-```
-
-```{r}
-NHSRpopulation::get_data(pcs_tb,
-  # url_type is set to postcodes as default
-  column = "pcs"
 )
 ```
 

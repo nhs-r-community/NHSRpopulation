@@ -12,7 +12,7 @@ vignette: >
 
 ### Indices of Multiple Deprivation (IMD)
 
-To get the IMD scores (raw scores and ranked deciles) for a dataset run the 
+To get the IMD scores (raw scores and ranked deciles) for a dataset run the
 following code to generate some random example postcodes:
 
 
@@ -91,8 +91,8 @@ NHSRpopulation::get_data(tibble_postcodes) |>
 #> 3 HD1 2UV  HD1 2UD      autocompleted E01011229
 ```
 
-Note that this function uses the {NHSRpostcodetools} package to offer the 
-opportunity to fix postcodes which are terminated or are incorrect. 
+Note that this function uses the {NHSRpostcodetools} package to offer the
+opportunity to fix postcodes which are terminated or are incorrect.
 This is default and appears in the column `new_postcode` and does not overwrite
 the original `postcode` column.
 Switching off this automatic fix can be done with the code and will accept both
@@ -170,7 +170,7 @@ is on `lsoa11` data.
 # Column names
 
 Where data frames are used the expectation of the functions is that postcodes
-will be in a column called `postcode` and IMD will be from `lsoa11`, however, 
+will be in a column called `postcode` and IMD will be from `lsoa11`, however,
 this can be overwritten:
 
 
@@ -180,7 +180,7 @@ pcs_tb <- dplyr::tibble(
   pcs = postcodes
 )
 
-pcs_tb  
+pcs_tb
 #> # A tibble: 3 × 1
 #>   pcs    
 #>   <chr>  
@@ -250,35 +250,5 @@ NHSRpopulation::get_data(lsoa_tb,
 #> #   as_score <dbl>, as_rank <int>, as_dec <int>, gb_score <dbl>, gb_rank <int>, gb_dec <int>, wb_score <dbl>, wb_rank <int>,
 #> #   wb_dec <int>, ind_score <dbl>, ind_rank <int>, ind_dec <int>, out_score <dbl>, out_rank <int>, out_dec <int>, tot_pop <int>,
 #> #   dep_chi <int>, pop16_59 <int>, pop60 <int>, work_pop <dbl>, shape_area <dbl>, shape_length <dbl>
-```
-
-
-```r
-NHSRpopulation::get_data(pcs_tb,
-  # url_type is set to postcodes as default
-  column = "pcs"
-)
-#> ℹ The following postcodes are terminated:
-#>   HD1 2UT
-#>   and have been replaced with these current postcodes:
-#>   HD1 2RD
-#> ℹ The following postcodes are invalid:
-#>   HD1 2UV
-#>   and have been replaced with these nearby postcodes:
-#>   HD1 2UD
-#> Joining with `by = join_by(pcs)`
-#> # A tibble: 3 × 40
-#>   pcs     new_postcode result_type   quality eastings northings country nhs_ha              longitude latitude european_electoral_r…¹
-#>   <chr>   <chr>        <chr>           <int>    <int>     <int> <chr>   <chr>                   <dbl>    <dbl> <chr>                 
-#> 1 HD1 2UT HD1 2RD      terminated          1   414639    416430 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
-#> 2 HD1 2UU HD1 2UU      valid               1   414433    416422 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
-#> 3 HD1 2UV HD1 2UD      autocompleted       1   414371    416317 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…
-#> # ℹ abbreviated name: ¹​european_electoral_region
-#> # ℹ 29 more variables: primary_care_trust <chr>, region <chr>, lsoa <chr>, msoa <chr>, incode <chr>, outcode <chr>,
-#> #   parliamentary_constituency <chr>, parliamentary_constituency_2024 <chr>, admin_district <chr>, parish <chr>,
-#> #   date_of_introduction <chr>, admin_ward <chr>, ccg <chr>, nuts <chr>, pfa <chr>, admin_district_code <chr>,
-#> #   admin_county_code <chr>, admin_ward_code <chr>, parish_code <chr>, parliamentary_constituency_code <chr>,
-#> #   parliamentary_constituency_2024_code <chr>, ccg_code <chr>, ccg_id_code <chr>, ced_code <chr>, nuts_code <chr>, lsoa_code <chr>,
-#> #   msoa_code <chr>, lau2_code <chr>, pfa_code <chr>
 ```
 
