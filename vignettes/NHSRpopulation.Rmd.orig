@@ -1,0 +1,154 @@
+---
+title: "Getting started with NHSRpopulation"
+output: rmarkdown::html_vignette
+link-citations: TRUE
+vignette: >
+  %\VignetteIndexEntry{Getting started with NHSRpopulation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = TRUE,
+  eval = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+### Indices of Multiple Deprivation (IMD)
+
+To get the IMD scores (raw scores and ranked deciles) for a dataset run the 
+following code to generate some random example postcodes:
+
+```{r, eval=TRUE}
+library(tibble)
+library(NHSRpopulation)
+
+postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
+
+tibble_postcodes <- postcodes |>
+  tibble::as_tibble() |>
+  dplyr::rename(postcode = value)
+
+tibble_postcodes
+```
+
+Then, using the `get_data()` function for a vector:
+
+```{r,}
+# Execution halted
+NHSRpopulation::get_data(postcodes) |>
+  dplyr::select(
+    postcode,
+    new_postcode,
+    result_type,
+    lsoa_code
+  )
+```
+
+Or with a data frame:
+
+```{r}
+NHSRpopulation::get_data(tibble_postcodes) |>
+  dplyr::select(
+    postcode,
+    new_postcode,
+    result_type,
+    lsoa_code
+  )
+```
+
+Note that this function uses the {NHSRpostcodetools} package to offer the 
+opportunity to fix postcodes which are terminated or are incorrect. 
+This is default and appears in the column `new_postcode` and does not overwrite
+the original `postcode` column.
+Switching off this automatic fix can be done with the code and will accept both
+vectors and data frames:
+
+```{r}
+NHSRpopulation::get_data(tibble_postcodes, fix_invalid = FALSE) |>
+  dplyr::select(
+    postcode,
+    new_postcode,
+    result_type,
+    lsoa_code
+  )
+```
+
+# Index of Multiple Deprivation
+
+
+```{r, eval=TRUE}
+# Note that the third LSOA in this list is incorrect on purpose
+imd <- c("E01011107", "E01011229", "E01002")
+
+tibble_imd <- imd |>
+  tibble::as_tibble() |>
+  dplyr::rename(lsoa11 = value)
+
+tibble_imd
+```
+
+Using the same function but with a parameter/argument to return IMD data:
+
+```{r}
+NHSRpopulation::get_data(tibble_imd, url_type = "imd") |>
+  dplyr::select(
+    lsoa11,
+    imd_rank,
+    imd_decile,
+    imd_score
+  )
+```
+
+Data can be either vectors or data frames.
+
+No corrections are made to incorrect LSOA codes and the current join to the API
+is on `lsoa11` data.
+
+# Column names
+
+Where data frames are used the expectation of the functions is that postcodes
+will be in a column called `postcode` and IMD will be from `lsoa11`, however, 
+this can be overwritten:
+
+```{r}
+# Create datasets
+pcs_tb <- dplyr::tibble(
+  pcs = postcodes
+)
+
+pcs_tb  
+
+lsoa_tb <- dplyr::tibble(
+  lower_soa = imd
+)
+
+lsoa_tb
+```
+
+The argument/parameter `column = ` can be used to set the column name:
+
+```{r}
+NHSRpopulation::get_data(pcs_tb,
+  column = "pcs"
+)
+```
+
+```{r}
+NHSRpopulation::get_data(lsoa_tb,
+  column = "lower_soa"
+)
+```
+
+```{r}
+NHSRpopulation::get_data(pcs_tb,
+  # url_type is set to postcodes as default
+  column = "pcs"
+)
+```
+

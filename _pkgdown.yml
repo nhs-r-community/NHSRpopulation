@@ -1,8 +1,13 @@
-url: ~
+url: https://nhs-r-community.github.io/NHSRpopulation/
 template:
   bootstrap: 5
-
 navbar:
   structure:
-    left:  [intro, articles, news]
-    right: [search, reference]
+    left:
+    - intro
+    - articles
+    - news
+    right:
+    - search
+    - reference
+
