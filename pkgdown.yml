@@ -1,8 +1,12 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   NHSRpopulation: NHSRpopulation.html
+  Getting-Started: Getting-Started.html
   calc-local-imd: calc-local-imd.html
-last_built: 2024-01-26T16:39Z
+last_built: 2024-03-20T11:40Z
+urls:
+  reference: https://nhs-r-community.github.io/NHSRpopulation/reference
+  article: https://nhs-r-community.github.io/NHSRpopulation/articles
 
