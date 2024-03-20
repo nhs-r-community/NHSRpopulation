@@ -1,19 +1,3 @@
-#' Getting data from the IMD api
-#'
-#' @description
-#' Only required for IMD as postcodes is routed through the {NHSRpostcodetools}
-#' package
-#'
-#' @return dataset
-#' @export
-api_url <- function() {
-  httr2::request(paste0(
-    "https://services3.arcgis.com/ivmBBrHfQfDnDf8Q/arcgis/rest/services/",
-    "Indices_of_Multiple_Deprivation_(IMD)_2019/FeatureServer/0/query"
-  )) |>
-    httr2::req_url_query(f = "json")
-}
-
 #' Query information to restrict data returned
 #'
 #' @description
@@ -53,13 +37,14 @@ get_data <- function(data,
   column <- rlang::as_string(column)
 
   # Check there is corresponding type data somewhere in data frame
+  # Use this to allow for other column names to be used in later code
   is_postcode_check <- sum(is_postcode(as.vector(t(data))), na.rm = TRUE)
   is_lsoa_check <- sum(is_lsoa(as.vector(t(data))), na.rm = TRUE)
 
-  if (column == "default" && is_postcode_check == 0 && is_lsoa_check > 0) {
-    column <- "lsoa11"
-  } else if (column == "default" && url_type == "postcode") {
+  if ("postcode" %in% colnames(data)) {
     column <- "postcode"
+  } else if ("lsoa11" %in% colnames(data)) {
+    column <- "lsoa11"
   } else {
     column <- rlang::eval_tidy(rlang::quo(column))
   }
@@ -78,7 +63,11 @@ get_data <- function(data,
       fix_invalid = fix_invalid,
       var = column # Not required but doesn't cause error
     )
-  } else if (is.atomic(data) && is_postcode_check == 0 &&
+  }
+
+  ## Generate specific text for the url
+
+  if (is.atomic(data) && is_postcode_check == 0 &&
     is_lsoa_check > 0) {
     text <- paste0(
       "LSOA11CD IN ('",
@@ -96,34 +85,13 @@ get_data <- function(data,
         collapse = "', '"
       ), "')"
     )
-  } else {
-    data
-  }
-
-  if (is_postcode_check == 0 && is_lsoa_check > 0 | url_type == "imd") {
-    ids <- req |>
-      httr2::req_url_query(returnIdsonly = TRUE) |>
-      httr2::req_url_query(where = text) |>
-      httr2::req_perform() |>
-      httr2::resp_body_json() |>
-      purrr::pluck("objectIds")
-
-    ids_batched <- NHSRpostcodetools::batch_it(ids, 100L)
-
-    # Uses function retrieve data
-    # safely handle any errors
-    poss_retrieve_data <- purrr::possibly(retrieve_data)
-
-    resps <- ids_batched |>
-      purrr::map(\(x) poss_retrieve_data(req, x)) |>
-      purrr::compact()
-
-    # Uses function pull_table_data
-    poss_pull_table_data <- purrr::possibly(pull_table_data)
-
-    data_out <- resps |>
-      purrr::map(poss_pull_table_data) |>
-      purrr::list_rbind()
+  } else if (exists("data_transformed") && url_type == "imd") {
+    text <- paste0(
+      "LSOA11CD IN ('",
+      paste(data_transformed$lsoa_code,
+        collapse = "', '"
+      ), "')"
+    )
   }
 
   # Because APIs only return data where a match has been made which results in
@@ -132,64 +100,55 @@ get_data <- function(data,
   # this but IMD is handled here.
 
   if (exists("data_transformed") && is.data.frame(data)) {
-    data |>
+    pc_data <- data |>
       dplyr::left_join(
         data_transformed
       )
   } else if (exists("data_transformed") && is.atomic(data)) {
-    tibble::as_tibble(data) |>
-      dplyr::left_join(
-        data_transformed,
-        dplyr::join_by(value == postcode)
-      ) |>
-      dplyr::rename(postcode = value)
-  } else if (is.data.frame(data)) {
-    data |>
+    pc_data <- data_transformed
+  }
+
+
+  ## IMD data
+
+  if (is_postcode_check == 0 && is_lsoa_check > 0 &&
+    is.data.frame(data)) {
+    data_out <- imd_api(
+      text = text,
+      req = req
+    )
+
+    imd_data <- data |>
       dplyr::left_join(
         data_out,
         dplyr::join_by({{ column }} == lsoa11cd)
       )
-  } else if (is.atomic(data)) {
-    tibble::as_tibble(data) |>
+  } else if (is_postcode_check == 0 && is_lsoa_check > 0 && is.atomic(data)) {
+    data_out <- imd_api(
+      text = text,
+      req = req
+    )
+
+    imd_data <- tibble::as_tibble(data) |>
       dplyr::left_join(
         data_out,
         dplyr::join_by(value == lsoa11cd)
       ) |>
       dplyr::rename(lsoa11 = value)
-  } else {
-    data
   }
-}
 
-#' use batched IDs to retrieve table data
-#'
-#' @param req used in function \code{\link{get_data}}
-#' @param ids_vec used in function \code{\link{get_data}}
-#'
-#' @return function
-#' @export
-retrieve_data <- function(req, ids_vec) {
-  ids <- stringr::str_flatten(ids_vec, collapse = ",")
-  req |>
-    httr2::req_url_query(objectIds = ids) |>
-    httr2::req_url_query(outFields = "*") |> # returns all columns
-    httr2::req_url_query(returnGeometry = FALSE) |> # superfluous tbf
-    httr2::req_retry(max_tries = 3) |> # shouldn't be needed
-    httr2::req_perform()
-}
+  ## Final data
 
+  if (exists("pc_data") && url_type == "imd") {
+    data_out <- imd_api(
+      text = text,
+      req = req
+    )
 
-#' pull actual data out from API JSON response
-#'
-#' @param respused in function \code{\link{get_data}}
-#'
-#' @return function
-#' @export
-pull_table_data <- function(resp) {
-  resp |>
-    httr2::resp_check_status() |>
-    httr2::resp_body_json() |>
-    purrr::pluck("features") |>
-    purrr::map_df("attributes") |>
-    janitor::clean_names()
+    data_out
+  } else if (exists("pc_data") && url_type == "postcode") {
+    pc_data
+  } else {
+    imd_data
+  }
 }

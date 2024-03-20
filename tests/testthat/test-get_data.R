@@ -2,7 +2,7 @@
 
 postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
 
-imd <- c("E01011107", "E01011229", "E01000002")
+imd <- c("E01011107", "E01011229", "E01002")
 
 # # Taken from
 # # www.gov.uk/government/statistics/english-indices-of-deprivation-2019
@@ -216,7 +216,23 @@ httptest2::with_mock_dir("imd", {
       ncol(get_data(lsoa_df1, url_type = "imd")), n_col_df
     )
 
+    testthat::expect_equal(
+      nrow(get_data(lsoa_df1)), n_rows
+    )
+
+    testthat::expect_equal(
+      ncol(get_data(lsoa_df1)), n_col_df
+    )
+
     # vectors
+
+    testthat::expect_equal(
+      nrow(get_data(imd)), n_rows
+    )
+
+    testthat::expect_equal(
+      ncol(get_data(imd)), n_col_vector
+    )
 
     testthat::expect_equal(
       nrow(get_data(imd, url_type = "imd")), n_rows
