@@ -10,4 +10,10 @@ navbar:
     right:
     - search
     - reference
+    - github
 
+authors:
+  footer:
+    roles: [aut]
+  sidebar:
+    roles: [aut]

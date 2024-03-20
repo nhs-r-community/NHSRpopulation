@@ -5,6 +5,8 @@ Version: 0.0.2
 Authors@R: c(
   person("Zoë", "Turner",  email = "zoe.turner3@nhs.net", 
   role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1033-9158")),
+  person("Francis", "Barton", email = "fbarton@alwaysdata.net",
+  role = c("aut"), comment = c(ORCID = "0000-0002-5650-1176")),
   person("Milan", "Wiedemann", role = c("aut"), 
   comment = c(ORCID = "0000-0003-1991-282X")),
   person("Chris", "Beeley", role = c("aut"), 
@@ -18,23 +20,22 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: 
-    cli,
     dplyr,
-    ggplot2,
-    jsonlite,
+    httr2,
+    janitor,
     magrittr,
     NHSRpostcodetools,
-    patchwork,
-    tidyr
+    purrr,
+    rlang,
+    stringr,
+    tibble
 Depends: 
     R (>= 2.10)
 Suggests: 
     httptest2,
     knitr,
-    purrr,
     rmarkdown,
-    testthat (>= 3.0.0),
-    tibble
+    testthat (>= 3.0.0)
 Remotes: nhs-r-community/NHSRpostcodetools
 VignetteBuilder: knitr
 Config/testthat/edition: 3
