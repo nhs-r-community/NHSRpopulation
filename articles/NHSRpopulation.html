@@ -230,7 +230,7 @@ be from <code>lsoa11</code>, however, this can be overwritten:</p>
 <span>  pcs <span class="op">=</span> <span class="va">postcodes</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">pcs_tb</span>  </span>
+<span><span class="va">pcs_tb</span></span>
 <span><span class="co">#&gt; # A tibble: 3 × 1</span></span>
 <span><span class="co">#&gt;   pcs    </span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;  </span></span>
@@ -294,33 +294,6 @@ column name:</p>
 <span><span class="co">#&gt; #   as_score &lt;dbl&gt;, as_rank &lt;int&gt;, as_dec &lt;int&gt;, gb_score &lt;dbl&gt;, gb_rank &lt;int&gt;, gb_dec &lt;int&gt;, wb_score &lt;dbl&gt;, wb_rank &lt;int&gt;,</span></span>
 <span><span class="co">#&gt; #   wb_dec &lt;int&gt;, ind_score &lt;dbl&gt;, ind_rank &lt;int&gt;, ind_dec &lt;int&gt;, out_score &lt;dbl&gt;, out_rank &lt;int&gt;, out_dec &lt;int&gt;, tot_pop &lt;int&gt;,</span></span>
 <span><span class="co">#&gt; #   dep_chi &lt;int&gt;, pop16_59 &lt;int&gt;, pop60 &lt;int&gt;, work_pop &lt;dbl&gt;, shape_area &lt;dbl&gt;, shape_length &lt;dbl&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">NHSRpopulation</span><span class="fu">::</span><span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span><span class="va">pcs_tb</span>,</span>
-<span>  <span class="co"># url_type is set to postcodes as default</span></span>
-<span>  column <span class="op">=</span> <span class="st">"pcs"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; ℹ The following postcodes are terminated:</span></span>
-<span><span class="co">#&gt;   HD1 2UT</span></span>
-<span><span class="co">#&gt;   and have been replaced with these current postcodes:</span></span>
-<span><span class="co">#&gt;   HD1 2RD</span></span>
-<span><span class="co">#&gt; ℹ The following postcodes are invalid:</span></span>
-<span><span class="co">#&gt;   HD1 2UV</span></span>
-<span><span class="co">#&gt;   and have been replaced with these nearby postcodes:</span></span>
-<span><span class="co">#&gt;   HD1 2UD</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(pcs)`</span></span>
-<span><span class="co">#&gt; # A tibble: 3 × 40</span></span>
-<span><span class="co">#&gt;   pcs     new_postcode result_type   quality eastings northings country nhs_ha              longitude latitude european_electoral_r…¹</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;           &lt;int&gt;    &lt;int&gt;     &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;                   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                 </span></span>
-<span><span class="co">#&gt; 1 HD1 2UT HD1 2RD      terminated          1   414639    416430 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…</span></span>
-<span><span class="co">#&gt; 2 HD1 2UU HD1 2UU      valid               1   414433    416422 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…</span></span>
-<span><span class="co">#&gt; 3 HD1 2UV HD1 2UD      autocompleted       1   414371    416317 England Yorkshire and the …     -1.78     53.6 Yorkshire and The Hum…</span></span>
-<span><span class="co">#&gt; # ℹ abbreviated name: ¹​european_electoral_region</span></span>
-<span><span class="co">#&gt; # ℹ 29 more variables: primary_care_trust &lt;chr&gt;, region &lt;chr&gt;, lsoa &lt;chr&gt;, msoa &lt;chr&gt;, incode &lt;chr&gt;, outcode &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   parliamentary_constituency &lt;chr&gt;, parliamentary_constituency_2024 &lt;chr&gt;, admin_district &lt;chr&gt;, parish &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   date_of_introduction &lt;chr&gt;, admin_ward &lt;chr&gt;, ccg &lt;chr&gt;, nuts &lt;chr&gt;, pfa &lt;chr&gt;, admin_district_code &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   admin_county_code &lt;chr&gt;, admin_ward_code &lt;chr&gt;, parish_code &lt;chr&gt;, parliamentary_constituency_code &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   parliamentary_constituency_2024_code &lt;chr&gt;, ccg_code &lt;chr&gt;, ccg_id_code &lt;chr&gt;, ced_code &lt;chr&gt;, nuts_code &lt;chr&gt;, lsoa_code &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   msoa_code &lt;chr&gt;, lau2_code &lt;chr&gt;, pfa_code &lt;chr&gt;</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
