@@ -216,6 +216,14 @@ httptest2::with_mock_dir("imd", {
       ncol(get_data(lsoa_df1, url_type = "imd")), n_col_df
     )
 
+    testthat::expect_equal(
+      nrow(get_data(lsoa_df1)), n_rows
+    )
+
+    testthat::expect_equal(
+      ncol(get_data(lsoa_df1)), n_col_df
+    )
+
     # vectors
 
     testthat::expect_equal(
@@ -227,3 +235,4 @@ httptest2::with_mock_dir("imd", {
     )
   })
 })
+
