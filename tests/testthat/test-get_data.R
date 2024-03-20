@@ -4,22 +4,6 @@ postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
 
 imd <- c("E01011107", "E01011229", "E01002")
 
-# # Taken from
-# # www.gov.uk/government/statistics/english-indices-of-deprivation-2019
-#
-# postcodes_from_each_decile <- c(
-#   "E01000002",
-#   "E01000001",
-#   "E01000117",
-#   "E01000119",
-#   "E01000069",
-#   "E01000070",
-#   "E01000066",
-#   "E01000005",
-#   "E01000008",
-#   "E01000048"
-# )
-#
 ## Data frames
 
 test_df1 <- dplyr::tibble(
@@ -138,69 +122,6 @@ test_that("Returns data with different column names - imd", {
     n_col_imd
   )
 })
-# })
-
-# httptest2::with_mock_dir("postcode_message", {
-#   test_that("Returns message there is no postcode data for data frame", {
-#     testthat::expect_error(
-#       get_data(missing_df1, "postcode"),
-#       paste(
-#         "There isn't any postcode data in this data frame to",
-#         "connect to the Postcode API."
-#       )
-#     )
-#   })
-#
-#   test_that("Returns message there is no postcode data for vector", {
-#     testthat::expect_error(
-#       get_data(missing_vector, "postcode"),
-#       paste(
-#         "There isn't any postcode data in this vector to",
-#         "connect to the Postcode API."
-#       )
-#     )
-#   })
-
-#   test_that("Returns message there is no column called postcode - data frame", {
-#     testthat::expect_error(
-#       get_data(no_postcode_colm),
-#       paste0(
-#         "There isn't a column called `postcode` in this data frame."
-#       )
-#     )
-#   })
-# })
-
-# httptest2::with_mock_dir("imd_message", {
-#   test_that("Returns message there is no imd data for data frame", {
-#     testthat::expect_error(
-#       get_data(missing_df1, "imd"),
-#       paste(
-#         "There doesn't appear to be any data in this data frame",
-#         "to connect to the IMD API."
-#       )
-#     )
-#   })
-
-#   test_that("Returns message there is no imd data for vector", {
-#     testthat::expect_error(
-#       get_data(missing_vector, "imd"),
-#       paste(
-#         "There doesn't appear to be any data in this data frame",
-#         "to connect to the IMD API."
-#       )
-#     )
-#   })
-#
-#   test_that("Returns message there is no column called lsoa11 - data frame", {
-#     testthat::expect_error(
-#       get_data(no_postcode_colm, "imd"),
-#       paste0(
-#         "There isn't a column called `lsoa11` in this data frame."
-#       )
-#     )
-#   })
-# })
 
 httptest2::with_mock_dir("imd", {
   test_that("Returns url_type = 'imd'", {

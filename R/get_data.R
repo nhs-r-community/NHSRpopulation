@@ -35,6 +35,9 @@ get_data <- function(data,
   url_type <- match.arg(url_type)
   req <- api_url()
   column <- rlang::as_string(column)
+  value <- NULL
+  lsoa11cd <- NULL
+  lsoa_code <- NULL
 
   # Check there is corresponding type data somewhere in data frame
   # Use this to allow for other column names to be used in later code
@@ -68,7 +71,7 @@ get_data <- function(data,
   ## Generate specific text for the url
 
   if (is.atomic(data) && is_postcode_check == 0 &&
-    is_lsoa_check > 0) {
+        is_lsoa_check > 0) {
     text <- paste0(
       "LSOA11CD IN ('",
       paste(data,
@@ -76,9 +79,7 @@ get_data <- function(data,
       ), "')"
     )
   } else if (is.data.frame(data) && is_postcode_check == 0 &&
-    is_lsoa_check > 0) {
-    # text <- "1=1" # get all rows (no filter) Takes a while to run
-
+               is_lsoa_check > 0) {
     text <- paste0(
       "LSOA11CD IN ('",
       paste(data[[column]],
@@ -112,7 +113,7 @@ get_data <- function(data,
   ## IMD data
 
   if (is_postcode_check == 0 && is_lsoa_check > 0 &&
-    is.data.frame(data)) {
+        is.data.frame(data)) {
     data_out <- imd_api(
       text = text,
       req = req
