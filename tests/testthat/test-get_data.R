@@ -122,6 +122,7 @@ test_that("Returns data with different column names - imd", {
     n_col_imd
   )
 })
+# })
 
 httptest2::with_mock_dir("imd", {
   test_that("Returns url_type = 'imd'", {
@@ -164,3 +165,37 @@ httptest2::with_mock_dir("imd", {
     )
   })
 })
+
+# httptest2::with_mock_dir("imd from postcode data", {
+test_that("From postcode data returns url_type = 'imd'", {
+  n_rows <- 3
+  n_col_vector <- 105
+  n_col_df <- 107
+
+  testthat::expect_equal(
+    colnames(get_data(test_df1, url_type = "imd") |>
+      dplyr::select(imd_rank)), "imd_rank"
+  )
+
+  testthat::expect_equal(
+    nrow(get_data(test_df1, url_type = "imd")), n_rows
+  )
+
+  testthat::expect_equal(
+    ncol(get_data(test_df1, url_type = "imd")), n_col_df
+  )
+
+  testthat::expect_equal(
+    colnames(get_data(postcodes, url_type = "imd") |>
+      dplyr::select(imd_rank)), "imd_rank"
+  )
+
+  testthat::expect_equal(
+    nrow(get_data(postcodes, url_type = "imd")), n_rows
+  )
+
+  testthat::expect_equal(
+    ncol(get_data(postcodes, url_type = "imd")), n_col_vector
+  )
+})
+# })

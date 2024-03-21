@@ -38,6 +38,9 @@ get_data <- function(data,
   value <- NULL
   lsoa11cd <- NULL
   lsoa_code <- NULL
+  imd_decile <- NULL
+  imd_rank <- NULL
+  imd_score <- NULL
 
   # Check there is corresponding type data somewhere in data frame
   # Use this to allow for other column names to be used in later code
@@ -150,6 +153,13 @@ get_data <- function(data,
       dplyr::left_join(
         data_out,
         dplyr::join_by(lsoa_code == lsoa11cd)
+      ) |>
+      dplyr::select(
+        1:3,
+        imd_decile,
+        imd_rank,
+        imd_score,
+        dplyr::everything()
       )
   } else if (exists("pc_data") && url_type == "postcode") {
     pc_data
