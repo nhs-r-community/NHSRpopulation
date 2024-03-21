@@ -42,7 +42,6 @@ Then, using the `get_data()` function for a vector:
 # Execution halted
 NHSRpopulation::get_data(postcodes) |>
   dplyr::select(
-    postcode,
     new_postcode,
     result_type,
     lsoa_code

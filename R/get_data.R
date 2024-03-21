@@ -71,7 +71,7 @@ get_data <- function(data,
   ## Generate specific text for the url
 
   if (is.atomic(data) && is_postcode_check == 0 &&
-        is_lsoa_check > 0) {
+    is_lsoa_check > 0) {
     text <- paste0(
       "LSOA11CD IN ('",
       paste(data,
@@ -79,7 +79,7 @@ get_data <- function(data,
       ), "')"
     )
   } else if (is.data.frame(data) && is_postcode_check == 0 &&
-               is_lsoa_check > 0) {
+    is_lsoa_check > 0) {
     text <- paste0(
       "LSOA11CD IN ('",
       paste(data[[column]],
@@ -113,7 +113,7 @@ get_data <- function(data,
   ## IMD data
 
   if (is_postcode_check == 0 && is_lsoa_check > 0 &&
-        is.data.frame(data)) {
+    is.data.frame(data)) {
     data_out <- imd_api(
       text = text,
       req = req
