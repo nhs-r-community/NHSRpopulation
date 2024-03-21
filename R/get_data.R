@@ -63,7 +63,7 @@ get_data <- function(data,
       fix_invalid = fix_invalid,
       var = column
     )
-  } else if (is.atomic(data) && is_postcode_check > 0) {
+  } else if (is.character(data) && is_postcode_check > 0) {
     data_transformed <- NHSRpostcodetools::postcode_data_join(
       x = data,
       fix_invalid = fix_invalid,
@@ -73,7 +73,7 @@ get_data <- function(data,
 
   ## Generate specific text for the url
 
-  if (is.atomic(data) && is_postcode_check == 0 &&
+  if (is.character(data) && is_postcode_check == 0 &&
     is_lsoa_check > 0) {
     text <- paste0(
       "LSOA11CD IN ('",
@@ -108,7 +108,7 @@ get_data <- function(data,
       dplyr::left_join(
         data_transformed
       )
-  } else if (exists("data_transformed") && is.atomic(data)) {
+  } else if (exists("data_transformed") && is.character(data)) {
     pc_data <- data_transformed
   }
 
@@ -127,7 +127,7 @@ get_data <- function(data,
         data_out,
         dplyr::join_by({{ column }} == lsoa11cd)
       )
-  } else if (is_postcode_check == 0 && is_lsoa_check > 0 && is.atomic(data)) {
+  } else if (is_postcode_check == 0 && is_lsoa_check > 0 && is.character(data)) {
     data_out <- imd_api(
       text = text,
       req = req
