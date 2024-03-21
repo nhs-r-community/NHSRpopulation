@@ -43,7 +43,6 @@ Then, using the `get_data()` function for a vector:
 # Execution halted
 NHSRpopulation::get_data(postcodes) |>
   dplyr::select(
-    postcode,
     new_postcode,
     result_type,
     lsoa_code
@@ -147,11 +146,11 @@ NHSRpopulation::get_data(lsoa_tb,
 ## Getting IMD data from postcodes
 
 If the data has postcodes (which automatically connects to the postcode API) and
-IMD information is wanted, the argument/parameter `url_type == "imd"` will 
+IMD information is wanted, the argument/parameter `url_type == "imd"` will
 override the returned data to IMD.
 
 ```{r}
-NHSRpopulation::get_data(tibble_postcodes, 
+NHSRpopulation::get_data(tibble_postcodes,
                          url_type = "imd")
 ```
 
@@ -159,7 +158,7 @@ NHSRpopulation::get_data(tibble_postcodes,
 Note that the postcode data is still validated.
 
 ```{r}
-NHSRpopulation::get_data(tibble_postcodes, 
+NHSRpopulation::get_data(tibble_postcodes,
                          url_type = "imd",
                          fix_invalid = FALSE)
 ```
