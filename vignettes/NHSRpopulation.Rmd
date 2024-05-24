@@ -17,14 +17,8 @@ following code to generate some random example postcodes:
 
 
 ```r
-library(tibble)
-library(NHSRpopulation)
 
-postcodes <- c("HD1 2UT", "HD1 2UU", "HD1 2UV")
-
-tibble_postcodes <- postcodes |>
-  tibble::as_tibble() |>
-  dplyr::rename(postcode = value)
+tibble_postcodes <- tibble::tibble(postcode = c("HD1 2UT", "HD1 2UU", "HD1 2UV"))
 
 tibble_postcodes
 #> # A tibble: 3 × 1
